@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Digicard data",
+  "description": "Payload for the business card template. Build this from your app per business.",
+  "type": "object",
+  "required": ["businessName", "logoUrl", "shareUrl", "about", "productPrices", "products", "packs", "contact"],
+  "properties": {
+    "businessName": { "type": "string", "description": "Display name, used in title and h1" },
+    "logoUrl": { "type": "string", "format": "uri", "description": "Logo image URL; app should fallback if missing" },
+    "shareUrl": { "type": "string", "format": "uri", "description": "Public URL of this business's card (QR + Copy link)" },
+    "appUrl": { "type": "string", "format": "uri", "description": "Link to Smooth Sales / app (optional)" },
+    "about": { "type": "string", "description": "Business description; may contain <br> for line breaks" },
+    "productPrices": {
+      "type": "array",
+      "items": { "type": "object", "required": ["size", "price"], "properties": { "size": { "type": "string" }, "price": { "type": "string" } } }
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "afterDivider": { "type": "boolean", "description": "When true, render this product after the divider and before Packs (e.g. Pet treats)." },
+          "htmlDescription": { "type": "boolean", "description": "When true, description is trusted HTML (e.g. <strong>); use only with authored data." }
+        }
+      }
+    },
+    "packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "price", "available", "contents", "wasPrice", "nowPrice", "save", "savePct"],
+        "properties": {
+          "title": { "type": "string" },
+          "price": { "type": "string" },
+          "available": { "type": "boolean" },
+          "contents": { "type": "array", "items": { "type": "string" } },
+          "wasPrice": { "type": "string" },
+          "nowPrice": { "type": "string" },
+          "save": { "type": "string" },
+          "savePct": { "type": "string" }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "required": ["name", "phone", "email"],
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "website": { "type": "string" },
+        "app": { "type": "string" }
+      }
+    }
+  }
+}

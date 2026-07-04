@@ -1,0 +1,23 @@
+{
+  "name": "Everdream Jerky",
+  "short_name": "Everdream Jerky",
+  "description": "Everdream Jerky – Premium beef jerky. Products, prices, contact and wholesale.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#14545C",
+  "icons": [
+    {
+      "src": "icons/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "businessName": "Everdream Jerky",
+  "logoUrl": "Everdream-Logo-Circle.png",
+  "shareUrl": "https://everdream-digicard.netlify.app",
+  "appUrl": "",
+  "about": "Everdream Jerky is a home business in the Adelaide Hills.<br><br>What began in 2023 with just Barbecue and Hot Chilli has grown into a range of eight flavours, all handcrafted in small batches for quality and flavour.<br><br>I'm proud to bring you real ingredients and real taste—no shortcuts.",
+  "productPrices": [
+    { "size": "40g", "price": "$5" },
+    { "size": "80g", "price": "$10" }
+  ],
+  "products": [
+    {
+      "name": "Barbecue",
+      "description": "The original flavour. Marinated in a blend of barbecue sauce, soy sauce, Worcestershire. A sweet blend with a chewy consistency."
+    },
+    {
+      "name": "Smokey BBQ",
+      "description": "The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back."
+    },
+    {
+      "name": "Teriyaki",
+      "description": "Sweet, sticky and full in flavour. A rich glaze of teriyaki sauce and soy for those who love bold Japanese flavours."
+    },
+    {
+      "name": "Korean BBQ",
+      "description": "Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try."
+    },
+    {
+      "name": "Sweet Chilli",
+      "description": "The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. A very mild spice that is hardly noticed."
+    },
+    {
+      "name": "Exotic Spice",
+      "description": "A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours."
+    },
+    {
+      "name": "Hot Chilli",
+      "description": "A Hot Chilli that never lets the chilli fans down. Its barbecue flavour is dried out by chilli and the seeds give it extra texture and heat."
+    },
+    {
+      "name": "Roast Lamb",
+      "description": "Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast."
+    },
+    {
+      "name": "Pet treats",
+      "afterDivider": true,
+      "htmlDescription": true,
+      "description": "Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br>Available in one size: <strong>100g</strong> for <strong>$10</strong>."
+    }
+  ],
+  "packs": [
+    {
+      "title": "Pack 1",
+      "price": "$150",
+      "available": true,
+      "contents": [
+        "<strong>x 2</strong> of each <strong>40g</strong> flavour <span class=\"pack-bag-suffix\">(x16 bags)</span>",
+        "<strong>x 1</strong> of each <strong>80g</strong> flavour <span class=\"pack-bag-suffix\">(x8 bags)</span>"
+      ],
+      "wasPrice": "Was $160",
+      "nowPrice": "Now $150",
+      "save": "Save $10",
+      "savePct": "6% saved"
+    },
+    {
+      "title": "Pack 2",
+      "price": "$260",
+      "available": true,
+      "contents": [
+        "<strong>x 3</strong> of each <strong>40g</strong> flavour <span class=\"pack-bag-suffix\">(x24 bags)</span>",
+        "<strong>x 2</strong> of each <strong>80g</strong> flavour <span class=\"pack-bag-suffix\">(x16 bags)</span>"
+      ],
+      "wasPrice": "Was $280",
+      "nowPrice": "Now $260",
+      "save": "Save $20",
+      "savePct": "7% saved"
+    },
+    {
+      "title": "Pack 3",
+      "price": "$370",
+      "available": false,
+      "contents": [
+        "<strong>x 4</strong> of each <strong>40g</strong> flavour <span class=\"pack-bag-suffix\">(x32 bags)</span>",
+        "<strong>x 3</strong> of each <strong>80g</strong> flavour <span class=\"pack-bag-suffix\">(x24 bags)</span>"
+      ],
+      "wasPrice": "Was $400",
+      "nowPrice": "Now $370",
+      "save": "Save $30",
+      "savePct": "8% saved"
+    }
+  ],
+  "contact": {
+    "name": "Brett",
+    "phone": "0467451107",
+    "email": "everdreamgoods@gmail.com",
+    "website": "",
+    "app": ""
+  }
+}

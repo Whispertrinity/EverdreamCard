@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Green circle with dark border to match existing tick -->
+  <circle cx="32" cy="32" r="30" fill="#2e7d32" stroke="#2a2a2a" stroke-width="2"/>
+  <!-- Tick outline (dark), same thickness as cross -->
+  <g fill="none" stroke="#2a2a2a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 34 L28 44 L46 18"/>
+  </g>
+  <!-- Tick inner (white), same inner thickness as cross -->
+  <g fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 34 L28 44 L46 18"/>
+  </g>
+</svg>
+

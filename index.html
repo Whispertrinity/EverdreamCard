@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Everdream Jerky – Premium beef jerky. Products, prices, contact and wholesale." />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#14545C" />
+  <link rel="icon" type="image/png" href="icons/app-icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/app-icon-180.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/app-icon-180.png" />
+  <link rel="preload" href="assets/icon-available.png" as="image" />
+  <link rel="preload" href="assets/icon-unavailable.png" as="image" />
+  <link rel="preload" href="Everdream-Logo-Circle.png" as="image" />
+  <link rel="preload" href="assets/Android.png" as="image" />
+  <link rel="preload" href="assets/iOs.png" as="image" />
+  <title>Everdream Jerky</title>
+  <style>
+    @font-face {
+      font-family: 'The Wanters DEMO';
+      src: url('fonts/The Wanters DEMO.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Lemon Milk Light';
+      src: url('fonts/LEMONMILK-Light.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      min-height: 100%;
+      width: 100%;
+      font-family: 'The Wanters DEMO', serif;
+      background-color: #5d4037;
+      color: #3e2723;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 780px;
+      position: relative;
+      z-index: 1;
+      perspective: 2200px;
+      perspective-origin: center center;
+    }
+
+    .flip-container {
+      width: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card {
+      width: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateY(0deg);
+      transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    .flip-card.animate-height {
+      transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1), height 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    .flip-card.flip-next {
+      transform: rotateY(-180deg);
+    }
+
+    .flip-card.flip-prev {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      width: 100%;
+      background-color: #ffffff;
+      border: 4px solid #3e2723;
+      border-radius: 28px;
+      padding: clamp(1.75rem, 4.5vw, 2.9rem);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .flip-front.card-face {
+      position: relative;
+      transform: rotateY(0deg);
+      z-index: 2;
+    }
+
+    .flip-back.card-face {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+
+    .title-panel {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .title-panel h1 {
+      font-size: clamp(3.1rem, 6.8vw, 4.6rem);
+      font-weight: 900;
+      color: #14545c;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    .nav-arrows {
+      display: none;
+    }
+
+    .nav-arrow {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      color: #f5f5dc;
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+      border: 2px solid #0a1a1d;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(20, 84, 92, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      outline: none;
+    }
+
+    .nav-arrow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(20, 84, 92, 0.45);
+    }
+
+    .nav-arrow:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(20, 84, 92, 0.4);
+    }
+
+    .nav-arrow:focus,
+    .nav-arrow:focus-visible {
+      outline: none;
+    }
+
+    .content-panel {
+      background-color: rgba(245, 245, 220, 0.95);
+      border: 4px solid #5d4037;
+      border-radius: 20px;
+      padding: 0;
+      min-height: 400px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-panel .content-section {
+      width: 100%;
+      padding: clamp(1rem, 3vw, 1.5rem);
+      text-align: center;
+    }
+
+    .content-panel #intro,
+    .content-panel #products,
+    .content-panel #contact {
+      padding: 0;
+    }
+
+    /* Landing (intro) panel: footer sticks to bottom on all screen sizes */
+    .content-panel:has(#intro) {
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+    }
+    .content-panel:has(#intro) #intro {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    .content-panel:has(#intro) .intro-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.5rem, 4vw, 2.5rem) 1rem;
+    }
+    .content-panel:has(#intro) .intro-footer {
+      flex-shrink: 0;
+    }
+
+    .content-section.visible {
+      display: block;
+    }
+
+    .intro-header,
+    .products-header,
+    .contact-header {
+      background-color: #14545C;
+      border-radius: 16px 16px 0 0;
+      margin-top: -1px;
+      padding: calc(clamp(0.75rem, 2vw, 1.25rem) + 1px) 1rem clamp(0.75rem, 2vw, 1.25rem) 1rem;
+      text-align: center;
+      border-bottom: 2px solid #3e2723;
+    }
+
+    .intro-header h1,
+    .products-header h1,
+    .contact-header h1 {
+      font-size: clamp(2.8rem, 6.2vw, 4.2rem);
+      font-weight: 900;
+      color: #F6F6DE;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .products-body,
+    .contact-body {
+      background-color: #F6F6DE;
+      padding: clamp(1.5rem, 4vw, 2.5rem) 1rem;
+      text-align: center;
+    }
+
+    .intro-body-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .intro-icon {
+      display: block;
+      margin: 0 auto;
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+    }
+    .intro-swipe-hint {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: #3e2723;
+      margin-top: 0.5rem;
+      animation: intro-swipe-fade 5s ease-out forwards;
+    }
+    .intro-swipe-hint.intro-swipe-hint-used {
+      display: none !important;
+    }
+    @keyframes intro-swipe-fade {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    .intro-footer {
+      background-color: #4F362F;
+      border-radius: 0 0 16px 16px;
+      padding: clamp(0.75rem, 2vw, 1.25rem) 1rem;
+      text-align: center;
+      border-top: 2px solid #3e2723;
+    }
+
+    .products-footer,
+    .contact-footer {
+      background-color: #4F362F;
+      border-radius: 0 0 16px 16px;
+      padding: clamp(1.5rem, 4vw, 2.75rem) 1rem;
+      text-align: center;
+      border-top: 2px solid #3e2723;
+    }
+
+    .intro-message {
+      font-size: clamp(1.5rem, 3.1vw, 1.85rem);
+      font-weight: 700;
+      color: #F6F6DE;
+      line-height: 1.5;
+      text-align: center;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    @media (max-width: 480px) {
+      .content-panel:has(#intro) .intro-header,
+      .content-panel:has(#intro) .intro-footer {
+        padding: 1.75rem 1rem;
+      }
+      .content-panel:has(#intro) .intro-header {
+        padding-top: calc(1.75rem + 1px);
+      }
+    }
+
+    .prices-once {
+      color: #3e2723;
+      font-size: clamp(2rem, 4.5vw, 2.6rem);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .flavour-accordions {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .flavour-list-divider {
+      list-style: none;
+      margin: 0.75rem 0;
+      padding: 0;
+      border: none;
+      border-top: 2px solid rgba(93, 64, 55, 0.4);
+      background: transparent;
+      border-radius: 0;
+      height: 0;
+      overflow: visible;
+    }
+
+    .pack-contents.pack-contents-simple li .pack-bag-suffix {
+      font-weight: normal;
+    }
+
+    .flavour-panel {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      border: 2px solid #3e2723;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #6d5047;
+      transition: all 0.25s ease;
+    }
+
+    .flavour-panel:hover {
+      border-color: #8d6e63;
+      background: #7d6055;
+    }
+
+    .flavour-panel.expanded {
+      border-color: #8d6e63;
+      background: #6d5047;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .flavour-panel-body .flavour-panel-desc {
+      font-family: Verdana, Geneva, sans-serif;
+      color: #3e2723;
+      border-top-color: rgba(93, 64, 55, 0.25);
+    }
+
+    .flavour-panel-header {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-weight: 600;
+      font-size: clamp(1.35rem, 3vw, 1.6rem);
+      color: #f5f5dc;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: block;
+      transition: background 0.2s ease;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .flavour-panel-header:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .flavour-panel:has(.packs-trigger) {
+      background: #2d5a4a;
+      border-color: #1e3d32;
+    }
+
+    .flavour-panel:has(.packs-trigger):hover {
+      background: #3d6a5a;
+      border-color: #2e5a4a;
+    }
+
+    .flavour-panel-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #fff;
+    }
+
+    .flavour-panel.expanded .flavour-panel-body {
+      max-height: 280px;
+    }
+
+    .flavour-panel-desc {
+      padding: 1rem 1rem 1rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1rem, 2.1vw, 1.15rem);
+      line-height: 1.5;
+      color: #f5f5dc;
+      text-align: center;
+      border-top: 1px solid rgba(245, 245, 220, 0.25);
+    }
+
+    .contact-block {
+      padding: 0.5rem 0;
+    }
+
+    .contact-block p {
+      margin-bottom: 0.6rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+      font-weight: 600;
+      color: #3e2723;
+    }
+
+    .contact-block .name-line {
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-block .add-contact-trigger {
+      font-family: 'Lemon Milk Light', sans-serif;
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #14545c;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: inline;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(20, 84, 92, 0.4);
+    }
+
+    .contact-block .add-contact-trigger:hover {
+      border-bottom-color: #14545c;
+    }
+
+    .contact-block .name-value {
+      font-family: 'Lemon Milk Light', sans-serif;
+      font-size: 0.9em;
+    }
+
+    .contact-block a {
+      color: #14545c;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(20, 84, 92, 0.4);
+      padding: 0.1em 0.2em;
+    }
+
+    .contact-block a:hover {
+      border-bottom-color: #14545c;
+    }
+
+    .contact-block .contact-label {
+      font-family: 'The Wanters DEMO', serif;
+      font-weight: 600;
+    }
+
+    .contact-block a.contact-value,
+    .contact-block .contact-value {
+      font-family: 'Lemon Milk Light', sans-serif;
+      font-size: 0.9em;
+    }
+
+    .contact-divider {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      padding-top: 0.75rem;
+      border-top: 2px solid rgba(93, 64, 55, 0.3);
+    }
+
+    .contact-block .about-text {
+      margin: 1rem 0;
+      padding: 0 0.25rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1.3rem, 3.35vw, 1.62rem);
+      font-weight: normal;
+      line-height: 1.55;
+      color: #3e2723;
+      text-align: center;
+    }
+
+    .contact-block .pet-treats-coming {
+      margin-top: 1.35rem;
+      margin-bottom: 1rem;
+      padding: 0 0.25rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1.3rem, 3.35vw, 1.62rem);
+      font-weight: normal;
+      line-height: 1.55;
+      color: #3e2723;
+      text-align: center;
+    }
+
+    .wholesale {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 2px solid rgba(93, 64, 55, 0.3);
+      font-size: clamp(1.1rem, 2.3vw, 1.3rem);
+      font-weight: 600;
+      color: #3e2723;
+    }
+
+    .copy-tooltip {
+      position: fixed;
+      background: #3e2723;
+      color: #f5f5dc;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .copy-tooltip.visible {
+      opacity: 1;
+    }
+
+    .contact-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 0.85rem;
+      margin: 2.35rem auto 0;
+      padding-top: 1.75rem;
+      border-top: 2px solid rgba(93, 64, 55, 0.3);
+      width: 100%;
+      max-width: min(100%, 22rem);
+      align-items: stretch;
+    }
+
+    .contact-actions-divider {
+      width: 100%;
+      max-width: 200px;
+      height: 0;
+      border: none;
+      border-top: 2px solid rgba(93, 64, 55, 0.35);
+      margin: 0.4rem 0;
+    }
+
+    .contact-actions .share-btn {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .share-btn {
+      display: block;
+      margin: 0;
+      padding: 0.78rem 1.1rem;
+      min-height: 2.85rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1.12rem, 2.55vw, 1.32rem);
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+      border: 2px solid #0a1a1d;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(20, 84, 92, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(20, 84, 92, 0.45);
+    }
+
+    #share-btn {
+      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
+      border-color: #1b5e20;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+    }
+
+    #share-btn:hover {
+      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+    }
+
+    #save-icon-btn {
+      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
+      border-color: #1b5e20;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+    }
+    #save-icon-btn:hover {
+      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+    }
+
+    .modal-header {
+      background-color: #14545C;
+      border-radius: 16px 16px 0 0;
+      padding: clamp(0.75rem, 2vw, 1.25rem) 1rem;
+      text-align: center;
+      border-bottom: 2px solid #3e2723;
+    }
+    .modal-header h2 {
+      font-size: clamp(1.9rem, 5vw, 2.6rem);
+      font-weight: 900;
+      color: #F6F6DE;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .modal-footer {
+      background-color: #4F362F;
+      border-radius: 0 0 16px 16px;
+      padding: clamp(0.75rem, 2vw, 1.25rem) 1rem;
+      text-align: center;
+      border-top: 2px solid #3e2723;
+    }
+
+    .share-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .share-modal-overlay.visible {
+      display: flex;
+    }
+
+    .share-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .share-modal-body {
+      padding: 1.25rem 1rem;
+    }
+    .share-modal-qr {
+      display: block;
+      margin: 0 auto 1rem;
+      width: 240px;
+      height: 240px;
+      object-fit: contain;
+      background: #fff;
+      border: 2px solid #3e2723;
+      border-radius: 10px;
+    }
+    .share-modal-url {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1rem, 2.4vw, 1.15rem);
+      color: #3e2723;
+      text-align: center;
+      margin-bottom: 1rem;
+      word-break: break-all;
+    }
+    .share-modal-copy {
+      display: block;
+      margin: 0 auto;
+      padding: 0.6rem 1.5rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
+      border: 2px solid #1b5e20;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .share-modal-copy:hover {
+      opacity: 0.95;
+    }
+
+    .share-modal .share-modal-close {
+      display: block;
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      background: #c62828;
+      border: 2px solid #8b0000;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .share-modal .share-modal-close:hover {
+      background: #b71c1c;
+    }
+
+    .payments-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .payments-modal-overlay.visible {
+      display: flex;
+    }
+    .payments-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .payments-modal-body {
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+    .payments-row {
+      margin: 0 0 0.75rem 0;
+      text-align: center;
+    }
+    .payments-label {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1.15rem, 2.6vw, 1.35rem);
+      font-weight: 600;
+      color: #3e2723;
+      cursor: default;
+      user-select: none;
+    }
+    .payments-value {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1.15rem, 2.6vw, 1.35rem);
+      font-weight: 600;
+      color: #14545c;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .payments-reference-row {
+      margin-top: 1rem;
+    }
+    .payments-ref-value {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1.15rem, 2.6vw, 1.35rem);
+      font-weight: 600;
+      color: #3e2723;
+    }
+    .payments-modal .share-modal-close {
+      display: block;
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      background: #c62828;
+      border: 2px solid #8b0000;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .payments-modal .share-modal-close:hover {
+      background: #b71c1c;
+    }
+
+    .save-icon-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .save-icon-modal-overlay.visible {
+      display: flex;
+    }
+    .save-icon-modal-overlay .save-icon-modal {
+      max-height: 85vh;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .save-icon-modal-overlay .save-icon-modal::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    .save-icon-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: min(340px, 88vw);
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .save-icon-modal-body-wrap {
+      padding: clamp(0.9rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2rem);
+    }
+    .save-icon-modal-img {
+      display: block;
+      margin: 0 auto 1.25rem;
+      max-width: 100%;
+      width: min(140px, 48vw);
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid #000;
+    }
+    .save-icon-modal-body {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      line-height: 1.5;
+      color: #3e2723;
+      margin-bottom: 0.2rem;
+      text-align: center;
+    }
+    .save-icon-modal-body-below {
+      margin-bottom: 0;
+      margin-top: 1rem;
+    }
+    .save-icon-modal-body-wrap .save-icon-modal-save-btn {
+      display: block;
+      margin: 1rem auto 0;
+    }
+    .save-icon-modal-save-btn {
+      padding: 0.5rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #5b21b6 0%, #6d28d9 50%, #5b21b6 100%);
+      border: 2px solid #4c1d95;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(91, 33, 182, 0.4);
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .save-icon-modal-save-btn:hover {
+      box-shadow: 0 6px 16px rgba(91, 33, 182, 0.5);
+    }
+    .save-icon-modal-save-btn.hidden {
+      display: none !important;
+    }
+    .save-icon-modal .share-modal-close {
+      padding: 0.5rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      background: #c62828;
+      border: 2px solid #8b0000;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .save-icon-modal .share-modal-close:hover {
+      background: #b71c1c;
+    }
+
+    .wholesale-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .wholesale-modal-overlay.visible {
+      display: flex;
+    }
+
+    .packs-wholesale-flip-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      perspective-origin: center center;
+      transform-style: preserve-3d;
+    }
+    .packs-wholesale-flip-container .packs-wholesale-flip-card {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateY(0deg);
+      transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    .packs-wholesale-flip-container .packs-wholesale-flip-card.flip-show-packs {
+      transform: rotateY(-180deg);
+    }
+    .packs-wholesale-face.card-face {
+      padding: 0;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+    }
+    .packs-wholesale-face .wholesale-modal {
+      margin: 0 auto;
+    }
+    .packs-wholesale-link-btn {
+      display: block;
+      margin: 1.25rem auto 0;
+      padding: 0.78rem 1.35rem;
+      min-height: 2.85rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1.12rem, 2.55vw, 1.32rem);
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg, #0D7BA8 0%, #0e8bb8 50%, #0D7BA8 100%);
+      border: 2px solid #065a82;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(13, 123, 168, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .packs-wholesale-link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(13, 123, 168, 0.45);
+    }
+
+    .wholesale-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      max-height: 92vh;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    .wholesale-modal-content {
+      overflow-y: auto;
+      padding: 1.5rem;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .wholesale-modal-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    .wholesale-accordions {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .wholesale-panel {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      border: 2px solid #3e2723;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #6d5047;
+      transition: all 0.25s ease;
+    }
+
+    .wholesale-panel:hover {
+      border-color: #8d6e63;
+      background: #7d6055;
+    }
+
+    .wholesale-panel.expanded {
+      border-color: #8d6e63;
+      background: #6d5047;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .wholesale-panel-header {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-weight: 600;
+      font-size: clamp(1.2rem, 2.6vw, 1.4rem);
+      color: #f5f5dc;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      position: relative;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .wholesale-panel-header:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .wholesale-pack-cost {
+      font-family: 'The Wanters DEMO', serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.2vw, 1.85rem);
+      color: #6CC03B;
+      -webkit-text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .wholesale-pack-title {
+      font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+      font-weight: 700;
+      color: #f5f5dc;
+    }
+
+    .pack-availability {
+      flex-shrink: 0;
+      width: 2.6em;
+      height: 2.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .pack-availability .availability-icon {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+
+    .pack-availability .available-icon {
+      background-image: url('assets/icon-available.png');
+    }
+
+    .pack-availability .unavailable-icon {
+      background-image: url('assets/icon-unavailable.png');
+    }
+
+    .wholesale-panel.available .pack-availability .available-icon {
+      display: block;
+    }
+
+    .wholesale-panel.unavailable .pack-availability .unavailable-icon {
+      display: block;
+    }
+
+    .wholesale-pack-header-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .wholesale-panel-prices {
+      display: none;
+    }
+
+    .wholesale-panel-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #fff;
+    }
+
+    .wholesale-panel.expanded .wholesale-panel-body {
+      max-height: 400px;
+    }
+
+    .wholesale-panel-desc {
+      padding: 1rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(0.9rem, 1.9vw, 1rem);
+      line-height: 1.5;
+      color: #3e2723;
+      border-top: 1px solid rgba(93, 64, 55, 0.25);
+    }
+
+    .wholesale-panel-desc .pack-contents {
+      list-style: disc;
+      list-style-position: outside;
+      padding-left: 1.25rem;
+      margin: 0 0 1rem 0;
+      text-align: center;
+    }
+
+    .wholesale-panel-desc .pack-contents li {
+      margin-bottom: 0.5rem;
+      font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+      display: grid;
+      grid-template-columns: 2.2em 1fr 2.5em;
+      gap: 0.35rem 0.5rem;
+      align-items: center;
+      justify-items: center;
+      text-align: center;
+      max-width: 100%;
+    }
+
+    .wholesale-panel-desc .pack-contents .pack-qty { justify-self: end; }
+    .wholesale-panel-desc .pack-contents .pack-product { justify-self: center; word-break: break-word; }
+    .wholesale-panel-desc .pack-contents .pack-total { justify-self: start; font-weight: 600; }
+
+    .wholesale-panel-desc .pack-contents.pack-contents-simple li {
+      display: list-item;
+      list-style: disc;
+      grid-template-columns: none;
+      text-align: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .wholesale-panel-desc .pack-contents.pack-contents-simple li span {
+      display: inline;
+    }
+
+    .wholesale-panel-desc .pack-contents.pack-contents-simple li span.pack-bag-suffix {
+      display: block;
+    }
+
+    #packs-modal-overlay .wholesale-panel-desc {
+      padding-top: 1.35rem;
+    }
+
+    .wholesale-panel-summary {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(93, 64, 55, 0.2);
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(1.08rem, 2.5vw, 1.3rem);
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .wholesale-panel-summary .wholesale-summary-line {
+      margin: 0;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .wholesale-panel-summary .wholesale-summary-price { color: #1565c0; }
+    .wholesale-panel-summary .wholesale-summary-saved { color: #2e7d32; }
+    .wholesale-panel-summary .wholesale-summary-pct { color: #c62828; }
+
+    .wholesale-modal-close {
+      display: block;
+      margin: 1.25rem auto 0;
+      padding: 0.72rem 1.35rem;
+      min-height: 2.75rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1.05rem, 2.4vw, 1.22rem);
+      font-weight: 600;
+      color: #fff;
+      background: #c62828;
+      border: 2px solid #8b0000;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+
+    .wholesale-modal-close:hover {
+      background: #b71c1c;
+    }
+
+    .app-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #F6F6DE;
+      transition: opacity 0.25s ease;
+    }
+    .app-splash.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .app-splash img {
+      width: 80%;
+      max-width: 320px;
+      height: auto;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <div id="app-splash" class="app-splash" aria-hidden="false">
+    <img src="Everdream-Logo-Circle.png" alt="Everdream Jerky" />
+  </div>
+  <!-- When serving from app: inject CARD_DATA before the main script runs, e.g. <script>window.CARD_DATA = YOUR_JSON;</script> -->
+  <div class="card" id="card">
+    <div class="flip-container">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-front card-face" id="flip-front">
+            <div class="content-panel" id="content-panel-front">
+              <section id="intro" class="content-section visible" role="tabpanel">
+                <div class="intro-header">
+                  <h1>Everdream Jerky</h1>
+                </div>
+                <div class="intro-body">
+                  <div class="intro-body-inner">
+                    <img src="Everdream-Logo-Circle.png" alt="Everdream Jerky" class="intro-icon" />
+                    <p class="intro-swipe-hint" aria-hidden="true">Swipe</p>
+                  </div>
+                </div>
+                <div class="intro-footer">
+                  <p class="intro-message">Business Card</p>
+                </div>
+              </section>
+            </div>
+          <div class="nav-arrows" role="navigation" aria-label="Card navigation">
+            <button type="button" class="nav-arrow nav-prev" aria-label="Previous card">‹</button>
+            <button type="button" class="nav-arrow nav-next" aria-label="Next card">›</button>
+          </div>
+        </div>
+        <div class="flip-back card-face" id="flip-back">
+          <div class="content-panel" id="content-panel-back">
+            <section id="products" class="content-section visible" role="tabpanel">
+              <div class="products-header">
+                <h1>Flavours</h1>
+              </div>
+              <div class="products-body">
+                <p class="prices-once">40g = $5<br>80g = $10</p>
+                <ul class="flavour-accordions">
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The original flavour. Marinated in a blend of barbecue sauce, soy sauce and Worcestershire - This sweet blend with a chewy consistency will leave you wanting more.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Teriyaki</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Sweet, sticky and full in flavour. A rich glaze of teriyaki and soy for those who love bold Japanese flavours.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Korean BBQ</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Sweet Chilli</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. Just a whisper of spice makes it great for people who don't like it too hot.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Exotic Spice</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Hot Chilli</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A Hot Chilli that never lets the chilli fans down. Its barbecue base is infused with chilli and the seeds turn up the heat again. A must try for chilli lovers!</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.</p></div>
+                  </li>
+                  <li class="flavour-list-divider" aria-hidden="true"></li>
+                  <li class="flavour-panel flavour-panel-pet-treats">
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br>Available in one size: <strong>100g</strong> for <strong>$10</strong>.</p></div>
+                  </li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open wholesale packs">Packs</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="products-footer"></div>
+            </section>
+          </div>
+          <div class="nav-arrows" role="navigation" aria-label="Card navigation">
+            <button type="button" class="nav-arrow nav-prev" aria-label="Previous card">‹</button>
+            <button type="button" class="nav-arrow nav-next" aria-label="Next card">›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sections-pool" style="display: none;" aria-hidden="true">
+    <section id="contact" class="content-section" role="tabpanel">
+      <div class="contact-header">
+        <h1>Details</h1>
+      </div>
+      <div class="contact-body">
+        <div class="contact-block">
+          <p class="about-text">Everdream Jerky is a home business in the Adelaide Hills.<br><br>What began with just Barbecue and Hot Chilli has grown into a range of eight flavours,<br>all handcrafted in small batches for quality and flavour.<br><br>I'm proud to bring you real ingredients and real taste—no shortcuts.</p>
+          <p class="about-text pet-treats-coming">We also have a healthy chicken option for your furry friends!</p>
+          <div class="contact-divider" aria-hidden="true"></div>
+          <p class="name-line">
+            <span class="contact-label">Name:</span><br>
+            <button type="button" class="add-contact-trigger name-value" aria-label="Add Brett to contacts" data-name="Brett" data-tel="0467451107" data-email="everdreamgoods@gmail.com">Brett</button>
+          </p>
+          <p><span class="contact-label">Mobile:</span><br>
+            <a href="tel:0467451107" class="contact-value copy-contact" data-copy="0467451107">0467 451 107</a></p>
+          <p><span class="contact-label">Email:</span><br>
+            <a href="mailto:everdreamgoods@gmail.com" class="contact-value copy-contact" data-copy="everdreamgoods@gmail.com">everdreamgoods@gmail.com</a></p>
+          <p><span class="contact-label">App:</span><br>
+            <a href="#" class="contact-value copy-soon">Coming Soon</a></p>
+          <div class="contact-actions">
+            <button type="button" class="share-btn" id="payment-btn">Payment</button>
+            <button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>
+            <button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>
+            <button type="button" class="share-btn" id="share-btn">Share</button>
+          </div>
+        </div>
+      </div>
+      <div class="contact-footer"></div>
+    </section>
+  </div>
+
+  <div id="copy-tooltip" class="copy-tooltip" aria-live="polite">Copied!</div>
+
+  <div id="share-modal-overlay" class="share-modal-overlay" aria-hidden="true">
+    <div class="share-modal">
+      <div class="modal-header"><h2>Share</h2></div>
+      <div class="share-modal-body">
+        <img id="share-qr" class="share-modal-qr" src="SmoothQR.png" alt="QR code" />
+        <p id="share-modal-url" class="share-modal-url"></p>
+        <button type="button" class="share-modal-copy" id="share-copy-url">Copy</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="share-modal-close" id="share-modal-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="save-icon-modal-overlay" class="save-icon-modal-overlay" aria-hidden="true">
+    <div class="save-icon-modal">
+      <div class="modal-header"><h2>Home Screen</h2></div>
+      <div class="save-icon-modal-body-wrap">
+        <div id="save-icon-modal-body" class="save-icon-modal-body"></div>
+        <img id="save-icon-modal-img" class="save-icon-modal-img" src="" alt="" />
+        <div id="save-icon-modal-body-below" class="save-icon-modal-body save-icon-modal-body-below"></div>
+        <button type="button" class="save-icon-modal-save-btn" id="save-icon-modal-save" aria-label="Save to home screen">Save</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="share-modal-close" id="save-icon-modal-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="payments-modal-overlay" class="payments-modal-overlay" aria-hidden="true">
+    <div class="payments-modal">
+      <div class="modal-header"><h2>Payments</h2></div>
+      <div class="payments-modal-body">
+        <p class="payments-row"><span class="payments-label">Name</span><br><button type="button" class="payments-value copy-contact" data-copy="Brett Hurst" aria-label="Copy name">Brett Hurst</button></p>
+        <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" data-copy="105025" aria-label="Copy BSB">105 025</button></p>
+        <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
+        <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><span class="payments-ref-value">(Your Name)</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="packs-wholesale-overlay" class="wholesale-modal-overlay" aria-hidden="true">
+    <div class="packs-wholesale-flip-container">
+      <div class="packs-wholesale-flip-card" id="packs-wholesale-flip-card">
+        <div class="flip-front card-face packs-wholesale-face">
+          <div id="wholesale-modal-content" class="wholesale-modal">
+      <div class="modal-header"><h2>Wholesale Packs</h2></div>
+      <div class="wholesale-modal-content">
+      <ul class="wholesale-accordions">
+        <li class="wholesale-panel pack-1 available">
+          <button type="button" class="wholesale-panel-header" aria-expanded="false">
+            <span class="pack-availability" role="img" aria-label="Available">
+              <span class="availability-icon available-icon" title="This pack is available"></span>
+              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
+            </span>
+            <span class="wholesale-pack-header-text">
+              <span class="wholesale-pack-title">Wholesale pack 1</span>
+              <span class="wholesale-pack-cost">$150</span>
+            </span>
+          </button>
+          <div class="wholesale-panel-body">
+            <div class="wholesale-panel-desc">
+              <ul class="pack-contents pack-contents-simple">
+                <li><strong>x 2</strong> of each <strong>40g</strong> flavour <span class="pack-bag-suffix">(x16 bags)</span></li>
+                <li><strong>x 1</strong> of each <strong>80g</strong> flavour <span class="pack-bag-suffix">(x8 bags)</span></li>
+              </ul>
+              <div class="wholesale-panel-summary">
+                <p class="wholesale-summary-line wholesale-summary-price">Price - $150</p>
+                <p class="wholesale-summary-line wholesale-summary-saved">Saved $10</p>
+                <p class="wholesale-summary-line wholesale-summary-pct">6% saved</p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="wholesale-panel pack-2 available">
+          <button type="button" class="wholesale-panel-header" aria-expanded="false">
+            <span class="pack-availability" role="img" aria-label="Available">
+              <span class="availability-icon available-icon" title="This pack is available"></span>
+              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
+            </span>
+            <span class="wholesale-pack-header-text">
+              <span class="wholesale-pack-title">Wholesale pack 2</span>
+              <span class="wholesale-pack-cost">$260</span>
+            </span>
+          </button>
+          <div class="wholesale-panel-body">
+            <div class="wholesale-panel-desc">
+              <ul class="pack-contents pack-contents-simple">
+                <li><strong>x 3</strong> of each <strong>40g</strong> flavour <span class="pack-bag-suffix">(x24 bags)</span></li>
+                <li><strong>x 2</strong> of each <strong>80g</strong> flavour <span class="pack-bag-suffix">(x16 bags)</span></li>
+              </ul>
+              <div class="wholesale-panel-summary">
+                <p class="wholesale-summary-line wholesale-summary-price">Price - $260</p>
+                <p class="wholesale-summary-line wholesale-summary-saved">Saved $20</p>
+                <p class="wholesale-summary-line wholesale-summary-pct">7% saved</p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="wholesale-panel pack-3 unavailable">
+          <button type="button" class="wholesale-panel-header" aria-expanded="false">
+            <span class="pack-availability" role="img" aria-label="Unavailable">
+              <span class="availability-icon available-icon" title="This pack is available"></span>
+              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
+            </span>
+            <span class="wholesale-pack-header-text">
+              <span class="wholesale-pack-title">Wholesale pack 3</span>
+              <span class="wholesale-pack-cost">$370</span>
+            </span>
+          </button>
+          <div class="wholesale-panel-body">
+            <div class="wholesale-panel-desc">
+              <ul class="pack-contents pack-contents-simple">
+                <li><strong>x 4</strong> of each <strong>40g</strong> flavour <span class="pack-bag-suffix">(x32 bags)</span></li>
+                <li><strong>x 3</strong> of each <strong>80g</strong> flavour <span class="pack-bag-suffix">(x24 bags)</span></li>
+              </ul>
+              <div class="wholesale-panel-summary">
+                <p class="wholesale-summary-line wholesale-summary-price">Price - $370</p>
+                <p class="wholesale-summary-line wholesale-summary-saved">Saved $30</p>
+                <p class="wholesale-summary-line wholesale-summary-pct">8% saved</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <button type="button" class="packs-wholesale-link-btn" id="wholesale-to-packs-btn" aria-label="View smaller packs">Smaller?</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="wholesale-modal-close" id="wholesale-modal-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+        </div>
+        <div class="flip-back card-face packs-wholesale-face">
+          <div id="packs-modal-content" class="wholesale-modal">
+      <div class="modal-header"><h2>Packs</h2></div>
+      <div class="wholesale-modal-content">
+      <ul class="wholesale-accordions">
+        <li class="wholesale-panel pack-1 available">
+          <button type="button" class="wholesale-panel-header" aria-expanded="false">
+            <span class="pack-availability" role="img" aria-label="Available">
+              <span class="availability-icon available-icon" title="This pack is available"></span>
+              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
+            </span>
+            <span class="wholesale-pack-header-text">
+              <span class="wholesale-pack-title">Pack 1</span>
+              <span class="wholesale-pack-cost">$40</span>
+            </span>
+          </button>
+          <div class="wholesale-panel-body">
+            <div class="wholesale-panel-desc">
+              <ul class="pack-contents pack-contents-simple">
+                <li><strong>x 1</strong> of each <strong>40g</strong> flavour <span class="pack-bag-suffix">(x8 bags)</span></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="wholesale-panel pack-2 available">
+          <button type="button" class="wholesale-panel-header" aria-expanded="false">
+            <span class="pack-availability" role="img" aria-label="Available">
+              <span class="availability-icon available-icon" title="This pack is available"></span>
+              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
+            </span>
+            <span class="wholesale-pack-header-text">
+              <span class="wholesale-pack-title">Pack 2</span>
+              <span class="wholesale-pack-cost">$80</span>
+            </span>
+          </button>
+          <div class="wholesale-panel-body">
+            <div class="wholesale-panel-desc">
+              <ul class="pack-contents pack-contents-simple">
+                <li><strong>x 1</strong> of each <strong>80g</strong> flavour <span class="pack-bag-suffix">(x8 bags)</span></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="wholesale-panel pack-3 available">
+          <button type="button" class="wholesale-panel-header" aria-expanded="false">
+            <span class="pack-availability" role="img" aria-label="Available">
+              <span class="availability-icon available-icon" title="This pack is available"></span>
+              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
+            </span>
+            <span class="wholesale-pack-header-text">
+              <span class="wholesale-pack-title">Pack 3</span>
+              <span class="wholesale-pack-cost">$120</span>
+            </span>
+          </button>
+          <div class="wholesale-panel-body">
+            <div class="wholesale-panel-desc">
+              <ul class="pack-contents pack-contents-simple">
+                <li><strong>x 1</strong> of each <strong>40g</strong> flavour <span class="pack-bag-suffix">(x8 bags)</span></li>
+                <li><strong>x 1</strong> of each <strong>80g</strong> flavour <span class="pack-bag-suffix">(x8 bags)</span></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <button type="button" class="packs-wholesale-link-btn" id="packs-to-wholesale-btn" aria-label="View bigger packs">Bigger?</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="wholesale-modal-close" id="packs-modal-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SHARE_URL = 'https://everdream-card.netlify.app';
+
+      function hideAppSplash() {
+        var splash = document.getElementById('app-splash');
+        if (!splash) return;
+        splash.classList.add('hidden');
+        splash.setAttribute('aria-hidden', 'true');
+        setTimeout(function () {
+          if (splash.parentNode) splash.parentNode.removeChild(splash);
+        }, 280);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { requestAnimationFrame(hideAppSplash); });
+      } else {
+        requestAnimationFrame(hideAppSplash);
+      }
+
+      function escapeHtml(s) {
+        if (s == null) return '';
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      function packSummaryPriceLine(nowPrice, fallbackPrice) {
+        var s = String(nowPrice || '').replace(/^Now\s+/i, '').trim();
+        if (!s && fallbackPrice != null) s = String(fallbackPrice).trim();
+        if (!s) return '';
+        return 'Price - ' + s;
+      }
+
+      function packSummarySavedLine(save) {
+        return String(save || '').replace(/^Save\s+/i, 'Saved ');
+      }
+
+      function applyCardData(d) {
+        if (!d || !d.businessName) return;
+        SHARE_URL = d.shareUrl || SHARE_URL;
+        document.querySelectorAll('.title-panel h1').forEach(function (h) { h.textContent = d.businessName; });
+        var logo = document.querySelector('.intro-icon');
+        if (logo) { logo.src = d.logoUrl || logo.src; logo.alt = d.businessName; }
+        var pricesEl = document.querySelector('.prices-once');
+        if (pricesEl && d.productPrices && d.productPrices.length)
+          pricesEl.innerHTML = d.productPrices.map(function (p) { return escapeHtml(p.size) + ' = ' + escapeHtml(p.price); }).join('<br>');
+        var flavoursUl = document.querySelector('.flavour-accordions');
+        if (flavoursUl && d.products && d.products.length) {
+          flavoursUl.innerHTML = '';
+          function appendProduct(prod) {
+            var li = document.createElement('li');
+            var petTreatsClass = (prod.afterDivider && prod.name && prod.name.toLowerCase().indexOf('pet treat') !== -1) ? ' flavour-panel-pet-treats' : '';
+            li.className = 'flavour-panel' + petTreatsClass;
+            var desc = prod.htmlDescription ? prod.description : escapeHtml(prod.description);
+            li.innerHTML = '<button type="button" class="flavour-panel-header" aria-expanded="false">' + escapeHtml(prod.name) + '</button>' +
+              '<div class="flavour-panel-body"><p class="flavour-panel-desc">' + desc + '</p></div>';
+            flavoursUl.appendChild(li);
+          }
+          d.products.forEach(function (prod) {
+            if (!prod.afterDivider) appendProduct(prod);
+          });
+          var divLi = document.createElement('li');
+          divLi.className = 'flavour-list-divider';
+          divLi.setAttribute('aria-hidden', 'true');
+          flavoursUl.appendChild(divLi);
+          d.products.forEach(function (prod) {
+            if (prod.afterDivider) appendProduct(prod);
+          });
+          var packsLi = document.createElement('li');
+          packsLi.className = 'flavour-panel';
+          packsLi.innerHTML = '<button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open wholesale packs">Packs</button>';
+          flavoursUl.appendChild(packsLi);
+        }
+        var contactBlock = document.querySelector('.contact-block');
+        if (contactBlock && d.contact) {
+          var c = d.contact;
+          var appHtml = (c.app && c.app.trim()) ? '<a href="' + escapeHtml(c.app) + '" class="contact-value">Open in app</a>' : '<a href="#" class="contact-value copy-soon">Coming Soon</a>';
+          contactBlock.innerHTML = '<p class="about-text">' + (d.about || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&lt;br\s*\/?&gt;/gi, '<br>') + '</p>' +
+            '<p class="about-text pet-treats-coming">We also have a healthy chicken option for your furry friends!</p>' +
+            '<div class="contact-divider" aria-hidden="true"></div>' +
+            '<p class="name-line"><span class="contact-label">Name:</span><br><button type="button" class="add-contact-trigger name-value" aria-label="Add ' + escapeHtml(c.name) + ' to contacts" data-name="' + escapeHtml(c.name) + '" data-tel="' + escapeHtml(c.phone) + '" data-email="' + escapeHtml(c.email) + '" data-org="' + escapeHtml(d.businessName) + '">' + escapeHtml(c.name) + '</button></p>' +
+            '<p><span class="contact-label">Mobile:</span><br><a href="tel:' + escapeHtml(c.phone) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(c.phone) + '">' + escapeHtml(c.phone) + '</a></p>' +
+            '<p><span class="contact-label">Email:</span><br><a href="mailto:' + escapeHtml(c.email) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(c.email) + '">' + escapeHtml(c.email) + '</a></p>' +
+            '<p><span class="contact-label">App:</span><br>' + appHtml + '</p>' +
+            '<div class="contact-actions">' +
+            '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
+            '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
+            '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
+            '<button type="button" class="share-btn" id="share-btn">Share</button>' +
+            '</div>';
+        }
+        var wholesaleModalRoot = document.getElementById('wholesale-modal-content');
+        var wholesaleUl = wholesaleModalRoot ? wholesaleModalRoot.querySelector('.wholesale-accordions') : null;
+        if (wholesaleUl && d.packs && d.packs.length) {
+          wholesaleUl.innerHTML = '';
+          d.packs.forEach(function (pack, i) {
+            var availClass = pack.available ? 'available' : 'unavailable';
+            var availLabel = pack.available ? 'Available' : 'Unavailable';
+            var contentsHtml = (pack.contents || []).map(function (line) {
+              return '<li>' + line + '</li>';
+            }).join('');
+            var li = document.createElement('li');
+            li.className = 'wholesale-panel pack-' + (i + 1) + ' ' + availClass;
+            li.innerHTML = '<button type="button" class="wholesale-panel-header" aria-expanded="false">' +
+              '<span class="pack-availability" role="img" aria-label="' + availLabel + '">' +
+              '<span class="availability-icon available-icon" title="This pack is available"></span>' +
+              '<span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>' +
+              '</span><span class="wholesale-pack-header-text">' +
+              '<span class="wholesale-pack-title">' + escapeHtml(pack.title) + '</span>' +
+              '<span class="wholesale-pack-cost">' + escapeHtml(pack.price) + '</span></span></button>' +
+              '<div class="wholesale-panel-body"><div class="wholesale-panel-desc">' +
+              '<ul class="pack-contents pack-contents-simple">' + contentsHtml + '</ul>' +
+              '<div class="wholesale-panel-summary">' +
+              '<p class="wholesale-summary-line wholesale-summary-price">' + escapeHtml(packSummaryPriceLine(pack.nowPrice, pack.price)) + '</p>' +
+              '<p class="wholesale-summary-line wholesale-summary-saved">' + escapeHtml(packSummarySavedLine(pack.save)) + '</p>' +
+              '<p class="wholesale-summary-line wholesale-summary-pct">' + escapeHtml(pack.savePct || '') + '</p></div></div></div>';
+            wholesaleUl.appendChild(li);
+          });
+        }
+        /* Share modal uses static SmoothQR.png; skip dynamic QR overwrite */
+      }
+
+      if (window.CARD_DATA) applyCardData(window.CARD_DATA);
+
+      function hapticBuzz() {
+        if (navigator.vibrate) navigator.vibrate(40);
+      }
+      function hapticDoubleBuzz() {
+        if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
+      }
+      function hapticCopy() {
+        if (navigator.vibrate) navigator.vibrate([25, 20, 25]);
+      }
+
+      var sectionOrder = ['intro', 'products', 'contact'];
+      var currentIndex = 0;
+      var flipCard = document.getElementById('flip-card');
+      var flipFront = document.getElementById('flip-front');
+      var flipBack = document.getElementById('flip-back');
+      var frontContentPanel = document.getElementById('content-panel-front');
+      var backContentPanel = document.getElementById('content-panel-back');
+      var sectionsPool = document.getElementById('sections-pool');
+      var cardEl = document.getElementById('card');
+      var isFlipping = false;
+      var HEIGHT_EASING = 'cubic-bezier(0.33, 1, 0.68, 1)';
+      var HEIGHT_DURATION_MS = 450;
+
+      function getSection(id) { return document.getElementById(id); }
+
+      function getContentHeight(sectionId) {
+        var section = getSection(sectionId);
+        if (!section) return 0;
+        var w = flipCard.offsetWidth;
+        var clone = document.createElement('div');
+        clone.className = 'flip-front card-face';
+        clone.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;width:' + w + 'px;box-sizing:border-box;';
+        var titleClone = document.createElement('div');
+        titleClone.className = 'title-panel';
+        var titleText = (document.querySelector('.title-panel h1') && document.querySelector('.title-panel h1').textContent) || 'Card';
+        titleClone.innerHTML = '<h1>' + escapeHtml(titleText) + '</h1>';
+        clone.appendChild(titleClone);
+        var contentPanelClone = document.createElement('div');
+        contentPanelClone.className = 'content-panel';
+        contentPanelClone.appendChild(section.cloneNode(true));
+        clone.appendChild(contentPanelClone);
+        var navClone = document.createElement('div');
+        navClone.className = 'nav-arrows';
+        navClone.innerHTML = '<button type="button" class="nav-arrow">&#8249;</button><button type="button" class="nav-arrow">&#8250;</button>';
+        clone.appendChild(navClone);
+        document.body.appendChild(clone);
+        var h = clone.offsetHeight;
+        document.body.removeChild(clone);
+        return h;
+      }
+
+      function placeSections() {
+        var currentId = sectionOrder[currentIndex];
+        var nextId = sectionOrder[(currentIndex + 1) % 3];
+        var prevId = sectionOrder[(currentIndex + 2) % 3];
+        var currentEl = getSection(currentId);
+        var nextEl = getSection(nextId);
+        var prevEl = getSection(prevId);
+        if (currentEl && currentEl.parentNode !== frontContentPanel) frontContentPanel.appendChild(currentEl);
+        if (nextEl && nextEl.parentNode !== backContentPanel) backContentPanel.appendChild(nextEl);
+        if (prevEl && prevEl.parentNode !== sectionsPool) sectionsPool.appendChild(prevEl);
+      }
+
+      function clearCardHeight() {
+        flipCard.style.minHeight = '';
+        flipCard.style.height = '';
+        flipCard.style.overflow = '';
+        flipCard.classList.remove('animate-height');
+      }
+
+      function resetCardRotation() {
+        flipCard.style.transition = 'none';
+        flipCard.style.transform = 'rotateY(0deg)';
+        placeSections();
+        flipCard.offsetHeight;
+        flipCard.style.transition = '';
+        flipCard.style.transform = '';
+        clearCardHeight();
+      }
+
+      function runShrinkAnimation(oldHeight, onDone) {
+        var newHeight = flipCard.offsetHeight;
+        flipCard.style.height = oldHeight + 'px';
+        flipCard.style.overflow = 'hidden';
+        flipCard.classList.add('animate-height');
+        flipCard.offsetHeight;
+        flipCard.style.height = newHeight + 'px';
+        var onHeightEnd = function (e) {
+          if (e.target !== flipCard || e.propertyName !== 'height') return;
+          flipCard.removeEventListener('transitionend', onHeightEnd);
+          clearCardHeight();
+          if (onDone) onDone();
+        };
+        flipCard.addEventListener('transitionend', onHeightEnd);
+      }
+
+      function goNext() {
+        if (isFlipping) return;
+        if (currentIndex === 0) {
+          var hint = document.querySelector('.intro-swipe-hint');
+          if (hint) hint.classList.add('intro-swipe-hint-used');
+        }
+        isFlipping = true;
+        hapticBuzz();
+        clearCardHeight();
+        var destId = sectionOrder[(currentIndex + 1) % 3];
+        var currentHeight = flipCard.offsetHeight;
+        var destHeight = getContentHeight(destId);
+        var goingTaller = destHeight > currentHeight;
+
+        if (goingTaller) {
+          flipCard.style.minHeight = destHeight + 'px';
+          flipCard.offsetHeight;
+        }
+
+        flipCard.classList.remove('flip-prev');
+        flipCard.classList.add('flip-next');
+        flipCard.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== flipCard || e.propertyName !== 'transform') return;
+          flipCard.removeEventListener('transitionend', onEnd);
+          currentIndex = (currentIndex + 1) % 3;
+          flipCard.classList.remove('flip-next');
+          if (goingTaller) {
+            resetCardRotation();
+            isFlipping = false;
+          } else {
+            var oldHeight = flipCard.offsetHeight;
+            flipCard.style.transition = 'none';
+            flipCard.style.transform = 'rotateY(0deg)';
+            placeSections();
+            flipCard.offsetHeight;
+            flipCard.style.transition = '';
+            flipCard.style.transform = '';
+            runShrinkAnimation(oldHeight, function () { isFlipping = false; });
+          }
+        }, { once: false });
+      }
+
+      function goPrev() {
+        if (isFlipping) return;
+        isFlipping = true;
+        hapticBuzz();
+        clearCardHeight();
+        var prevId = sectionOrder[(currentIndex - 1 + 3) % 3];
+        while (backContentPanel.firstChild) sectionsPool.appendChild(backContentPanel.firstChild);
+        backContentPanel.appendChild(getSection(prevId));
+        var currentHeight = flipCard.offsetHeight;
+        var destHeight = getContentHeight(prevId);
+        var goingTaller = destHeight > currentHeight;
+
+        if (goingTaller) {
+          flipCard.style.minHeight = destHeight + 'px';
+          flipCard.offsetHeight;
+        }
+
+        flipCard.classList.remove('flip-next');
+        flipCard.classList.add('flip-prev');
+        flipCard.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== flipCard || e.propertyName !== 'transform') return;
+          flipCard.removeEventListener('transitionend', onEnd);
+          currentIndex = (currentIndex - 1 + 3) % 3;
+          flipCard.classList.remove('flip-prev');
+          if (goingTaller) {
+            resetCardRotation();
+            isFlipping = false;
+          } else {
+            var oldHeight = flipCard.offsetHeight;
+            flipCard.style.transition = 'none';
+            flipCard.style.transform = 'rotateY(0deg)';
+            placeSections();
+            flipCard.offsetHeight;
+            flipCard.style.transition = '';
+            flipCard.style.transform = '';
+            runShrinkAnimation(oldHeight, function () { isFlipping = false; });
+          }
+        }, { once: false });
+      }
+
+      document.querySelectorAll('.nav-prev').forEach(function (btn) { btn.addEventListener('click', goPrev); });
+      document.querySelectorAll('.nav-next').forEach(function (btn) { btn.addEventListener('click', goNext); });
+
+      (function () {
+        var swipeStartX = 0;
+        var swipePointerId = null;
+        var swipeTouchActive = false;
+        var swipeThreshold = 60;
+        var justSwiped = false;
+
+      function isModalOpen() {
+          var share = document.getElementById('share-modal-overlay');
+          var packsWholesale = document.getElementById('packs-wholesale-overlay');
+          var payments = document.getElementById('payments-modal-overlay');
+          return (share && share.classList.contains('visible')) ||
+                 (packsWholesale && packsWholesale.classList.contains('visible')) ||
+                 (payments && payments.classList.contains('visible'));
+        }
+
+        function handleSwipeEnd(clientX) {
+          if (isModalOpen() || isFlipping) return;
+          var deltaX = clientX - swipeStartX;
+          if (Math.abs(deltaX) < swipeThreshold) return;
+          justSwiped = true;
+          if (deltaX < 0) goNext();
+          else goPrev();
+          setTimeout(function () { justSwiped = false; }, 150);
+        }
+
+        document.addEventListener('pointerdown', function (e) {
+          if (e.pointerType === 'touch') return;
+          if (isModalOpen() || isFlipping) return;
+          swipeStartX = e.clientX;
+          swipePointerId = e.pointerId;
+        }, true);
+
+        document.addEventListener('pointerup', function (e) {
+          if (e.pointerType === 'touch') return;
+          if (swipePointerId === null || e.pointerId !== swipePointerId) return;
+          if (isModalOpen() || isFlipping) { swipePointerId = null; return; }
+          var deltaX = e.clientX - swipeStartX;
+          swipePointerId = null;
+          if (Math.abs(deltaX) < swipeThreshold) return;
+          justSwiped = true;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          if (deltaX < 0) goNext();
+          else goPrev();
+          setTimeout(function () { justSwiped = false; }, 150);
+        }, true);
+
+        document.addEventListener('pointercancel', function (e) {
+          if (e.pointerId === swipePointerId) swipePointerId = null;
+        }, true);
+
+        document.addEventListener('touchstart', function (e) {
+          if (isModalOpen() || isFlipping) return;
+          if (e.touches.length !== 1) return;
+          swipeStartX = e.touches[0].clientX;
+          swipeTouchActive = true;
+        }, { passive: true });
+
+        document.addEventListener('touchend', function (e) {
+          if (!swipeTouchActive || e.changedTouches.length !== 1) return;
+          var touch = e.changedTouches[0];
+          var deltaX = touch.clientX - swipeStartX;
+          swipeTouchActive = false;
+          if (Math.abs(deltaX) < swipeThreshold) return;
+          e.preventDefault();
+          justSwiped = true;
+          if (deltaX < 0) goNext();
+          else goPrev();
+          setTimeout(function () { justSwiped = false; }, 150);
+        }, { passive: false });
+
+        document.addEventListener('touchcancel', function () {
+          swipeTouchActive = false;
+        }, { passive: true });
+
+        document.addEventListener('click', function (e) {
+          if (justSwiped) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+
+      placeSections();
+
+      var shareModal = document.getElementById('share-modal-overlay');
+      var shareBtn = document.getElementById('share-btn');
+      var shareClose = document.getElementById('share-modal-close');
+      var wholesaleBtn = document.getElementById('wholesale-btn');
+      var saveIconBtn = document.getElementById('save-icon-btn');
+      var saveIconModal = document.getElementById('save-icon-modal-overlay');
+      var saveIconModalBody = document.getElementById('save-icon-modal-body');
+      var saveIconModalClose = document.getElementById('save-icon-modal-close');
+      var wholesaleClose = document.getElementById('wholesale-modal-close');
+      var packsClose = document.getElementById('packs-modal-close');
+      var shareCopyBtn = document.getElementById('share-copy-url');
+      var shareQr = document.getElementById('share-qr');
+
+      /* QR image is static SmoothQR.png; leave shareQr.src as-is unless CARD_DATA provides a different logo/QR */
+
+      var shareModalUrl = document.getElementById('share-modal-url');
+      if (shareBtn) shareBtn.addEventListener('click', function () {
+        hapticBuzz();
+        if (shareModalUrl) shareModalUrl.textContent = 'everdream-card.netlify.app';
+        if (shareModal) { shareModal.classList.add('visible'); shareModal.setAttribute('aria-hidden', 'false'); }
+      });
+      if (shareClose) shareClose.addEventListener('click', function () {
+        hapticBuzz();
+        if (shareModal) { shareModal.classList.remove('visible'); shareModal.setAttribute('aria-hidden', 'true'); }
+      });
+      var paymentsModal = document.getElementById('payments-modal-overlay');
+      var paymentBtn = document.getElementById('payment-btn');
+      var paymentsModalClose = document.getElementById('payments-modal-close');
+      if (paymentBtn && paymentsModal) paymentBtn.addEventListener('click', function () {
+        hapticBuzz();
+        paymentsModal.classList.add('visible');
+        paymentsModal.setAttribute('aria-hidden', 'false');
+      });
+      if (paymentsModalClose && paymentsModal) paymentsModalClose.addEventListener('click', function () {
+        hapticBuzz();
+        paymentsModal.classList.remove('visible');
+        paymentsModal.setAttribute('aria-hidden', 'true');
+      });
+      var packsWholesaleOverlay = document.getElementById('packs-wholesale-overlay');
+      var packsWholesaleFlipCard = document.getElementById('packs-wholesale-flip-card');
+      if (wholesaleBtn && packsWholesaleOverlay) wholesaleBtn.addEventListener('click', function () {
+        hapticBuzz();
+        if (packsWholesaleFlipCard) packsWholesaleFlipCard.classList.remove('flip-show-packs');
+        packsWholesaleOverlay.classList.add('visible');
+        packsWholesaleOverlay.setAttribute('aria-hidden', 'false');
+      });
+      var SAVE_ICON_INTRO = 'Depending on your device/browser, you might be able to use the Save button below. If not, follow the add to home screen instructions.<br><br>';
+      var SAVE_ICON_INTRO_NO_PROMPT = 'Add this card to your home screen using the steps below.<br><br>';
+      var SAVE_ICON_MSG_ANDROID = 'Click on the three dots in the menu bar,<br>then look for Add to Home screen or Install app.';
+      var SAVE_ICON_MSG_IOS = 'Tap the Share button in the menu bar,<br>then tap Add to Home Screen.';
+      function getSaveIconInstructions() {
+        var ua = navigator.userAgent || '';
+        if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+          return { msg: SAVE_ICON_MSG_IOS, img: 'assets/iOs.png', imgAlt: 'How to add to home screen on iOS' };
+        }
+        if (/Android/.test(ua)) {
+          return { msg: SAVE_ICON_MSG_ANDROID, img: 'assets/Android.png', imgAlt: 'How to add to home screen on Android' };
+        }
+        return { msg: SAVE_ICON_MSG_ANDROID, img: 'assets/Android.png', imgAlt: 'How to add to home screen' };
+      }
+      var saveIconModalBodyBelow = document.getElementById('save-icon-modal-body-below');
+      var deferredInstallPrompt = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+      });
+      var saveIconModalSave = document.getElementById('save-icon-modal-save');
+      if (saveIconBtn && saveIconModal && saveIconModalBody) {
+        var saveIconModalImg = document.getElementById('save-icon-modal-img');
+        saveIconBtn.addEventListener('click', function () {
+          hapticBuzz();
+          var inst = getSaveIconInstructions();
+          if (deferredInstallPrompt) {
+            saveIconModalBody.innerHTML = SAVE_ICON_INTRO;
+            if (saveIconModalSave) saveIconModalSave.classList.remove('hidden');
+          } else {
+            saveIconModalBody.innerHTML = SAVE_ICON_INTRO_NO_PROMPT;
+            if (saveIconModalSave) saveIconModalSave.classList.add('hidden');
+          }
+          if (saveIconModalBodyBelow) saveIconModalBodyBelow.innerHTML = inst.msg;
+          if (saveIconModalImg) {
+            saveIconModalImg.src = inst.img;
+            saveIconModalImg.alt = inst.imgAlt;
+          }
+          saveIconModal.classList.add('visible');
+          saveIconModal.setAttribute('aria-hidden', 'false');
+        });
+      }
+      if (saveIconModalSave && saveIconModal) {
+        saveIconModalSave.addEventListener('click', function () {
+          hapticBuzz();
+          if (deferredInstallPrompt) {
+            deferredInstallPrompt.prompt();
+            deferredInstallPrompt.userChoice.then(function (choice) {
+              deferredInstallPrompt = null;
+              if (choice.outcome === 'accepted') {
+                saveIconModal.classList.remove('visible');
+                saveIconModal.setAttribute('aria-hidden', 'true');
+              }
+            });
+          }
+        });
+      }
+      var wholesaleToPacksBtn = document.getElementById('wholesale-to-packs-btn');
+      var packsToWholesaleBtn = document.getElementById('packs-to-wholesale-btn');
+      if (wholesaleToPacksBtn && packsWholesaleFlipCard) {
+        wholesaleToPacksBtn.addEventListener('click', function () {
+          hapticBuzz();
+          packsWholesaleFlipCard.classList.add('flip-show-packs');
+        });
+      }
+      if (packsToWholesaleBtn && packsWholesaleFlipCard) {
+        packsToWholesaleBtn.addEventListener('click', function () {
+          hapticBuzz();
+          packsWholesaleFlipCard.classList.remove('flip-show-packs');
+        });
+      }
+      function closePacksWholesaleModal() {
+        if (packsWholesaleOverlay) {
+          packsWholesaleOverlay.classList.remove('visible');
+          packsWholesaleOverlay.setAttribute('aria-hidden', 'true');
+        }
+      }
+      if (saveIconModalClose && saveIconModal) {
+        saveIconModalClose.addEventListener('click', function () {
+          hapticBuzz();
+          saveIconModal.classList.remove('visible');
+          saveIconModal.setAttribute('aria-hidden', 'true');
+        });
+      }
+      if (wholesaleClose) wholesaleClose.addEventListener('click', function () {
+        hapticBuzz();
+        closePacksWholesaleModal();
+      });
+      if (packsClose) packsClose.addEventListener('click', function () {
+        hapticBuzz();
+        closePacksWholesaleModal();
+      });
+
+      var addContactTriggers = document.querySelectorAll('.add-contact-trigger');
+      addContactTriggers.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          hapticDoubleBuzz();
+          var name = this.getAttribute('data-name') || '';
+          var tel = this.getAttribute('data-tel') || '';
+          var email = this.getAttribute('data-email') || '';
+          var vcard = 'BEGIN:VCARD\r\nVERSION:3.0\r\nFN:' + name + '\r\nN:' + name + ';;;\r\n';
+          if (tel) vcard += 'TEL;TYPE=CELL:' + tel + '\r\n';
+          if (email) vcard += 'EMAIL:' + email + '\r\n';
+          var org = this.getAttribute('data-org') || '';
+          if (org) vcard += 'ORG:' + org + '\r\n';
+          vcard += 'END:VCARD\r\n';
+          var blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = (name || 'contact') + '.vcf';
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      });
+
+      if (shareCopyBtn) shareCopyBtn.addEventListener('click', function () {
+        hapticCopy();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(SHARE_URL).then(function () {
+            if (typeof showTooltip === 'function') showTooltip(shareCopyBtn, 'URL Copied');
+          }).catch(function () { copyUrlFallback(); });
+        } else copyUrlFallback();
+        function copyUrlFallback() {
+          var ta = document.createElement('textarea');
+          ta.value = SHARE_URL;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); if (typeof showTooltip === 'function') showTooltip(shareCopyBtn, 'URL Copied'); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+
+      var flavourHeaders = document.querySelectorAll('.flavour-panel-header');
+      flavourHeaders.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          hapticBuzz();
+          if (this.id === 'packs-btn') {
+            if (packsWholesaleFlipCard) packsWholesaleFlipCard.classList.add('flip-show-packs');
+            if (packsWholesaleOverlay) { packsWholesaleOverlay.classList.add('visible'); packsWholesaleOverlay.setAttribute('aria-hidden', 'false'); }
+            return;
+          }
+          var panel = this.closest('.flavour-panel');
+          var accordions = document.querySelectorAll('.flavour-accordions .flavour-panel');
+          accordions.forEach(function (p) {
+            if (p !== panel) {
+              p.classList.remove('expanded');
+              var h = p.querySelector('.flavour-panel-header');
+              if (h) h.setAttribute('aria-expanded', 'false');
+            }
+          });
+          var isExpanded = panel.classList.toggle('expanded');
+          this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        });
+      });
+
+      var wholesaleHeaders = document.querySelectorAll('.wholesale-panel-header');
+      wholesaleHeaders.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          hapticBuzz();
+          var panel = this.closest('.wholesale-panel');
+          var isExpanded = panel.classList.toggle('expanded');
+          this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        });
+      });
+
+      var availabilityBadges = document.querySelectorAll('.pack-availability');
+      availabilityBadges.forEach(function (badge) {
+        badge.addEventListener('click', function (e) {
+          e.stopPropagation();
+          hapticBuzz();
+          var panel = badge.closest('.wholesale-panel');
+          var isAvailable = panel && panel.classList.contains('available');
+          var message = isAvailable ? 'Available!' : 'Unavailable...';
+          showTooltip(badge, message);
+        });
+      });
+
+      var copyLinks = document.querySelectorAll('.copy-contact');
+      var tooltip = document.getElementById('copy-tooltip');
+      var tooltipTimer = null;
+
+      function showTooltip(element, message) {
+        if (tooltipTimer) clearTimeout(tooltipTimer);
+        var rect = element.getBoundingClientRect();
+        tooltip.style.left = (rect.left + rect.width / 2 - 40) + 'px';
+        tooltip.style.top = (rect.top - 32) + 'px';
+        tooltip.textContent = message;
+        tooltip.classList.add('visible');
+        tooltipTimer = setTimeout(function () {
+          tooltip.classList.remove('visible');
+          tooltipTimer = null;
+        }, 2000);
+      }
+
+      copyLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          hapticCopy();
+          var text = this.getAttribute('data-copy') || this.textContent.trim();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              showTooltip(link, 'Copied!');
+            }).catch(function () {
+              fallbackCopy(text, link);
+            });
+          } else {
+            fallbackCopy(text, link);
+          }
+        });
+      });
+
+      var soonLinks = document.querySelectorAll('.copy-soon');
+      soonLinks.forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          hapticBuzz();
+          showTooltip(el, 'Coming soon');
+        });
+      });
+
+      function fallbackCopy(text, link) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showTooltip(link, 'Copied!');
+        } catch (err) {}
+        document.body.removeChild(ta);
+      }
+    })();
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBuPPmKZhvqyaPZR7HYJZoV4lV4nkA18yk",
+      authDomain: "everdream-loyalty.firebaseapp.com",
+      databaseURL: "https://everdream-loyalty-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "everdream-loyalty",
+      storageBucket: "everdream-loyalty.firebasestorage.app",
+      messagingSenderId: "999442299508",
+      appId: "1:999442299508:web:411ce1b930d5d991582f21"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function syncPackAvailabilityFromFirestore() {
+      try {
+        const ref = doc(db, "super_admin", "profile");
+        const snap = await getDoc(ref);
+        if (!snap.exists()) return;
+
+        const data = snap.data() || {};
+        const packs = data.Packs || {};
+        const wholesale = data.Wholesale || {};
+
+        const packsModal = document.getElementById("packs-modal-content");
+        if (packsModal) {
+          Object.keys(packs).forEach((key) => {
+            const match = key.match(/(\d+)/);
+            if (!match) return;
+            const index = match[1];
+            const isAvailable = !!packs[key];
+            const panel = packsModal.querySelector(".wholesale-panel.pack-" + index);
+            if (!panel) return;
+            panel.classList.remove("available", "unavailable");
+            panel.classList.add(isAvailable ? "available" : "unavailable");
+            const badge = panel.querySelector(".pack-availability");
+            if (badge) {
+              badge.setAttribute("aria-label", isAvailable ? "Available" : "Unavailable");
+            }
+          });
+        }
+
+        const wholesaleModal = document.getElementById("wholesale-modal-content");
+        if (wholesaleModal) {
+          Object.keys(wholesale).forEach((key) => {
+            const match = key.match(/(\d+)/);
+            if (!match) return;
+            const index = match[1];
+            const isAvailable = !!wholesale[key];
+            const panel = wholesaleModal.querySelector(".wholesale-panel.pack-" + index);
+            if (!panel) return;
+            panel.classList.remove("available", "unavailable");
+            panel.classList.add(isAvailable ? "available" : "unavailable");
+            const badge = panel.querySelector(".pack-availability");
+            if (badge) {
+              badge.setAttribute("aria-label", isAvailable ? "Available" : "Unavailable");
+            }
+          });
+        }
+      } catch (err) {
+        console.error("Failed to sync pack availability from Firestore", err);
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", syncPackAvailabilityFromFirestore);
+    } else {
+      syncPackAvailabilityFromFirestore();
+    }
+  </script>
+</body>
+</html>

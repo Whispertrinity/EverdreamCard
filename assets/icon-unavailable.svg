@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Red circle with dark border (match tick style) -->
+  <circle cx="32" cy="32" r="30" fill="#c62828" stroke="#2a2a2a" stroke-width="2"/>
+  <!-- White X with thin dark outline (match tick checkmark style): dark stroke first, then white on top -->
+  <g fill="none" stroke="#2a2a2a" stroke-width="4" stroke-linecap="round">
+    <line x1="20" y1="20" x2="44" y2="44"/>
+    <line x1="44" y1="20" x2="20" y2="44"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round">
+    <line x1="20" y1="20" x2="44" y2="44"/>
+    <line x1="44" y1="20" x2="20" y2="44"/>
+  </g>
+</svg>
