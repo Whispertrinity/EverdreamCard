@@ -1626,7 +1626,7 @@
 
   <script>
     (function () {
-      var SHARE_URL = 'https://everdream-card.netlify.app';
+      var SHARE_URL = 'https://everdreamcard.vercel.app';
 
       function hideAppSplash() {
         var splash = document.getElementById('app-splash');
@@ -2033,7 +2033,7 @@
       var shareModalUrl = document.getElementById('share-modal-url');
       if (shareBtn) shareBtn.addEventListener('click', function () {
         hapticBuzz();
-        if (shareModalUrl) shareModalUrl.textContent = 'everdream-card.netlify.app';
+        if (shareModalUrl) shareModalUrl.textContent = 'everdreamcard.vercel.app';
         if (shareModal) { shareModal.classList.add('visible'); shareModal.setAttribute('aria-hidden', 'false'); }
       });
       if (shareClose) shareClose.addEventListener('click', function () {
