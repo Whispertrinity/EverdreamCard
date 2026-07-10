@@ -401,16 +401,6 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    .flavour-panel:has(.packs-trigger) {
-      background: #2d5a4a;
-      border-color: #1e3d32;
-    }
-
-    .flavour-panel:has(.packs-trigger):hover {
-      background: #3d6a5a;
-      border-color: #2e5a4a;
-    }
-
     .flavour-panel-body {
       max-height: 0;
       overflow: hidden;
@@ -1550,6 +1540,61 @@
       -webkit-paint-order: stroke fill;
     }
     .cc-ip-save-btn:hover { transform: translateY(-1px); }
+
+    .cc-ip-remove-btn {
+      display: block;
+      padding: 0.4rem 0.6rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg,#c62828 0%,#d32f2f 50%,#c62828 100%);
+      border: 2px solid #8b0000;
+      border-radius: 9999px;
+      cursor: pointer;
+      -webkit-text-stroke: 0.6px #000;
+      text-stroke: 0.6px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .cc-ip-remove-btn:hover { transform: translateY(-1px); }
+
+    .cc-ip-sizes { margin: 0.3rem 0; }
+    .cc-ip-size-row {
+      display: flex;
+      gap: 0.35rem;
+      align-items: center;
+      margin-bottom: 0.3rem;
+    }
+    .cc-ip-size-remove {
+      width: 32px;
+      height: 32px;
+      font-size: 0.85rem;
+      background: #c62828;
+      color: #fff;
+      border: 2px solid #8b0000;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .cc-ip-size-remove:hover { background: #b71c1c; }
+    .cc-ip-add-size {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.8rem;
+      color: #14545c;
+      background: none;
+      border: 1px dashed #14545c;
+      border-radius: 8px;
+      padding: 0.35rem 0.7rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.2rem;
+    }
+    .cc-ip-add-size:hover { background: rgba(20,84,92,0.05); }
   </style>
 </head>
 <body>
@@ -1593,44 +1638,41 @@
                 <p class="prices-once">All flavours are $10</p>
                 <ul class="flavour-accordions">
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The original flavour. Marinated in a blend of barbecue sauce, soy sauce and Worcestershire - This sweet blend with a chewy consistency will leave you wanting more.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The original flavour. Marinated in a blend of barbecue sauce, soy sauce and Worcestershire - This sweet blend with a chewy consistency will leave you wanting more.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Teriyaki — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Sweet, sticky and full in flavour. A rich glaze of teriyaki and soy for those who love bold Japanese flavours.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Teriyaki</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Sweet, sticky and full in flavour. A rich glaze of teriyaki and soy for those who love bold Japanese flavours.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Korean BBQ — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Korean BBQ</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Sweet Chilli — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. Just a whisper of spice makes it great for people who don't like it too hot.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Sweet Chilli</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. Just a whisper of spice makes it great for people who don't like it too hot.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Exotic Spice — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Exotic Spice</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Hot Chilli — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A Hot Chilli that never lets the chilli fans down. Its barbecue base is infused with chilli and the seeds turn up the heat again. A must try for chilli lovers!</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Hot Chilli</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A Hot Chilli that never lets the chilli fans down. Its barbecue base is infused with chilli and the seeds turn up the heat again. A must try for chilli lovers!<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.</p></div>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
                   <li class="flavour-list-divider" aria-hidden="true"></li>
-                  <li class="flavour-panel flavour-panel-pet-treats">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats — $10</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br>Available in one size: <strong>100g</strong> for <strong>$10</strong>.</p></div>
-                  </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open wholesale packs">Packs</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats</button>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">100g — $10</span></p></div>
                   </li>
                 </ul>
               </div>
@@ -1683,7 +1725,7 @@
   <!-- Customiser Modal -->
   <div id="customiser-overlay" class="customiser-overlay" aria-hidden="true">
     <div class="customiser-modal">
-      <div class="modal-header"><h2>Design Yours!</h2></div>
+      <div class="modal-header" id="cc-modal-header"><h2 id="cc-modal-title" style="font-family:'The Wanters DEMO',serif;">Design Yours!</h2></div>
       <div class="customiser-modal-scroll">
         <!-- Tier selector -->
         <div class="customiser-tier-bar">
@@ -1697,6 +1739,7 @@
             <span class="preview-dot" style="background:#5D4037" title="Secondary"></span>
             <span class="preview-dot" style="background:#F6F6DE" title="Background"></span>
             <span class="preview-dot" style="background:#3E2723" title="Text"></span>
+            <span class="preview-dot preview-dot-btn" style="background:#14545C" title="Button"></span>
           </div>
         </div>
 
@@ -1704,24 +1747,32 @@
         <button type="button" class="customiser-accordion-header" aria-expanded="false">Colours</button>
         <div class="customiser-accordion-body">
           <div class="customiser-field">
-            <label class="customiser-label">Primary Colour (headers, buttons)</label>
-            <input type="color" class="customiser-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
+            <label class="customiser-label">Primary (headers, buttons)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Secondary Colour (footers, borders)</label>
-            <input type="color" class="customiser-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
+            <label class="customiser-label">Secondary (footers, borders)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Background (card panels)</label>
-            <input type="color" class="customiser-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
+            <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Text Colour</label>
-            <input type="color" class="customiser-color" id="cc-text" value="#3e2723" data-cssvar="--cc-text">
+            <input type="color" class="customiser-color cc-live-color" id="cc-text" value="#3e2723" data-cssvar="--cc-text">
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Title Colour (headings)</label>
-            <input type="color" class="customiser-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
+            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Button Colour (Payment, Wholesale, Save, Share)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-button" value="#14545c" data-cssvar="--cc-button">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Button Text Colour</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-button-text" value="#f5f5dc" data-cssvar="--cc-button-text">
           </div>
         </div>
 
@@ -2700,7 +2751,7 @@
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
         tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
-        text: '#3e2723', title: '#14545c',
+        text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc',
         titleFont: "'The Wanters DEMO', serif",
         bodyFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
@@ -2760,7 +2811,7 @@
       var ccProductCounter = 0;
 
       /* Create an inner product accordion */
-      function createProductAccordion(index, name, price, desc) {
+      function createProductAccordion(index, name, price, desc, sizes) {
         var container = document.getElementById('cc-products-container');
         var wrapper = document.createElement('div');
         wrapper.className = 'cc-inner-product';
@@ -2784,15 +2835,6 @@
         nameInput.placeholder = 'e.g. Barbecue';
         nameInput.value = name || '';
 
-        var priceLabel = document.createElement('label');
-        priceLabel.className = 'customiser-label';
-        priceLabel.textContent = 'Price';
-        var priceInput = document.createElement('input');
-        priceInput.type = 'text';
-        priceInput.className = 'customiser-text cc-ip-price';
-        priceInput.placeholder = 'e.g. $10';
-        priceInput.value = price || '';
-
         var descLabel = document.createElement('label');
         descLabel.className = 'customiser-label';
         descLabel.textContent = 'Description';
@@ -2802,6 +2844,67 @@
         descInput.rows = 2;
         descInput.value = desc || '';
 
+        /* Sizes section */
+        var sizesLabel = document.createElement('label');
+        sizesLabel.className = 'customiser-label';
+        sizesLabel.textContent = 'Sizes & Prices';
+        var sizesContainer = document.createElement('div');
+        sizesContainer.className = 'cc-ip-sizes';
+        sizesContainer.id = 'cc-ip-sizes-' + index;
+
+        function addSizeRow(sName, sPrice) {
+          var row = document.createElement('div');
+          row.className = 'cc-ip-size-row';
+          var nInp = document.createElement('input');
+          nInp.type = 'text';
+          nInp.className = 'customiser-text cc-ip-size-name';
+          nInp.placeholder = 'e.g. 40g';
+          nInp.value = sName || '';
+          nInp.style.width = '40%';
+          var pInp = document.createElement('input');
+          pInp.type = 'text';
+          pInp.className = 'customiser-text cc-ip-size-price';
+          pInp.placeholder = 'e.g. $5';
+          pInp.value = sPrice || '';
+          pInp.style.width = '35%';
+          var rmBtn = document.createElement('button');
+          rmBtn.type = 'button';
+          rmBtn.className = 'cc-ip-size-remove';
+          rmBtn.textContent = '✕';
+          rmBtn.title = 'Remove size';
+          rmBtn.addEventListener('click', function () {
+            hapticBuzz();
+            row.parentNode.removeChild(row);
+            saveCustomiserState();
+          });
+          row.appendChild(nInp);
+          row.appendChild(pInp);
+          row.appendChild(rmBtn);
+          [nInp, pInp].forEach(function (el) {
+            el.addEventListener('input', saveCustomiserState);
+            el.addEventListener('change', saveCustomiserState);
+          });
+          sizesContainer.appendChild(row);
+        }
+
+        /* Populate initial sizes */
+        if (sizes && sizes.length) {
+          sizes.forEach(function (s) { addSizeRow(s.name, s.price); });
+        } else {
+          addSizeRow('', '');
+        }
+
+        var addSizeBtn = document.createElement('button');
+        addSizeBtn.type = 'button';
+        addSizeBtn.className = 'cc-ip-add-size';
+        addSizeBtn.textContent = '+ Add size';
+        addSizeBtn.addEventListener('click', function () {
+          hapticBuzz();
+          addSizeRow('', '');
+          saveCustomiserState();
+        });
+
+        /* Save button */
         var saveBtn = document.createElement('button');
         saveBtn.type = 'button';
         saveBtn.className = 'cc-ip-save-btn';
@@ -2809,26 +2912,46 @@
         saveBtn.addEventListener('click', function () {
           hapticBuzz();
           var n = nameInput.value.trim();
-          var p = priceInput.value.trim();
-          var d = descInput.value.trim();
           if (n) {
-            header.textContent = n + (p ? ' — ' + p : '');
+            header.textContent = n;
           } else {
             header.textContent = 'Product ' + (index + 1);
           }
-          /* Update the main products page in the card preview via live style injection */
           updateProductsPreview();
           saveCustomiserState();
           showTooltip(saveBtn, 'Saved!');
         });
 
+        /* Remove product button */
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'cc-ip-remove-btn';
+        removeBtn.textContent = 'Remove product';
+        removeBtn.addEventListener('click', function () {
+          hapticBuzz();
+          wrapper.parentNode.removeChild(wrapper);
+          /* Re-number remaining products */
+          renumberProductAccordions();
+          saveCustomiserState();
+          updateProductsPreview();
+        });
+
         body.appendChild(nameLabel);
         body.appendChild(nameInput);
-        body.appendChild(priceLabel);
-        body.appendChild(priceInput);
         body.appendChild(descLabel);
         body.appendChild(descInput);
-        body.appendChild(saveBtn);
+        body.appendChild(sizesLabel);
+        body.appendChild(sizesContainer);
+        body.appendChild(addSizeBtn);
+        var btnRow = document.createElement('div');
+        btnRow.style.display = 'flex';
+        btnRow.style.gap = '0.5rem';
+        btnRow.style.marginTop = '0.6rem';
+        saveBtn.style.flex = '1';
+        removeBtn.style.flex = '1';
+        btnRow.appendChild(saveBtn);
+        btnRow.appendChild(removeBtn);
+        body.appendChild(btnRow);
 
         /* Toggle inner accordion */
         header.addEventListener('click', function () {
@@ -2842,12 +2965,33 @@
         container.appendChild(wrapper);
 
         /* Auto-save on input */
-        [nameInput, priceInput, descInput].forEach(function (el) {
+        [nameInput, descInput].forEach(function (el) {
           el.addEventListener('input', saveCustomiserState);
           el.addEventListener('change', saveCustomiserState);
         });
 
         return wrapper;
+      }
+
+      /* Re-number product accordions after removal */
+      function renumberProductAccordions() {
+        var wrappers = document.querySelectorAll('.cc-inner-product');
+        wrappers.forEach(function (w, i) {
+          w.dataset.index = i;
+          var h = w.querySelector('.customiser-inner-prod-header');
+          if (h) {
+            var nameInp = w.querySelector('.cc-ip-name');
+            if (nameInp && nameInp.value.trim()) {
+              h.textContent = nameInp.value.trim();
+            } else {
+              h.textContent = 'Product ' + (i + 1);
+            }
+          }
+          /* Fix size container id */
+          var sizeContainer = w.querySelector('.cc-ip-sizes');
+          if (sizeContainer) sizeContainer.id = 'cc-ip-sizes-' + i;
+        });
+        ccProductCounter = wrappers.length;
       }
 
       /* Add product button */
@@ -2872,9 +3016,15 @@
         var products = [];
         wrappers.forEach(function (w) {
           var name = (w.querySelector('.cc-ip-name') || {}).value || '';
-          var price = (w.querySelector('.cc-ip-price') || {}).value || '';
           var desc = (w.querySelector('.cc-ip-desc') || {}).value || '';
-          products.push({ name: name, price: price, desc: desc });
+          var sizeRows = w.querySelectorAll('.cc-ip-size-row');
+          var sizes = [];
+          sizeRows.forEach(function (r) {
+            var sName = (r.querySelector('.cc-ip-size-name') || {}).value || '';
+            var sPrice = (r.querySelector('.cc-ip-size-price') || {}).value || '';
+            if (sName || sPrice) sizes.push({ name: sName, price: sPrice });
+          });
+          products.push({ name: name, desc: desc, sizes: sizes });
         });
         return products;
       }
@@ -2885,11 +3035,10 @@
         container.innerHTML = '';
         ccProductCounter = products.length;
         products.forEach(function (p, i) {
-          var w = createProductAccordion(i, p.name || '', p.price || '', p.desc || '');
-          /* Update the header label immediately if name+price provided */
+          var w = createProductAccordion(i, p.name || '', '', p.desc || '', p.sizes || []);
           if (p.name) {
             var h = w.querySelector('.customiser-inner-prod-header');
-            if (h) h.textContent = p.name + (p.price ? ' — ' + p.price : '');
+            if (h) h.textContent = p.name;
           }
         });
       }
@@ -2915,9 +3064,16 @@
         products.forEach(function (prod) {
           var li = document.createElement('li');
           li.className = 'flavour-panel';
-          var priceText = prod.price ? ' — ' + prod.price : '';
-          li.innerHTML = '<button type="button" class="flavour-panel-header" aria-expanded="false">' + escapeHtml(prod.name) + priceText + '</button>' +
-            '<div class="flavour-panel-body"><p class="flavour-panel-desc">' + escapeHtml(prod.desc) + '</p></div>';
+          var sizesHtml = '';
+          if (prod.sizes && prod.sizes.length) {
+            sizesHtml = '<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">' +
+              prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
+                return (s.name || '') + (s.price ? ' — ' + s.price : '');
+              }).join(' · ') +
+              '</span>';
+          }
+          li.innerHTML = '<button type="button" class="flavour-panel-header" aria-expanded="false">' + escapeHtml(prod.name) + '</button>' +
+            '<div class="flavour-panel-body"><p class="flavour-panel-desc">' + escapeHtml(prod.desc) + sizesHtml + '</p></div>';
           ul.appendChild(li);
         });
 
@@ -2950,6 +3106,8 @@
         document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
         document.getElementById('cc-text').value = state.text || CUSTOMISER_DEFAULTS.text;
         document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
+        document.getElementById('cc-button').value = state.button || CUSTOMISER_DEFAULTS.button;
+        document.getElementById('cc-button-text').value = state.buttonText || CUSTOMISER_DEFAULTS.buttonText;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
         document.getElementById('cc-body-font').value = state.bodyFont || CUSTOMISER_DEFAULTS.bodyFont;
         document.getElementById('cc-business').value = state.business || '';
@@ -2977,6 +3135,8 @@
           background: document.getElementById('cc-background').value,
           text: document.getElementById('cc-text').value,
           title: document.getElementById('cc-title').value,
+          button: document.getElementById('cc-button').value,
+          buttonText: document.getElementById('cc-button-text').value,
           titleFont: document.getElementById('cc-title-font').value,
           bodyFont: document.getElementById('cc-body-font').value,
           business: document.getElementById('cc-business').value,
@@ -2999,19 +3159,77 @@
           dots[2].style.background = document.getElementById('cc-background').value;
           dots[3].style.background = document.getElementById('cc-text').value;
         }
+        /* Also update dot for button colour */
+        var btnDot = document.querySelector('.preview-dot-btn');
+        if (btnDot) btnDot.style.background = document.getElementById('cc-button').value;
       }
 
-      /* Auto-save on change */
+      /* Auto-save on change AND live modal colour preview */
       document.querySelectorAll('#customiser-overlay input, #customiser-overlay select, #customiser-overlay textarea').forEach(function (el) {
-        el.addEventListener('input', saveCustomiserState);
-        el.addEventListener('change', saveCustomiserState);
+        el.addEventListener('input', function () { saveCustomiserState(); applyLiveModalColours(); });
+        el.addEventListener('change', function () { saveCustomiserState(); applyLiveModalColours(); });
       });
+
+      /* Apply colour changes live to the modal itself */
+      function applyLiveModalColours() {
+        var header = document.getElementById('cc-modal-header');
+        var title = document.getElementById('cc-modal-title');
+        var p = document.getElementById('cc-primary').value;
+        var s = document.getElementById('cc-secondary').value;
+        var t = document.getElementById('cc-text').value;
+        var ti = document.getElementById('cc-title').value;
+        var btn = document.getElementById('cc-button').value;
+        var btnText = document.getElementById('cc-button-text').value;
+        var tf = document.getElementById('cc-title-font').value;
+        var bf = document.getElementById('cc-body-font').value;
+
+        if (header) header.style.backgroundColor = p;
+        if (title) {
+          title.style.color = ti;
+          title.style.fontFamily = tf;
+        }
+
+        /* Update tier buttons */
+        document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
+          if (b.classList.contains('tier-active')) {
+            b.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
+          } else {
+            b.style.background = 'linear-gradient(135deg,#5d4037 0%,#6d5047 50%,#5d4037 100%)';
+          }
+        });
+
+        /* Update accordion headers */
+        document.querySelectorAll('.customiser-accordion-header').forEach(function (h) {
+          h.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
+        });
+
+        /* Update action buttons */
+        var modalBtns = document.querySelectorAll('.customiser-btn');
+        modalBtns.forEach(function (b) {
+          if (b.classList.contains('customiser-btn-preview') || b.classList.contains('customiser-btn-save')) {
+            b.style.background = 'linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%)';
+            b.style.color = btnText;
+          }
+        });
+      }
+
+      function lighten(hex) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+        r = Math.min(255, r + 20);
+        g = Math.min(255, g + 20);
+        b = Math.min(255, b + 20);
+        return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
+      }
 
       /* Open customiser */
       if (designBtn) {
         designBtn.addEventListener('click', function () {
           hapticBuzz();
           loadCustomiserState();
+          applyLiveModalColours();
           customiserOverlay.classList.add('visible');
           customiserOverlay.setAttribute('aria-hidden', 'false');
         });
@@ -3032,6 +3250,8 @@
         var b = document.getElementById('cc-background').value;
         var t = document.getElementById('cc-text').value;
         var ti = document.getElementById('cc-title').value;
+        var btn = document.getElementById('cc-button').value;
+        var btnText = document.getElementById('cc-button-text').value;
         var tf = document.getElementById('cc-title-font').value;
         var bf = document.getElementById('cc-body-font').value;
         var biz = document.getElementById('cc-business').value.trim();
@@ -3063,7 +3283,8 @@
           '.title-panel h1,.intro-header h1,.products-header h1,.contact-header h1,.flavour-panel-header,.wholesale-panel-header,.intro-message,.share-btn,.customiser-accordion-header,.customiser-inner-prod-header,.contact-label { font-family: ' + tf + ' !important; }' +
           '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: ' + bf + ' !important; }' +
           '.card-face { border-color: ' + s + ' !important; }' +
-          '.content-panel { border-color: ' + s + ' !important; }';
+          '.content-panel { border-color: ' + s + ' !important; }' +
+          '.share-btn { background: linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%) !important; color: ' + btnText + ' !important; }';
 
         /* Update text content */
         if (biz) {
@@ -3155,6 +3376,8 @@
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
         var bf = document.getElementById('cc-body-font').value;
+        var btn = document.getElementById('cc-button').value;
+        var btnText = document.getElementById('cc-button-text').value;
 
         var body = 'Digicard Design\n\n';
         body += 'Tier: ' + tier + ' Pages (' + cost + ')\n';
@@ -3167,7 +3390,12 @@
         if (products.length) {
           body += 'Products/Services:\n';
           products.forEach(function (prod) {
-            body += '  - ' + prod.name + (prod.price ? ' — ' + prod.price : '') + ': ' + prod.desc + '\n';
+            body += '  - ' + prod.name + ': ' + prod.desc + '\n';
+            if (prod.sizes && prod.sizes.length) {
+              prod.sizes.forEach(function (s) {
+                if (s.name || s.price) body += '      Size: ' + (s.name || '—') + ' — ' + (s.price || '—') + '\n';
+              });
+            }
           });
         }
         body += '\nColours:\n';
@@ -3175,7 +3403,9 @@
         body += '  Secondary: ' + s + '\n';
         body += '  Background: ' + b + '\n';
         body += '  Text: ' + t + '\n';
-        body += '  Title: ' + ti + '\n\n';
+        body += '  Title: ' + ti + '\n';
+        body += '  Button: ' + btn + '\n';
+        body += '  Button Text: ' + btnText + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
         body += '  Body Font: ' + bf + '\n\n';
@@ -3184,7 +3414,7 @@
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
           description: desc, products: products,
-          palette: { primary: p, secondary: s, background: b, text: t, title: ti },
+          palette: { primary: p, secondary: s, background: b, text: t, title: ti, button: btn, buttonText: btnText },
           fonts: { title: tf, body: bf }
         }, null, 2);
 
