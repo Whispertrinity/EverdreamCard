@@ -1285,6 +1285,184 @@
       height: auto;
       object-fit: contain;
     }
+
+    /* ── Customiser Modal ── */
+    .customiser-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .customiser-overlay.visible { display: flex; }
+    .customiser-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .customiser-modal-scroll {
+      overflow-y: auto;
+      padding: 0.5rem 1rem 1rem;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .customiser-modal-scroll::-webkit-scrollbar { display: none; }
+
+    /* Preview bar */
+    .customiser-preview-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 0.75rem;
+      background: rgba(20,84,92,0.08);
+      border-radius: 10px;
+      border: 1px solid rgba(20,84,92,0.15);
+    }
+    .customiser-preview-label {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.9rem;
+      color: #14545c;
+      font-weight: 600;
+    }
+    .customiser-preview-dots { display: flex; gap: 0.4rem; }
+    .preview-dot {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(62,39,35,0.3);
+    }
+
+    /* Accordion headers inside customiser */
+    .customiser-accordion-header {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      margin: 0.25rem 0;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1rem,2.4vw,1.15rem);
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
+      border: 2px solid #0a1a1d;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+      transition: background 0.2s;
+    }
+    .customiser-accordion-header:hover { background: linear-gradient(135deg,#1a6b75 0%,#20808a 50%,#1a6b75 100%); }
+    .customiser-accordion-header::after {
+      content: '▼';
+      float: right;
+      font-size: 0.75em;
+      transition: transform 0.2s;
+    }
+    .customiser-accordion-header[aria-expanded="true"]::after { transform: rotate(180deg); }
+    .customiser-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 0.25rem;
+    }
+    .customiser-accordion-body.open { max-height: 600px; }
+
+    /* Fields inside accordions */
+    .customiser-field {
+      margin: 0.6rem 0;
+    }
+    .customiser-label {
+      display: block;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #3e2723;
+      margin-bottom: 0.3rem;
+    }
+    .customiser-color {
+      width: 100%;
+      height: 38px;
+      border: 2px solid #5d4037;
+      border-radius: 8px;
+      padding: 2px;
+      cursor: pointer;
+      background: #fff;
+    }
+    .customiser-select, .customiser-text {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.95rem;
+      border: 2px solid #5d4037;
+      border-radius: 8px;
+      color: #3e2723;
+      background: #fff;
+    }
+    .customiser-textarea {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.95rem;
+      border: 2px solid #5d4037;
+      border-radius: 8px;
+      color: #3e2723;
+      background: #fff;
+      resize: vertical;
+    }
+    .customiser-text::placeholder, .customiser-textarea::placeholder { color: #a1887f; }
+
+    /* Action buttons */
+    .customiser-actions {
+      display: flex;
+      gap: 0.6rem;
+      padding: 0.75rem 1rem 1rem;
+      border-top: 2px solid rgba(93,64,55,0.25);
+    }
+    .customiser-btn {
+      flex: 1;
+      padding: 0.7rem 0.5rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.95rem,2.2vw,1.1rem);
+      font-weight: 600;
+      color: #f5f5dc;
+      border: 2px solid #0a1a1d;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .customiser-btn:hover { transform: translateY(-1px); }
+    .customiser-btn-preview {
+      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
+      box-shadow: 0 4px 12px rgba(20,84,92,0.35);
+    }
+    .customiser-btn-reset {
+      background: linear-gradient(135deg,#c62828 0%,#d32f2f 50%,#c62828 100%);
+      border-color: #8b0000;
+      box-shadow: 0 4px 12px rgba(198,40,40,0.35);
+    }
+    .customiser-btn-save {
+      background: linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);
+      border-color: #1b5e20;
+      box-shadow: 0 4px 12px rgba(46,125,50,0.35);
+    }
   </style>
 </head>
 <body>
@@ -1309,6 +1487,7 @@
                 </div>
                 <div class="intro-footer">
                   <p class="intro-message">Business Card</p>
+                  <button type="button" class="intro-message design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;font-size:clamp(0.9rem,2vw,1.1rem);background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);-webkit-text-stroke:0.8px #000;text-stroke:0.8px #000;border:2px solid #1b5e20;border-radius:9999px;padding:0.5rem 1.2rem;color:#f5f5dc;font-family:'The Wanters DEMO',serif;cursor:pointer;font-weight:600;letter-spacing:0.05em;box-shadow:0 4px 12px rgba(46,125,50,0.35);">Design Yours!</button>
                 </div>
               </section>
             </div>
@@ -1413,6 +1592,121 @@
   </div>
 
   <div id="copy-tooltip" class="copy-tooltip" aria-live="polite">Copied!</div>
+
+  <!-- Customiser Modal -->
+  <div id="customiser-overlay" class="customiser-overlay" aria-hidden="true">
+    <div class="customiser-modal">
+      <div class="modal-header"><h2>Design Yours!</h2></div>
+      <div class="customiser-modal-scroll">
+        <div class="customiser-preview-bar" id="customiser-preview-bar">
+          <span class="customiser-preview-label">Live Preview</span>
+          <div class="customiser-preview-dots" id="customiser-preview-dots">
+            <span class="preview-dot" style="background:#14545C" title="Primary"></span>
+            <span class="preview-dot" style="background:#5D4037" title="Secondary"></span>
+            <span class="preview-dot" style="background:#F6F6DE" title="Background"></span>
+            <span class="preview-dot" style="background:#3E2723" title="Text"></span>
+          </div>
+        </div>
+
+        <!-- Accordion: Colours -->
+        <button type="button" class="customiser-accordion-header" aria-expanded="false">Colours</button>
+        <div class="customiser-accordion-body">
+          <div class="customiser-field">
+            <label class="customiser-label">Primary Colour (headers, buttons)</label>
+            <input type="color" class="customiser-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Secondary Colour (footers, borders)</label>
+            <input type="color" class="customiser-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Background (card panels)</label>
+            <input type="color" class="customiser-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Text Colour</label>
+            <input type="color" class="customiser-color" id="cc-text" value="#3e2723" data-cssvar="--cc-text">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Title Colour (headings)</label>
+            <input type="color" class="customiser-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
+          </div>
+        </div>
+
+        <!-- Accordion: Text -->
+        <button type="button" class="customiser-accordion-header" aria-expanded="false">Text</button>
+        <div class="customiser-accordion-body">
+          <div class="customiser-field">
+            <label class="customiser-label">Title Font</label>
+            <select class="customiser-select" id="cc-title-font">
+              <option value="'The Wanters DEMO', serif">The Wanters DEMO</option>
+              <option value="'Lemon Milk Light', sans-serif">Lemon Milk Light</option>
+            </select>
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Body Font</label>
+            <select class="customiser-select" id="cc-body-font">
+              <option value="'The Wanters DEMO', serif">The Wanters DEMO</option>
+              <option value="'Lemon Milk Light', sans-serif">Lemon Milk Light</option>
+              <option value="Verdana, Geneva, sans-serif">Verdana</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Accordion: Details -->
+        <button type="button" class="customiser-accordion-header" aria-expanded="false">Details</button>
+        <div class="customiser-accordion-body">
+          <div class="customiser-field">
+            <label class="customiser-label">Business Name</label>
+            <input type="text" class="customiser-text" id="cc-business" placeholder="Everdream Jerky">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Your Name</label>
+            <input type="text" class="customiser-text" id="cc-name" placeholder="Brett">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Tagline</label>
+            <input type="text" class="customiser-text" id="cc-tagline" placeholder="Business Card">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Phone</label>
+            <input type="tel" class="customiser-text" id="cc-phone" placeholder="0467 451 107">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Email</label>
+            <input type="email" class="customiser-text" id="cc-email" placeholder="everdreamgoods@gmail.com">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Description</label>
+            <textarea class="customiser-textarea" id="cc-description" placeholder="Tell people about your business..." rows="3"></textarea>
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Services/Products (one per line)</label>
+            <textarea class="customiser-textarea" id="cc-services" placeholder="Item 1&#10;Item 2&#10;Item 3" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="customiser-actions">
+        <button type="button" class="customiser-btn customiser-btn-preview" id="cc-preview">Preview</button>
+        <button type="button" class="customiser-btn customiser-btn-reset" id="cc-reset">Reset</button>
+        <button type="button" class="customiser-btn customiser-btn-save" id="cc-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Export Modal -->
+  <div id="confirm-overlay" class="customiser-overlay" aria-hidden="true">
+    <div class="customiser-modal" style="max-width:380px">
+      <div class="modal-header"><h2>Lock it in?</h2></div>
+      <div class="customiser-modal-scroll" style="text-align:center;padding:2rem 1.5rem;font-family:Verdana,Geneva,sans-serif;font-size:1.3rem;color:#3e2723;">
+        <p>Are you sure you're finished?<br>This will send your design to us.</p>
+      </div>
+      <div class="customiser-actions">
+        <button type="button" class="customiser-btn customiser-btn-preview" id="cc-confirm-yes" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;">Yes</button>
+        <button type="button" class="customiser-btn customiser-btn-reset" id="cc-confirm-no">No</button>
+      </div>
+    </div>
+  </div>
 
   <div id="share-modal-overlay" class="share-modal-overlay" aria-hidden="true">
     <div class="share-modal">
@@ -2302,6 +2596,281 @@
         } catch (err) {}
         document.body.removeChild(ta);
       }
+
+      /* ── Customiser ── */
+      var CUSTOMISER_DEFAULTS = {
+        primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
+        text: '#3e2723', title: '#14545c',
+        titleFont: "'The Wanters DEMO', serif",
+        bodyFont: "'The Wanters DEMO', serif",
+        business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
+        phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
+        description: '', services: ''
+      };
+
+      var customiserOverlay = document.getElementById('customiser-overlay');
+      var confirmOverlay = document.getElementById('confirm-overlay');
+      var designBtn = document.getElementById('design-yours-btn');
+
+      /* Accordion toggle */
+      document.querySelectorAll('.customiser-accordion-header').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          var body = this.nextElementSibling;
+          if (body && body.classList.contains('customiser-accordion-body')) {
+            body.classList.toggle('open');
+          }
+        });
+      });
+
+      /* Load from localStorage or defaults */
+      function loadCustomiserState() {
+        var saved;
+        try { saved = JSON.parse(localStorage.getItem('everdream-customiser')); } catch(e) {}
+        var state = saved || CUSTOMISER_DEFAULTS;
+        document.getElementById('cc-primary').value = state.primary || CUSTOMISER_DEFAULTS.primary;
+        document.getElementById('cc-secondary').value = state.secondary || CUSTOMISER_DEFAULTS.secondary;
+        document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
+        document.getElementById('cc-text').value = state.text || CUSTOMISER_DEFAULTS.text;
+        document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
+        document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
+        document.getElementById('cc-body-font').value = state.bodyFont || CUSTOMISER_DEFAULTS.bodyFont;
+        document.getElementById('cc-business').value = state.business || '';
+        document.getElementById('cc-name').value = state.name || '';
+        document.getElementById('cc-tagline').value = state.tagline || '';
+        document.getElementById('cc-phone').value = state.phone || '';
+        document.getElementById('cc-email').value = state.email || '';
+        document.getElementById('cc-description').value = state.description || '';
+        document.getElementById('cc-services').value = state.services || '';
+        updatePreviewDots();
+      }
+
+      function saveCustomiserState() {
+        var state = {
+          primary: document.getElementById('cc-primary').value,
+          secondary: document.getElementById('cc-secondary').value,
+          background: document.getElementById('cc-background').value,
+          text: document.getElementById('cc-text').value,
+          title: document.getElementById('cc-title').value,
+          titleFont: document.getElementById('cc-title-font').value,
+          bodyFont: document.getElementById('cc-body-font').value,
+          business: document.getElementById('cc-business').value,
+          name: document.getElementById('cc-name').value,
+          tagline: document.getElementById('cc-tagline').value,
+          phone: document.getElementById('cc-phone').value,
+          email: document.getElementById('cc-email').value,
+          description: document.getElementById('cc-description').value,
+          services: document.getElementById('cc-services').value
+        };
+        try { localStorage.setItem('everdream-customiser', JSON.stringify(state)); } catch(e) {}
+        updatePreviewDots();
+      }
+
+      function updatePreviewDots() {
+        var dots = document.querySelectorAll('.preview-dot');
+        if (dots.length >= 4) {
+          dots[0].style.background = document.getElementById('cc-primary').value;
+          dots[1].style.background = document.getElementById('cc-secondary').value;
+          dots[2].style.background = document.getElementById('cc-background').value;
+          dots[3].style.background = document.getElementById('cc-text').value;
+        }
+      }
+
+      /* Auto-save on change */
+      document.querySelectorAll('#customiser-overlay input, #customiser-overlay select, #customiser-overlay textarea').forEach(function (el) {
+        el.addEventListener('input', saveCustomiserState);
+        el.addEventListener('change', saveCustomiserState);
+      });
+
+      /* Open customiser */
+      if (designBtn) {
+        designBtn.addEventListener('click', function () {
+          hapticBuzz();
+          loadCustomiserState();
+          customiserOverlay.classList.add('visible');
+          customiserOverlay.setAttribute('aria-hidden', 'false');
+        });
+      }
+
+      /* Close customiser on overlay click */
+      customiserOverlay.addEventListener('click', function (e) {
+        if (e.target === customiserOverlay) {
+          customiserOverlay.classList.remove('visible');
+          customiserOverlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      /* Apply palette CSS variables to card */
+      function applyCustomiserPreview() {
+        var p = document.getElementById('cc-primary').value;
+        var s = document.getElementById('cc-secondary').value;
+        var b = document.getElementById('cc-background').value;
+        var t = document.getElementById('cc-text').value;
+        var ti = document.getElementById('cc-title').value;
+        var tf = document.getElementById('cc-title-font').value;
+        var bf = document.getElementById('cc-body-font').value;
+        var biz = document.getElementById('cc-business').value.trim();
+        var nam = document.getElementById('cc-name').value.trim();
+        var tag = document.getElementById('cc-tagline').value.trim();
+        var ph = document.getElementById('cc-phone').value.trim();
+        var em = document.getElementById('cc-email').value.trim();
+        var desc = document.getElementById('cc-description').value.trim();
+        var svcs = document.getElementById('cc-services').value.trim();
+
+        /* Build style override */
+        var existing = document.getElementById('cc-style-override');
+        if (!existing) {
+          existing = document.createElement('style');
+          existing.id = 'cc-style-override';
+          document.head.appendChild(existing);
+        }
+        existing.textContent =
+          '.intro-header,.products-header,.contact-header { background-color: ' + p + ' !important; }' +
+          '.intro-footer,.products-footer,.contact-footer { background-color: ' + s + ' !important; }' +
+          '.products-body,.contact-body,.share-modal,.save-icon-modal,.payments-modal,.wholesale-modal { background-color: ' + b + ' !important; }' +
+          'body { color: ' + t + ' !important; }' +
+          '.intro-message { color: ' + b + ' !important; }' +
+          '.content-panel { background-color: ' + b + ' !important; }' +
+          '.intro-header h1,.products-header h1,.contact-header h1 { color: ' + b + ' !important; }' +
+          '.title-panel h1 { color: ' + ti + ' !important; }' +
+          'body { font-family: ' + bf + ' !important; }' +
+          '.title-panel h1,.intro-header h1,.products-header h1,.contact-header h1,.flavour-panel-header,.wholesale-panel-header,.intro-message,.share-btn,.customiser-accordion-header,.contact-label { font-family: ' + tf + ' !important; }' +
+          '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: ' + bf + ' !important; }' +
+          '.card-face { border-color: ' + s + ' !important; }' +
+          '.content-panel { border-color: ' + s + ' !important; }';
+
+        /* Update text content */
+        if (biz) {
+          document.querySelectorAll('.title-panel h1').forEach(function (h) { h.textContent = biz; });
+          document.querySelectorAll('.intro-header h1').forEach(function (h) { h.textContent = biz; });
+          /* Products page - make sure Flavor tab still shows "Flavours" */
+          document.querySelectorAll('.products-header h1').forEach(function (h) { h.textContent = 'Flavours'; });
+          document.querySelectorAll('.contact-header h1').forEach(function (h) { h.textContent = 'Details'; });
+        }
+        if (tag) {
+          document.querySelectorAll('.intro-message').forEach(function (p) {
+            if (!p.classList.contains('design-yours-btn')) p.textContent = tag;
+          });
+        }
+        if (nam || ph || em) {
+          var contactBlock = document.querySelector('.contact-block');
+          if (contactBlock) {
+            var descHtml = desc ? desc.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') : '';
+            var aboutHtml = descHtml ? '<p class="about-text">' + descHtml + '</p>' : '';
+            contactBlock.innerHTML =
+              aboutHtml +
+              '<div class="contact-divider" aria-hidden="true"></div>' +
+              '<p class="name-line"><span class="contact-label">Name:</span><br><span class="contact-value name-line">' + escapeHtml(nam || '') + '</span></p>' +
+              (ph ? '<p><span class="contact-label">Mobile:</span><br><span class="contact-value">' + escapeHtml(ph) + '</span></p>' : '') +
+              (em ? '<p><span class="contact-label">Email:</span><br><span class="contact-value">' + escapeHtml(em) + '</span></p>' : '') +
+              (svcs ? '<div class="contact-divider" aria-hidden="true"></div><p class="about-text" style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Services</p><p class="about-text" style="font-size:0.95rem;">' + escapeHtml(svcs).replace(/\n/g,'<br>') + '</p>' : '') +
+              '<div class="contact-actions">' +
+              '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
+              '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
+              '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
+              '<button type="button" class="share-btn" id="share-btn">Share</button></div>';
+          }
+        }
+      }
+
+      /* Preview button */
+      document.getElementById('cc-preview').addEventListener('click', function () {
+        hapticBuzz();
+        applyCustomiserPreview();
+        customiserOverlay.classList.remove('visible');
+        customiserOverlay.setAttribute('aria-hidden', 'true');
+      });
+
+      /* Reset button */
+      document.getElementById('cc-reset').addEventListener('click', function () {
+        hapticBuzz();
+        try { localStorage.removeItem('everdream-customiser'); } catch(e) {}
+        loadCustomiserState();
+        /* Remove override style */
+        var existing = document.getElementById('cc-style-override');
+        if (existing) existing.parentNode.removeChild(existing);
+        /* Reload page to restore original content */
+        location.reload();
+      });
+
+      /* Save button → confirm modal */
+      document.getElementById('cc-save').addEventListener('click', function () {
+        hapticBuzz();
+        confirmOverlay.classList.add('visible');
+        confirmOverlay.setAttribute('aria-hidden', 'false');
+      });
+
+      /* Confirm No */
+      document.getElementById('cc-confirm-no').addEventListener('click', function () {
+        hapticBuzz();
+        confirmOverlay.classList.remove('visible');
+        confirmOverlay.setAttribute('aria-hidden', 'true');
+      });
+
+      /* Confirm Yes → build mailto */
+      document.getElementById('cc-confirm-yes').addEventListener('click', function () {
+        hapticBuzz();
+        confirmOverlay.classList.remove('visible');
+        customiserOverlay.classList.remove('visible');
+
+        var biz = document.getElementById('cc-business').value.trim() || 'My Business';
+        var nam = document.getElementById('cc-name').value.trim() || '';
+        var tag = document.getElementById('cc-tagline').value.trim() || '';
+        var ph = document.getElementById('cc-phone').value.trim() || '';
+        var em = document.getElementById('cc-email').value.trim() || '';
+        var desc = document.getElementById('cc-description').value.trim() || '';
+        var svcs = document.getElementById('cc-services').value.trim() || '';
+        var p = document.getElementById('cc-primary').value;
+        var s = document.getElementById('cc-secondary').value;
+        var b = document.getElementById('cc-background').value;
+        var t = document.getElementById('cc-text').value;
+        var ti = document.getElementById('cc-title').value;
+        var tf = document.getElementById('cc-title-font').value;
+        var bf = document.getElementById('cc-body-font').value;
+
+        var body = 'Digicard Design\n\n';
+        body += 'Business: ' + biz + '\n';
+        body += 'Name: ' + nam + '\n';
+        body += 'Tagline: ' + tag + '\n';
+        body += 'Phone: ' + ph + '\n';
+        body += 'Email: ' + em + '\n';
+        body += 'Description: ' + desc + '\n';
+        body += 'Services:\n' + (svcs || '—') + '\n\n';
+        body += 'Colours:\n';
+        body += '  Primary: ' + p + '\n';
+        body += '  Secondary: ' + s + '\n';
+        body += '  Background: ' + b + '\n';
+        body += '  Text: ' + t + '\n';
+        body += '  Title: ' + ti + '\n\n';
+        body += 'Fonts:\n';
+        body += '  Title Font: ' + tf + '\n';
+        body += '  Body Font: ' + bf + '\n\n';
+        body += '===JSON===\n';
+        body += JSON.stringify({
+          business: biz, name: nam, tagline: tag, phone: ph, email: em,
+          description: desc, services: svcs.split('\n').filter(Boolean),
+          palette: { primary: p, secondary: s, background: b, text: t, title: ti },
+          fonts: { title: tf, body: bf }
+        }, null, 2);
+
+        var mailto = 'mailto:everdreamgoods@gmail.com?subject=' +
+          encodeURIComponent('Digicard Design - ' + biz) +
+          '&body=' + encodeURIComponent(body);
+
+        window.location.href = mailto;
+      });
+
+      /* Close confirm on overlay click */
+      confirmOverlay.addEventListener('click', function (e) {
+        if (e.target === confirmOverlay) {
+          confirmOverlay.classList.remove('visible');
+          confirmOverlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      /* Load customiser state on page load if exists */
+      loadCustomiserState();
     })();
   </script>
   <script type="module">
