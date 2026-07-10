@@ -10,7 +10,6 @@
   <link rel="apple-touch-icon" href="icons/app-icon-180.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="icons/app-icon-180.png" />
   <link rel="preload" href="assets/icon-available.png" as="image" />
-  <link rel="preload" href="assets/icon-unavailable.png" as="image" />
   <link rel="preload" href="Everdream-Logo-Circle.png" as="image" />
   <link rel="preload" href="assets/Android.png" as="image" />
   <link rel="preload" href="assets/iOs.png" as="image" />
@@ -1115,45 +1114,7 @@
       color: #f5f5dc;
     }
 
-    .pack-availability {
-      flex-shrink: 0;
-      width: 2.6em;
-      height: 2.6em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .pack-availability .availability-icon {
-      display: none;
-      width: 100%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-    }
-
-    .pack-availability .available-icon {
-      background-image: url('assets/icon-available.png');
-    }
-
-    .pack-availability .unavailable-icon {
-      background-image: url('assets/icon-unavailable.png');
-    }
-
-    .wholesale-panel.available .pack-availability .available-icon {
-      display: block;
-    }
-
-    .wholesale-panel.unavailable .pack-availability .unavailable-icon {
-      display: block;
-    }
-
-    .wholesale-pack-header-text {
+    .wholesale-panel-header {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1421,7 +1382,34 @@
       transition: max-height 0.3s ease;
       padding: 0 0.25rem;
     }
-    .customiser-accordion-body.open { max-height: 600px; }
+    .customiser-accordion-body.open {
+      max-height: 600px;
+      border: 2px solid #5d4037;
+      border-radius: 10px;
+      margin: 0.25rem 0 0.5rem;
+      padding: 0.6rem 0.6rem;
+    }
+
+    /* Preset colour swatches */
+    .customiser-preset-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      justify-content: center;
+    }
+    .cc-preset-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 3px solid #3e2723;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      flex-shrink: 0;
+    }
+    .cc-preset-swatch:hover {
+      transform: scale(1.15);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
 
     /* Fields inside accordions */
     .customiser-field {
@@ -1765,6 +1753,12 @@
         <!-- Accordion: Colours -->
         <button type="button" class="customiser-accordion-header" aria-expanded="false">Colours</button>
         <div class="customiser-accordion-body">
+          <div class="customiser-preset-row">
+            <button type="button" class="cc-preset-swatch" data-palette="teal" style="background:#14545c;" title="Teal (Everdream)"></button>
+            <button type="button" class="cc-preset-swatch" data-palette="brown" style="background:#5d4037;" title="Brown (Everdream)"></button>
+            <button type="button" class="cc-preset-swatch" data-palette="cream" style="background:#f6f6de;border-color:#5d4037;" title="Cream (Everdream)"></button>
+            <button type="button" class="cc-preset-swatch" data-palette="green" style="background:#2e7d32;" title="Green (buttons)"></button>
+          </div>
           <div class="customiser-field">
             <label class="customiser-label">Primary (headers, buttons)</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
@@ -1823,6 +1817,16 @@
             <!-- Inner product accordions go here -->
           </div>
           <button type="button" id="cc-add-product" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin:0.5rem 0;">+ Add Product</button>
+        </div>
+
+        <!-- Accordion: Packs (3-page tier only) -->
+        <button type="button" class="customiser-accordion-header cc-packs-master-header" aria-expanded="false" id="cc-packs-header">Packs</button>
+        <div class="customiser-accordion-body" id="cc-packs-body">
+          <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Bundle products into packs with a discounted price. These show in the Wholesale modal on your contact page.</p>
+          <div id="cc-packs-container">
+            <!-- Inner pack accordions go here -->
+          </div>
+          <button type="button" id="cc-add-pack" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin:0.5rem 0;">+ Add Pack</button>
         </div>
 
         <!-- Accordion: Details -->
@@ -1930,12 +1934,8 @@
       <div class="modal-header"><h2>Wholesale Packs</h2></div>
       <div class="wholesale-modal-content">
       <ul class="wholesale-accordions">
-        <li class="wholesale-panel pack-1 available">
+        <li class="wholesale-panel pack-1">
           <button type="button" class="wholesale-panel-header" aria-expanded="false">
-            <span class="pack-availability" role="img" aria-label="Available">
-              <span class="availability-icon available-icon" title="This pack is available"></span>
-              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
-            </span>
             <span class="wholesale-pack-header-text">
               <span class="wholesale-pack-title">Wholesale pack 1</span>
               <span class="wholesale-pack-cost">$150</span>
@@ -1957,10 +1957,6 @@
         </li>
         <li class="wholesale-panel pack-2 available">
           <button type="button" class="wholesale-panel-header" aria-expanded="false">
-            <span class="pack-availability" role="img" aria-label="Available">
-              <span class="availability-icon available-icon" title="This pack is available"></span>
-              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
-            </span>
             <span class="wholesale-pack-header-text">
               <span class="wholesale-pack-title">Wholesale pack 2</span>
               <span class="wholesale-pack-cost">$260</span>
@@ -1980,12 +1976,8 @@
             </div>
           </div>
         </li>
-        <li class="wholesale-panel pack-3 unavailable">
+        <li class="wholesale-panel pack-3">
           <button type="button" class="wholesale-panel-header" aria-expanded="false">
-            <span class="pack-availability" role="img" aria-label="Unavailable">
-              <span class="availability-icon available-icon" title="This pack is available"></span>
-              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
-            </span>
             <span class="wholesale-pack-header-text">
               <span class="wholesale-pack-title">Wholesale pack 3</span>
               <span class="wholesale-pack-cost">$370</span>
@@ -2018,12 +2010,8 @@
       <div class="modal-header"><h2>Packs</h2></div>
       <div class="wholesale-modal-content">
       <ul class="wholesale-accordions">
-        <li class="wholesale-panel pack-1 available">
+        <li class="wholesale-panel pack-1">
           <button type="button" class="wholesale-panel-header" aria-expanded="false">
-            <span class="pack-availability" role="img" aria-label="Available">
-              <span class="availability-icon available-icon" title="This pack is available"></span>
-              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
-            </span>
             <span class="wholesale-pack-header-text">
               <span class="wholesale-pack-title">Pack 1</span>
               <span class="wholesale-pack-cost">$40</span>
@@ -2039,10 +2027,6 @@
         </li>
         <li class="wholesale-panel pack-2 available">
           <button type="button" class="wholesale-panel-header" aria-expanded="false">
-            <span class="pack-availability" role="img" aria-label="Available">
-              <span class="availability-icon available-icon" title="This pack is available"></span>
-              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
-            </span>
             <span class="wholesale-pack-header-text">
               <span class="wholesale-pack-title">Pack 2</span>
               <span class="wholesale-pack-cost">$80</span>
@@ -2058,10 +2042,6 @@
         </li>
         <li class="wholesale-panel pack-3 available">
           <button type="button" class="wholesale-panel-header" aria-expanded="false">
-            <span class="pack-availability" role="img" aria-label="Available">
-              <span class="availability-icon available-icon" title="This pack is available"></span>
-              <span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>
-            </span>
             <span class="wholesale-pack-header-text">
               <span class="wholesale-pack-title">Pack 3</span>
               <span class="wholesale-pack-cost">$120</span>
@@ -2184,18 +2164,13 @@
         if (wholesaleUl && d.packs && d.packs.length) {
           wholesaleUl.innerHTML = '';
           d.packs.forEach(function (pack, i) {
-            var availClass = pack.available ? 'available' : 'unavailable';
-            var availLabel = pack.available ? 'Available' : 'Unavailable';
             var contentsHtml = (pack.contents || []).map(function (line) {
               return '<li>' + line + '</li>';
             }).join('');
             var li = document.createElement('li');
-            li.className = 'wholesale-panel pack-' + (i + 1) + ' ' + availClass;
+            li.className = 'wholesale-panel pack-' + (i + 1);
             li.innerHTML = '<button type="button" class="wholesale-panel-header" aria-expanded="false">' +
-              '<span class="pack-availability" role="img" aria-label="' + availLabel + '">' +
-              '<span class="availability-icon available-icon" title="This pack is available"></span>' +
-              '<span class="availability-icon unavailable-icon" title="This pack is unavailable"></span>' +
-              '</span><span class="wholesale-pack-header-text">' +
+              '<span class="wholesale-pack-header-text">' +
               '<span class="wholesale-pack-title">' + escapeHtml(pack.title) + '</span>' +
               '<span class="wholesale-pack-cost">' + escapeHtml(pack.price) + '</span></span></button>' +
               '<div class="wholesale-panel-body"><div class="wholesale-panel-desc">' +
@@ -2696,19 +2671,7 @@
           this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
         });
       });
-
-      var availabilityBadges = document.querySelectorAll('.pack-availability');
-      availabilityBadges.forEach(function (badge) {
-        badge.addEventListener('click', function (e) {
-          e.stopPropagation();
-          hapticBuzz();
-          var panel = badge.closest('.wholesale-panel');
-          var isAvailable = panel && panel.classList.contains('available');
-          var message = isAvailable ? 'Available!' : 'Unavailable...';
-          showTooltip(badge, message);
-        });
       });
-
       var copyLinks = document.querySelectorAll('.copy-contact');
       var tooltip = document.getElementById('copy-tooltip');
       var tooltipTimer = null;
@@ -2791,13 +2754,19 @@
         var tier = getSelectedTier();
         var prodHeader = document.getElementById('cc-products-header');
         var prodBody = document.getElementById('cc-products-body');
+        var packsHeader = document.getElementById('cc-packs-header');
+        var packsBody = document.getElementById('cc-packs-body');
         if (!prodHeader || !prodBody) return;
         if (tier === '3') {
           prodHeader.style.display = '';
           prodBody.style.display = '';
+          if (packsHeader) packsHeader.style.display = '';
+          if (packsBody) packsBody.style.display = '';
         } else {
           prodHeader.style.display = 'none';
           prodBody.style.display = 'none';
+          if (packsHeader) packsHeader.style.display = 'none';
+          if (packsBody) packsBody.style.display = 'none';
         }
         var costEl = document.getElementById('cc-confirm-cost');
         if (costEl) costEl.textContent = tier === '3' ? '$20' : '$10';
@@ -3029,6 +2998,198 @@
         }
       });
 
+      /* Pack counter */
+      var ccPackCounter = 0;
+
+      /* Create an inner pack accordion */
+      function createPackAccordion(index, name, price, items) {
+        var container = document.getElementById('cc-packs-container');
+        var wrapper = document.createElement('div');
+        wrapper.className = 'cc-inner-product';
+        wrapper.dataset.index = index;
+
+        var header = document.createElement('button');
+        header.type = 'button';
+        header.className = 'customiser-inner-prod-header';
+        header.setAttribute('aria-expanded', 'false');
+        header.textContent = name || 'Pack ' + (index + 1);
+
+        var body = document.createElement('div');
+        body.className = 'customiser-inner-prod-body';
+
+        var nameLabel = document.createElement('label');
+        nameLabel.className = 'customiser-label';
+        nameLabel.textContent = 'Pack Name';
+        var nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.className = 'customiser-text cc-pack-name';
+        nameInput.placeholder = 'e.g. Wholesale Pack 1';
+        nameInput.value = name || '';
+
+        var priceLabel = document.createElement('label');
+        priceLabel.className = 'customiser-label';
+        priceLabel.textContent = 'Pack Price';
+        var priceInput = document.createElement('input');
+        priceInput.type = 'text';
+        priceInput.className = 'customiser-text cc-pack-price';
+        priceInput.placeholder = 'e.g. $150';
+        priceInput.value = price || '';
+
+        /* Products in pack */
+        var prodListLabel = document.createElement('label');
+        prodListLabel.className = 'customiser-label';
+        prodListLabel.textContent = 'Products in this pack';
+        var prodList = document.createElement('div');
+        prodList.className = 'cc-pack-product-list';
+        prodList.id = 'cc-pack-prods-' + index;
+
+        function refreshProductCheckboxes() {
+          var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
+          prodList.innerHTML = '';
+          if (!prods.length) {
+            prodList.innerHTML = '<p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;">Add products first.</p>';
+            return;
+          }
+          prods.forEach(function (p, pi) {
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.className = 'cc-pack-prod-cb';
+            cb.dataset.prodIdx = pi;
+            /* Check if this product was previously in the pack */
+            if (items && items[pi]) cb.checked = true;
+            var qty = document.createElement('input');
+            qty.type = 'number';
+            qty.min = 1;
+            qty.value = (items && items[pi] && items[pi].qty) ? items[pi].qty : 1;
+            qty.style.width = '3rem';
+            qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
+            var nameSpan = document.createElement('span');
+            nameSpan.textContent = p.name;
+            row.appendChild(cb);
+            row.appendChild(qty);
+            row.appendChild(nameSpan);
+            prodList.appendChild(row);
+          });
+        }
+        refreshProductCheckboxes();
+
+        /* Save button */
+        var saveBtn = document.createElement('button');
+        saveBtn.type = 'button';
+        saveBtn.className = 'cc-ip-save-btn';
+        saveBtn.textContent = 'Save';
+        saveBtn.addEventListener('click', function () {
+          hapticBuzz();
+          var n = nameInput.value.trim();
+          header.textContent = n || 'Pack ' + (index + 1);
+          saveCustomiserState();
+          showTooltip(saveBtn, 'Saved!');
+        });
+
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'cc-ip-remove-btn';
+        removeBtn.textContent = 'Remove pack';
+        removeBtn.addEventListener('click', function () {
+          hapticBuzz();
+          wrapper.parentNode.removeChild(wrapper);
+          renumberPackAccordions();
+          saveCustomiserState();
+        });
+
+        body.appendChild(nameLabel);
+        body.appendChild(nameInput);
+        body.appendChild(priceLabel);
+        body.appendChild(priceInput);
+        body.appendChild(prodListLabel);
+        body.appendChild(prodList);
+        var btnRow = document.createElement('div');
+        btnRow.style.cssText = 'display:flex;gap:0.5rem;margin-top:0.6rem;';
+        saveBtn.style.flex = '1';
+        removeBtn.style.flex = '1';
+        btnRow.appendChild(saveBtn);
+        btnRow.appendChild(removeBtn);
+        body.appendChild(btnRow);
+
+        header.addEventListener('click', function () {
+          var expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          body.classList.toggle('open');
+        });
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(body);
+        container.appendChild(wrapper);
+
+        [nameInput, priceInput].forEach(function (el) {
+          el.addEventListener('input', saveCustomiserState);
+          el.addEventListener('change', saveCustomiserState);
+        });
+
+        return wrapper;
+      }
+
+      function renumberPackAccordions() {
+        var wrappers = document.querySelectorAll('#cc-packs-container .cc-inner-product');
+        wrappers.forEach(function (w, i) {
+          w.dataset.index = i;
+          var h = w.querySelector('.customiser-inner-prod-header');
+          var nameInp = w.querySelector('.cc-pack-name');
+          if (h) h.textContent = (nameInp && nameInp.value.trim()) ? nameInp.value.trim() : 'Pack ' + (i + 1);
+          var prodList = w.querySelector('.cc-pack-product-list');
+          if (prodList) prodList.id = 'cc-pack-prods-' + i;
+        });
+        ccPackCounter = wrappers.length;
+      }
+
+      /* Add pack button */
+      document.getElementById('cc-add-pack').addEventListener('click', function () {
+        hapticBuzz();
+        createPackAccordion(ccPackCounter, '', '', null);
+        ccPackCounter++;
+        var packsBody = document.getElementById('cc-packs-body');
+        if (packsBody && !packsBody.classList.contains('open')) {
+          var packsHeader = document.getElementById('cc-packs-header');
+          if (packsHeader) {
+            packsHeader.setAttribute('aria-expanded', 'true');
+            packsBody.classList.add('open');
+          }
+        }
+      });
+
+      /* get/set packs for localStorage */
+      function getPacksArray() {
+        var wrappers = document.querySelectorAll('#cc-packs-container .cc-inner-product');
+        var packs = [];
+        wrappers.forEach(function (w) {
+          var name = (w.querySelector('.cc-pack-name') || {}).value || '';
+          var price = (w.querySelector('.cc-pack-price') || {}).value || '';
+          var cbs = w.querySelectorAll('.cc-pack-prod-cb');
+          var qtys = w.querySelectorAll('.cc-pack-prod-cb + input[type="number"]');
+          var items = {};
+          cbs.forEach(function (cb, i) {
+            if (cb.checked) {
+              var qtyInput = qtys[i];
+              items[cb.dataset.prodIdx] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
+            }
+          });
+          packs.push({ name: name, price: price, items: items });
+        });
+        return packs;
+      }
+
+      function setPacksArray(packs) {
+        if (!packs || !packs.length) return;
+        var container = document.getElementById('cc-packs-container');
+        container.innerHTML = '';
+        ccPackCounter = packs.length;
+        packs.forEach(function (p, i) {
+          createPackAccordion(i, p.name || '', p.price || '', p.items || null);
+        });
+      }
+
       /* Collect products from inner accordions */
       function getProductsArray() {
         var wrappers = document.querySelectorAll('.cc-inner-product');
@@ -3147,6 +3308,8 @@
         updateTierUI();
         /* Restore products */
         if (state.products) setProductsArray(state.products);
+        /* Restore packs */
+        if (state.packs) setPacksArray(state.packs);
         updatePreviewDots();
       }
 
@@ -3168,7 +3331,8 @@
           phone: document.getElementById('cc-phone').value,
           email: document.getElementById('cc-email').value,
           description: document.getElementById('cc-description').value,
-          products: getProductsArray()
+          products: getProductsArray(),
+          packs: getPacksArray()
         };
         try { localStorage.setItem('everdream-customiser', JSON.stringify(state)); } catch(e) {}
         updatePreviewDots();
@@ -3246,6 +3410,30 @@
         b = Math.min(255, b + 20);
         return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
       }
+
+      /* Preset colour swatches */
+      var PALETTES = {
+        teal: { primary: '#14545c', secondary: '#5d4037', background: '#f6f6de', text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc' },
+        brown: { primary: '#5d4037', secondary: '#3e2723', background: '#f5f5dc', text: '#3e2723', title: '#5d4037', button: '#5d4037', buttonText: '#f5f5dc' },
+        cream: { primary: '#f6f6de', secondary: '#5d4037', background: '#ffffff', text: '#3e2723', title: '#3e2723', button: '#14545c', buttonText: '#f5f5dc' },
+        green: { primary: '#2e7d32', secondary: '#1b5e20', background: '#e8f5e9', text: '#1b5e20', title: '#2e7d32', button: '#2e7d32', buttonText: '#ffffff' }
+      };
+      document.querySelectorAll('.cc-preset-swatch').forEach(function (swatch) {
+        swatch.addEventListener('click', function () {
+          var palette = PALETTES[this.dataset.palette];
+          if (!palette) return;
+          document.getElementById('cc-primary').value = palette.primary;
+          document.getElementById('cc-secondary').value = palette.secondary;
+          document.getElementById('cc-background').value = palette.background;
+          document.getElementById('cc-text').value = palette.text;
+          document.getElementById('cc-title').value = palette.title;
+          document.getElementById('cc-button').value = palette.button;
+          document.getElementById('cc-button-text').value = palette.buttonText;
+          saveCustomiserState();
+          applyLiveModalColours();
+          hapticBuzz();
+        });
+      });
 
       /* Open customiser */
       if (designBtn) {
@@ -3421,6 +3609,20 @@
             }
           });
         }
+        /* Add packs to email */
+        var packs = getPacksArray().filter(function (p) { return p.name.trim(); });
+        if (packs.length) {
+          body += '\nPacks:\n';
+          packs.forEach(function (pack) {
+            body += '  - ' + pack.name + ' (' + pack.price + ')\n';
+            /* List product names if we can */
+            var allProds = getProductsArray();
+            Object.keys(pack.items).forEach(function (idx) {
+              var prod = allProds[parseInt(idx)];
+              if (prod) body += '      x' + pack.items[idx].qty + ' ' + prod.name + '\n';
+            });
+          });
+        }
         body += '\nColours:\n';
         body += '  Primary: ' + p + '\n';
         body += '  Secondary: ' + s + '\n';
@@ -3436,7 +3638,7 @@
         body += JSON.stringify({
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
-          description: desc, products: products,
+          description: desc, products: products, packs: packs,
           palette: { primary: p, secondary: s, background: b, text: t, title: ti, button: btn, buttonText: btnText },
           fonts: { title: tf, body: bf }
         }, null, 2);
@@ -3459,79 +3661,6 @@
       /* Load customiser state on page load if exists */
       loadCustomiserState();
     })();
-  </script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBuPPmKZhvqyaPZR7HYJZoV4lV4nkA18yk",
-      authDomain: "everdream-loyalty.firebaseapp.com",
-      databaseURL: "https://everdream-loyalty-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "everdream-loyalty",
-      storageBucket: "everdream-loyalty.firebasestorage.app",
-      messagingSenderId: "999442299508",
-      appId: "1:999442299508:web:411ce1b930d5d991582f21"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function syncPackAvailabilityFromFirestore() {
-      try {
-        const ref = doc(db, "super_admin", "profile");
-        const snap = await getDoc(ref);
-        if (!snap.exists()) return;
-
-        const data = snap.data() || {};
-        const packs = data.Packs || {};
-        const wholesale = data.Wholesale || {};
-
-        const packsModal = document.getElementById("packs-modal-content");
-        if (packsModal) {
-          Object.keys(packs).forEach((key) => {
-            const match = key.match(/(\d+)/);
-            if (!match) return;
-            const index = match[1];
-            const isAvailable = !!packs[key];
-            const panel = packsModal.querySelector(".wholesale-panel.pack-" + index);
-            if (!panel) return;
-            panel.classList.remove("available", "unavailable");
-            panel.classList.add(isAvailable ? "available" : "unavailable");
-            const badge = panel.querySelector(".pack-availability");
-            if (badge) {
-              badge.setAttribute("aria-label", isAvailable ? "Available" : "Unavailable");
-            }
-          });
-        }
-
-        const wholesaleModal = document.getElementById("wholesale-modal-content");
-        if (wholesaleModal) {
-          Object.keys(wholesale).forEach((key) => {
-            const match = key.match(/(\d+)/);
-            if (!match) return;
-            const index = match[1];
-            const isAvailable = !!wholesale[key];
-            const panel = wholesaleModal.querySelector(".wholesale-panel.pack-" + index);
-            if (!panel) return;
-            panel.classList.remove("available", "unavailable");
-            panel.classList.add(isAvailable ? "available" : "unavailable");
-            const badge = panel.querySelector(".pack-availability");
-            if (badge) {
-              badge.setAttribute("aria-label", isAvailable ? "Available" : "Unavailable");
-            }
-          });
-        }
-      } catch (err) {
-        console.error("Failed to sync pack availability from Firestore", err);
-      }
-    }
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", syncPackAvailabilityFromFirestore);
-    } else {
-      syncPackAvailabilityFromFirestore();
-    }
   </script>
 </body>
 </html>
