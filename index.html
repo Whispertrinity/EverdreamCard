@@ -217,6 +217,27 @@
       flex-shrink: 0;
     }
 
+    /* Products panel: footer sticks to bottom */
+    .content-panel:has(#products) {
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+    }
+    .content-panel:has(#products) #products {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    .content-panel:has(#products) .products-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: clamp(1rem, 3vw, 1.5rem) 1rem;
+    }
+    .content-panel:has(#products) .products-footer {
+      flex-shrink: 0;
+    }
+
     .content-section.visible {
       display: block;
     }
@@ -409,7 +430,7 @@
     }
 
     .flavour-panel.expanded .flavour-panel-body {
-      max-height: 280px;
+      max-height: 400px;
     }
 
     .flavour-panel-desc {
@@ -1635,7 +1656,6 @@
                 <h1>Products</h1>
               </div>
               <div class="products-body">
-                <p class="prices-once">All flavours are $10</p>
                 <ul class="flavour-accordions">
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue</button>
