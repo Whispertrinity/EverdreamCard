@@ -1495,6 +1495,61 @@
       border-color: #1b5e20;
       box-shadow: 0 4px 12px rgba(46,125,50,0.35);
     }
+
+    /* Inner product accordions */
+    .cc-inner-product {
+      margin: 0.35rem 0;
+      border: 2px solid #5d4037;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .customiser-inner-prod-header {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.9rem,2.2vw,1rem);
+      font-weight: 600;
+      color: #3e2723;
+      background: #ede0d4;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    .customiser-inner-prod-header:hover { background: #d7ccc8; }
+    .customiser-inner-prod-header::after {
+      content: '▼';
+      float: right;
+      font-size: 0.75em;
+      transition: transform 0.2s;
+    }
+    .customiser-inner-prod-header[aria-expanded="true"]::after { transform: rotate(180deg); }
+    .customiser-inner-prod-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 0.75rem;
+    }
+    .customiser-inner-prod-body.open { max-height: 400px; padding: 0.75rem; }
+    .cc-ip-save-btn {
+      display: block;
+      margin: 0.6rem auto 0;
+      padding: 0.4rem 1.2rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
+      border: 2px solid #0a1a1d;
+      border-radius: 9999px;
+      cursor: pointer;
+      -webkit-text-stroke: 0.6px #000;
+      text-stroke: 0.6px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .cc-ip-save-btn:hover { transform: translateY(-1px); }
   </style>
 </head>
 <body>
@@ -1532,46 +1587,46 @@
           <div class="content-panel" id="content-panel-back">
             <section id="products" class="content-section visible" role="tabpanel">
               <div class="products-header">
-                <h1>Flavours</h1>
+                <h1>Products</h1>
               </div>
               <div class="products-body">
-                <p class="prices-once">40g = $5<br>80g = $10</p>
+                <p class="prices-once">All flavours are $10</p>
                 <ul class="flavour-accordions">
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">The original flavour. Marinated in a blend of barbecue sauce, soy sauce and Worcestershire - This sweet blend with a chewy consistency will leave you wanting more.</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back.</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Teriyaki</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Teriyaki — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">Sweet, sticky and full in flavour. A rich glaze of teriyaki and soy for those who love bold Japanese flavours.</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Korean BBQ</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Korean BBQ — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try.</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Sweet Chilli</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Sweet Chilli — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. Just a whisper of spice makes it great for people who don't like it too hot.</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Exotic Spice</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Exotic Spice — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours.</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Hot Chilli</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Hot Chilli — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">A Hot Chilli that never lets the chilli fans down. Its barbecue base is infused with chilli and the seeds turn up the heat again. A must try for chilli lovers!</p></div>
                   </li>
                   <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.</p></div>
                   </li>
                   <li class="flavour-list-divider" aria-hidden="true"></li>
                   <li class="flavour-panel flavour-panel-pet-treats">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats</button>
+                    <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats — $10</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br>Available in one size: <strong>100g</strong> for <strong>$10</strong>.</p></div>
                   </li>
                   <li class="flavour-panel">
@@ -1690,6 +1745,16 @@
           </div>
         </div>
 
+        <!-- Accordion: Products (3-page tier only) -->
+        <button type="button" class="customiser-accordion-header cc-products-master-header" aria-expanded="false" id="cc-products-header">Products</button>
+        <div class="customiser-accordion-body" id="cc-products-body">
+          <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Add products one at a time. Each gets its own accordion on your card, just like the Everdream Jerky flavours.</p>
+          <div id="cc-products-container">
+            <!-- Inner product accordions go here -->
+          </div>
+          <button type="button" id="cc-add-product" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin:0.5rem 0;">+ Add Product</button>
+        </div>
+
         <!-- Accordion: Details -->
         <button type="button" class="customiser-accordion-header" aria-expanded="false">Details</button>
         <div class="customiser-accordion-body">
@@ -1716,27 +1781,6 @@
           <div class="customiser-field">
             <label class="customiser-label">Description</label>
             <textarea class="customiser-textarea" id="cc-description" placeholder="Tell people about your business..." rows="3"></textarea>
-          </div>
-          <div id="cc-services-section">
-            <div class="customiser-field">
-              <label class="customiser-label">Products/Services</label>
-              <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.75rem;color:#5d4037;margin:0 0 0.3rem;">Each item gets its own accordion — name on one line, description on the next</p>
-              <div id="cc-products-list">
-                <div class="cc-product-row">
-                  <input type="text" class="customiser-text cc-prod-name" placeholder="Product name (e.g. Barbecue)" style="margin-bottom:0.35rem;">
-                  <textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>
-                </div>
-                <div class="cc-product-row">
-                  <input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;">
-                  <textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>
-                </div>
-                <div class="cc-product-row">
-                  <input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;">
-                  <textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>
-                </div>
-              </div>
-              <button type="button" id="cc-add-product" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin-top:0.25rem;">+ Add another product</button>
-            </div>
           </div>
         </div>
       </div>
@@ -2661,7 +2705,7 @@
         bodyFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
-        description: '', products: [{ name: '', desc: '' }, { name: '', desc: '' }, { name: '', desc: '' }]
+        description: '', products: []
       };
 
       var customiserOverlay = document.getElementById('customiser-overlay');
@@ -2675,12 +2719,15 @@
 
       function updateTierUI() {
         var tier = getSelectedTier();
-        var section = document.getElementById('cc-services-section');
-        if (!section) return;
+        var prodHeader = document.getElementById('cc-products-header');
+        var prodBody = document.getElementById('cc-products-body');
+        if (!prodHeader || !prodBody) return;
         if (tier === '3') {
-          section.style.display = 'block';
+          prodHeader.style.display = '';
+          prodBody.style.display = '';
         } else {
-          section.style.display = 'none';
+          prodHeader.style.display = 'none';
+          prodBody.style.display = 'none';
         }
         var costEl = document.getElementById('cc-confirm-cost');
         if (costEl) costEl.textContent = tier === '3' ? '$20' : '$10';
@@ -2697,23 +2744,7 @@
         });
       });
 
-      /* Add product row */
-      document.getElementById('cc-add-product').addEventListener('click', function () {
-        var list = document.getElementById('cc-products-list');
-        var row = document.createElement('div');
-        row.className = 'cc-product-row';
-        row.innerHTML = '<input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;">' +
-          '<textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>';
-        list.appendChild(row);
-        /* Attach auto-save */
-        row.querySelectorAll('input, textarea').forEach(function (el) {
-          el.addEventListener('input', saveCustomiserState);
-          el.addEventListener('change', saveCustomiserState);
-        });
-        hapticBuzz();
-      });
-
-      /* Accordion toggle */
+      /* Accordion toggle for main customiser accordions */
       document.querySelectorAll('.customiser-accordion-header').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var expanded = this.getAttribute('aria-expanded') === 'true';
@@ -2725,31 +2756,186 @@
         });
       });
 
-      /* Collect product rows into array */
+      /* Product counter */
+      var ccProductCounter = 0;
+
+      /* Create an inner product accordion */
+      function createProductAccordion(index, name, price, desc) {
+        var container = document.getElementById('cc-products-container');
+        var wrapper = document.createElement('div');
+        wrapper.className = 'cc-inner-product';
+        wrapper.dataset.index = index;
+
+        var header = document.createElement('button');
+        header.type = 'button';
+        header.className = 'customiser-inner-prod-header';
+        header.setAttribute('aria-expanded', 'false');
+        header.textContent = 'Product ' + (index + 1);
+
+        var body = document.createElement('div');
+        body.className = 'customiser-inner-prod-body';
+
+        var nameLabel = document.createElement('label');
+        nameLabel.className = 'customiser-label';
+        nameLabel.textContent = 'Product Name';
+        var nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.className = 'customiser-text cc-ip-name';
+        nameInput.placeholder = 'e.g. Barbecue';
+        nameInput.value = name || '';
+
+        var priceLabel = document.createElement('label');
+        priceLabel.className = 'customiser-label';
+        priceLabel.textContent = 'Price';
+        var priceInput = document.createElement('input');
+        priceInput.type = 'text';
+        priceInput.className = 'customiser-text cc-ip-price';
+        priceInput.placeholder = 'e.g. $10';
+        priceInput.value = price || '';
+
+        var descLabel = document.createElement('label');
+        descLabel.className = 'customiser-label';
+        descLabel.textContent = 'Description';
+        var descInput = document.createElement('textarea');
+        descInput.className = 'customiser-textarea cc-ip-desc';
+        descInput.placeholder = 'Describe this product...';
+        descInput.rows = 2;
+        descInput.value = desc || '';
+
+        var saveBtn = document.createElement('button');
+        saveBtn.type = 'button';
+        saveBtn.className = 'cc-ip-save-btn';
+        saveBtn.textContent = 'Save';
+        saveBtn.addEventListener('click', function () {
+          hapticBuzz();
+          var n = nameInput.value.trim();
+          var p = priceInput.value.trim();
+          var d = descInput.value.trim();
+          if (n) {
+            header.textContent = n + (p ? ' — ' + p : '');
+          } else {
+            header.textContent = 'Product ' + (index + 1);
+          }
+          /* Update the main products page in the card preview via live style injection */
+          updateProductsPreview();
+          saveCustomiserState();
+          showTooltip(saveBtn, 'Saved!');
+        });
+
+        body.appendChild(nameLabel);
+        body.appendChild(nameInput);
+        body.appendChild(priceLabel);
+        body.appendChild(priceInput);
+        body.appendChild(descLabel);
+        body.appendChild(descInput);
+        body.appendChild(saveBtn);
+
+        /* Toggle inner accordion */
+        header.addEventListener('click', function () {
+          var expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          body.classList.toggle('open');
+        });
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(body);
+        container.appendChild(wrapper);
+
+        /* Auto-save on input */
+        [nameInput, priceInput, descInput].forEach(function (el) {
+          el.addEventListener('input', saveCustomiserState);
+          el.addEventListener('change', saveCustomiserState);
+        });
+
+        return wrapper;
+      }
+
+      /* Add product button */
+      document.getElementById('cc-add-product').addEventListener('click', function () {
+        hapticBuzz();
+        createProductAccordion(ccProductCounter, '', '', '');
+        ccProductCounter++;
+        /* The main Products accordion might need to expand to show new product */
+        var prodBody = document.getElementById('cc-products-body');
+        if (prodBody && !prodBody.classList.contains('open')) {
+          var prodHeader = document.getElementById('cc-products-header');
+          if (prodHeader) {
+            prodHeader.setAttribute('aria-expanded', 'true');
+            prodBody.classList.add('open');
+          }
+        }
+      });
+
+      /* Collect products from inner accordions */
       function getProductsArray() {
-        var rows = document.querySelectorAll('.cc-product-row');
+        var wrappers = document.querySelectorAll('.cc-inner-product');
         var products = [];
-        rows.forEach(function (row) {
-          var name = (row.querySelector('.cc-prod-name') || {}).value || '';
-          var desc = (row.querySelector('.cc-prod-desc') || {}).value || '';
-          products.push({ name: name, desc: desc });
+        wrappers.forEach(function (w) {
+          var name = (w.querySelector('.cc-ip-name') || {}).value || '';
+          var price = (w.querySelector('.cc-ip-price') || {}).value || '';
+          var desc = (w.querySelector('.cc-ip-desc') || {}).value || '';
+          products.push({ name: name, price: price, desc: desc });
         });
         return products;
       }
 
       function setProductsArray(products) {
         if (!products || !products.length) return;
-        var list = document.getElementById('cc-products-list');
-        list.innerHTML = '';
-        products.forEach(function (p) {
-          var row = document.createElement('div');
-          row.className = 'cc-product-row';
-          row.innerHTML = '<input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;" value="' + escapeHtml(p.name || '') + '">' +
-            '<textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;">' + escapeHtml(p.desc || '') + '</textarea>';
-          list.appendChild(row);
-          row.querySelectorAll('input, textarea').forEach(function (el) {
-            el.addEventListener('input', saveCustomiserState);
-            el.addEventListener('change', saveCustomiserState);
+        var container = document.getElementById('cc-products-container');
+        container.innerHTML = '';
+        ccProductCounter = products.length;
+        products.forEach(function (p, i) {
+          var w = createProductAccordion(i, p.name || '', p.price || '', p.desc || '');
+          /* Update the header label immediately if name+price provided */
+          if (p.name) {
+            var h = w.querySelector('.customiser-inner-prod-header');
+            if (h) h.textContent = p.name + (p.price ? ' — ' + p.price : '');
+          }
+        });
+      }
+
+      /* Update the main products page during preview */
+      function updateProductsPreview() {
+        var products = getProductsArray().filter(function (p) { return p.name.trim(); });
+        var tier = getSelectedTier();
+        if (tier !== '3') return;
+
+        var productsSection = document.querySelector('.products-body');
+        if (!productsSection) return;
+
+        var ul = productsSection.querySelector('.flavour-accordions');
+        if (!ul) return;
+
+        if (!products.length) {
+          ul.innerHTML = '<li style="font-family:Verdana,Geneva,sans-serif;padding:1rem;color:#5d4037;">Add your products in the customiser.</li>';
+          return;
+        }
+
+        ul.innerHTML = '';
+        products.forEach(function (prod) {
+          var li = document.createElement('li');
+          li.className = 'flavour-panel';
+          var priceText = prod.price ? ' — ' + prod.price : '';
+          li.innerHTML = '<button type="button" class="flavour-panel-header" aria-expanded="false">' + escapeHtml(prod.name) + priceText + '</button>' +
+            '<div class="flavour-panel-body"><p class="flavour-panel-desc">' + escapeHtml(prod.desc) + '</p></div>';
+          ul.appendChild(li);
+        });
+
+        /* Re-attach accordion click handlers on new products */
+        ul.querySelectorAll('.flavour-panel-header').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            hapticBuzz();
+            if (this.id === 'packs-btn') return;
+            var panel = this.closest('.flavour-panel');
+            ul.querySelectorAll('.flavour-panel').forEach(function (p) {
+              if (p !== panel) {
+                p.classList.remove('expanded');
+                var h = p.querySelector('.flavour-panel-header');
+                if (h) h.setAttribute('aria-expanded', 'false');
+              }
+            });
+            var expanded = panel.classList.toggle('expanded');
+            this.setAttribute('aria-expanded', expanded ? 'true' : 'false');
           });
         });
       }
@@ -2874,7 +3060,7 @@
           '.intro-header h1,.products-header h1,.contact-header h1 { color: ' + b + ' !important; }' +
           '.title-panel h1 { color: ' + ti + ' !important; }' +
           'body { font-family: ' + bf + ' !important; }' +
-          '.title-panel h1,.intro-header h1,.products-header h1,.contact-header h1,.flavour-panel-header,.wholesale-panel-header,.intro-message,.share-btn,.customiser-accordion-header,.contact-label { font-family: ' + tf + ' !important; }' +
+          '.title-panel h1,.intro-header h1,.products-header h1,.contact-header h1,.flavour-panel-header,.wholesale-panel-header,.intro-message,.share-btn,.customiser-accordion-header,.customiser-inner-prod-header,.contact-label { font-family: ' + tf + ' !important; }' +
           '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: ' + bf + ' !important; }' +
           '.card-face { border-color: ' + s + ' !important; }' +
           '.content-panel { border-color: ' + s + ' !important; }';
@@ -2883,8 +3069,7 @@
         if (biz) {
           document.querySelectorAll('.title-panel h1').forEach(function (h) { h.textContent = biz; });
           document.querySelectorAll('.intro-header h1').forEach(function (h) { h.textContent = biz; });
-          /* Products page - make sure Flavor tab still shows "Flavours" */
-          document.querySelectorAll('.products-header h1').forEach(function (h) { h.textContent = 'Flavours'; });
+          document.querySelectorAll('.products-header h1').forEach(function (h) { h.textContent = 'Products'; });
           document.querySelectorAll('.contact-header h1').forEach(function (h) { h.textContent = 'Details'; });
         }
         if (tag) {
@@ -2903,9 +3088,6 @@
               '<p class="name-line"><span class="contact-label">Name:</span><br><span class="contact-value name-line">' + escapeHtml(nam || '') + '</span></p>' +
               (ph ? '<p><span class="contact-label">Mobile:</span><br><span class="contact-value">' + escapeHtml(ph) + '</span></p>' : '') +
               (em ? '<p><span class="contact-label">Email:</span><br><span class="contact-value">' + escapeHtml(em) + '</span></p>' : '') +
-              (products.length && tier === '3' ? '<div class="contact-divider" aria-hidden="true"></div><p class="about-text" style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Products/Services</p>' + products.map(function (prod) {
-                return '<p class="about-text" style="font-size:0.95rem;margin-bottom:0.3rem;"><strong>' + escapeHtml(prod.name) + '</strong><br>' + escapeHtml(prod.desc) + '</p>';
-              }).join('') : '') +
               '<div class="contact-actions">' +
               '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
               '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
@@ -2913,6 +3095,8 @@
               '<button type="button" class="share-btn" id="share-btn">Share</button></div>';
           }
         }
+        /* Update products page */
+        updateProductsPreview();
       }
 
       /* Preview button */
@@ -2983,7 +3167,7 @@
         if (products.length) {
           body += 'Products/Services:\n';
           products.forEach(function (prod) {
-            body += '  - ' + prod.name + ': ' + prod.desc + '\n';
+            body += '  - ' + prod.name + (prod.price ? ' — ' + prod.price : '') + ': ' + prod.desc + '\n';
           });
         }
         body += '\nColours:\n';
