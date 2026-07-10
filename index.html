@@ -459,7 +459,7 @@
     }
 
     .contact-block .add-contact-trigger {
-      font-family: 'Lemon Milk Light', sans-serif;
+      font-family: Verdana, Geneva, sans-serif;
       font-size: 0.9em;
       font-weight: 600;
       color: #14545c;
@@ -477,7 +477,7 @@
     }
 
     .contact-block .name-value {
-      font-family: 'Lemon Milk Light', sans-serif;
+      font-family: Verdana, Geneva, sans-serif;
       font-size: 0.9em;
     }
 
@@ -500,7 +500,7 @@
 
     .contact-block a.contact-value,
     .contact-block .contact-value {
-      font-family: 'Lemon Milk Light', sans-serif;
+      font-family: Verdana, Geneva, sans-serif;
       font-size: 0.9em;
     }
 
@@ -1689,7 +1689,6 @@
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
                   </li>
-                  <li class="flavour-list-divider" aria-hidden="true"></li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats</button>
                     <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">100g — $10</span></p></div>
@@ -3074,6 +3073,10 @@
 
         var ul = productsSection.querySelector('.flavour-accordions');
         if (!ul) return;
+
+        /* Remove the prices-once text if it exists */
+        var pricesEl = productsSection.querySelector('.prices-once');
+        if (pricesEl) pricesEl.style.display = 'none';
 
         if (!products.length) {
           ul.innerHTML = '<li style="font-family:Verdana,Geneva,sans-serif;padding:1rem;color:#5d4037;">Add your products in the customiser.</li>';
