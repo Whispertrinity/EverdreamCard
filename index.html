@@ -1318,6 +1318,38 @@
     }
     .customiser-modal-scroll::-webkit-scrollbar { display: none; }
 
+    /* Tier selector */
+    .customiser-tier-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .customiser-tier-btn {
+      flex: 1;
+      padding: 0.65rem 0.5rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1rem,2.4vw,1.15rem);
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg,#5d4037 0%,#6d5047 50%,#5d4037 100%);
+      border: 2px solid #3e2723;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .customiser-tier-btn.tier-active {
+      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
+      border-color: #0a1a1d;
+      transform: scale(1.02);
+    }
+    .customiser-tier-btn:hover { transform: scale(1.03); }
+    .customiser-tier-btn.tier-active:hover { transform: scale(1.04); }
+
     /* Preview bar */
     .customiser-preview-bar {
       display: flex;
@@ -1598,6 +1630,11 @@
     <div class="customiser-modal">
       <div class="modal-header"><h2>Design Yours!</h2></div>
       <div class="customiser-modal-scroll">
+        <!-- Tier selector -->
+        <div class="customiser-tier-bar">
+          <button type="button" class="customiser-tier-btn tier-active" data-tier="2" id="cc-tier-2">2 Pages</button>
+          <button type="button" class="customiser-tier-btn" data-tier="3" id="cc-tier-3">3 Pages</button>
+        </div>
         <div class="customiser-preview-bar" id="customiser-preview-bar">
           <span class="customiser-preview-label">Live Preview</span>
           <div class="customiser-preview-dots" id="customiser-preview-dots">
@@ -1680,9 +1717,26 @@
             <label class="customiser-label">Description</label>
             <textarea class="customiser-textarea" id="cc-description" placeholder="Tell people about your business..." rows="3"></textarea>
           </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Services/Products (one per line)</label>
-            <textarea class="customiser-textarea" id="cc-services" placeholder="Item 1&#10;Item 2&#10;Item 3" rows="3"></textarea>
+          <div id="cc-services-section">
+            <div class="customiser-field">
+              <label class="customiser-label">Products/Services</label>
+              <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.75rem;color:#5d4037;margin:0 0 0.3rem;">Each item gets its own accordion — name on one line, description on the next</p>
+              <div id="cc-products-list">
+                <div class="cc-product-row">
+                  <input type="text" class="customiser-text cc-prod-name" placeholder="Product name (e.g. Barbecue)" style="margin-bottom:0.35rem;">
+                  <textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>
+                </div>
+                <div class="cc-product-row">
+                  <input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;">
+                  <textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>
+                </div>
+                <div class="cc-product-row">
+                  <input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;">
+                  <textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>
+                </div>
+              </div>
+              <button type="button" id="cc-add-product" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin-top:0.25rem;">+ Add another product</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1700,6 +1754,8 @@
       <div class="modal-header"><h2>Lock it in?</h2></div>
       <div class="customiser-modal-scroll" style="text-align:center;padding:2rem 1.5rem;font-family:Verdana,Geneva,sans-serif;font-size:1.3rem;color:#3e2723;">
         <p>Are you sure you're finished?<br>This will send your design to us.</p>
+        <p style="margin-top:1.2rem;font-size:2rem;font-weight:bold;color:#2e7d32;" id="cc-confirm-cost">$10</p>
+        <p style="font-size:0.9rem;color:#5d4037;margin-top:0.3rem;">Pay Brett directly — cash, bank transfer, or in person at market</p>
       </div>
       <div class="customiser-actions">
         <button type="button" class="customiser-btn customiser-btn-preview" id="cc-confirm-yes" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;">Yes</button>
@@ -2599,18 +2655,63 @@
 
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
-        primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
+        tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
         text: '#3e2723', title: '#14545c',
         titleFont: "'The Wanters DEMO', serif",
         bodyFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
-        description: '', services: ''
+        description: '', products: [{ name: '', desc: '' }, { name: '', desc: '' }, { name: '', desc: '' }]
       };
 
       var customiserOverlay = document.getElementById('customiser-overlay');
       var confirmOverlay = document.getElementById('confirm-overlay');
       var designBtn = document.getElementById('design-yours-btn');
+
+      function getSelectedTier() {
+        var active = document.querySelector('.customiser-tier-btn.tier-active');
+        return active ? active.getAttribute('data-tier') : '2';
+      }
+
+      function updateTierUI() {
+        var tier = getSelectedTier();
+        var section = document.getElementById('cc-services-section');
+        if (!section) return;
+        if (tier === '3') {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+        var costEl = document.getElementById('cc-confirm-cost');
+        if (costEl) costEl.textContent = tier === '3' ? '$20' : '$10';
+      }
+
+      /* Tier button clicks */
+      document.querySelectorAll('.customiser-tier-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.customiser-tier-btn').forEach(function (b) { b.classList.remove('tier-active'); });
+          this.classList.add('tier-active');
+          updateTierUI();
+          saveCustomiserState();
+          hapticBuzz();
+        });
+      });
+
+      /* Add product row */
+      document.getElementById('cc-add-product').addEventListener('click', function () {
+        var list = document.getElementById('cc-products-list');
+        var row = document.createElement('div');
+        row.className = 'cc-product-row';
+        row.innerHTML = '<input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;">' +
+          '<textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;"></textarea>';
+        list.appendChild(row);
+        /* Attach auto-save */
+        row.querySelectorAll('input, textarea').forEach(function (el) {
+          el.addEventListener('input', saveCustomiserState);
+          el.addEventListener('change', saveCustomiserState);
+        });
+        hapticBuzz();
+      });
 
       /* Accordion toggle */
       document.querySelectorAll('.customiser-accordion-header').forEach(function (btn) {
@@ -2623,6 +2724,35 @@
           }
         });
       });
+
+      /* Collect product rows into array */
+      function getProductsArray() {
+        var rows = document.querySelectorAll('.cc-product-row');
+        var products = [];
+        rows.forEach(function (row) {
+          var name = (row.querySelector('.cc-prod-name') || {}).value || '';
+          var desc = (row.querySelector('.cc-prod-desc') || {}).value || '';
+          products.push({ name: name, desc: desc });
+        });
+        return products;
+      }
+
+      function setProductsArray(products) {
+        if (!products || !products.length) return;
+        var list = document.getElementById('cc-products-list');
+        list.innerHTML = '';
+        products.forEach(function (p) {
+          var row = document.createElement('div');
+          row.className = 'cc-product-row';
+          row.innerHTML = '<input type="text" class="customiser-text cc-prod-name" placeholder="Product name" style="margin-bottom:0.35rem;" value="' + escapeHtml(p.name || '') + '">' +
+            '<textarea class="customiser-textarea cc-prod-desc" placeholder="Description..." rows="2" style="margin-bottom:0.35rem;">' + escapeHtml(p.desc || '') + '</textarea>';
+          list.appendChild(row);
+          row.querySelectorAll('input, textarea').forEach(function (el) {
+            el.addEventListener('input', saveCustomiserState);
+            el.addEventListener('change', saveCustomiserState);
+          });
+        });
+      }
 
       /* Load from localStorage or defaults */
       function loadCustomiserState() {
@@ -2642,12 +2772,20 @@
         document.getElementById('cc-phone').value = state.phone || '';
         document.getElementById('cc-email').value = state.email || '';
         document.getElementById('cc-description').value = state.description || '';
-        document.getElementById('cc-services').value = state.services || '';
+        /* Restore tier */
+        var tier = state.tier || '2';
+        document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
+          b.classList.toggle('tier-active', b.getAttribute('data-tier') === tier);
+        });
+        updateTierUI();
+        /* Restore products */
+        if (state.products) setProductsArray(state.products);
         updatePreviewDots();
       }
 
       function saveCustomiserState() {
         var state = {
+          tier: getSelectedTier(),
           primary: document.getElementById('cc-primary').value,
           secondary: document.getElementById('cc-secondary').value,
           background: document.getElementById('cc-background').value,
@@ -2661,7 +2799,7 @@
           phone: document.getElementById('cc-phone').value,
           email: document.getElementById('cc-email').value,
           description: document.getElementById('cc-description').value,
-          services: document.getElementById('cc-services').value
+          products: getProductsArray()
         };
         try { localStorage.setItem('everdream-customiser', JSON.stringify(state)); } catch(e) {}
         updatePreviewDots();
@@ -2716,7 +2854,8 @@
         var ph = document.getElementById('cc-phone').value.trim();
         var em = document.getElementById('cc-email').value.trim();
         var desc = document.getElementById('cc-description').value.trim();
-        var svcs = document.getElementById('cc-services').value.trim();
+        var products = getProductsArray().filter(function (p) { return p.name.trim(); });
+        var tier = getSelectedTier();
 
         /* Build style override */
         var existing = document.getElementById('cc-style-override');
@@ -2764,7 +2903,9 @@
               '<p class="name-line"><span class="contact-label">Name:</span><br><span class="contact-value name-line">' + escapeHtml(nam || '') + '</span></p>' +
               (ph ? '<p><span class="contact-label">Mobile:</span><br><span class="contact-value">' + escapeHtml(ph) + '</span></p>' : '') +
               (em ? '<p><span class="contact-label">Email:</span><br><span class="contact-value">' + escapeHtml(em) + '</span></p>' : '') +
-              (svcs ? '<div class="contact-divider" aria-hidden="true"></div><p class="about-text" style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Services</p><p class="about-text" style="font-size:0.95rem;">' + escapeHtml(svcs).replace(/\n/g,'<br>') + '</p>' : '') +
+              (products.length && tier === '3' ? '<div class="contact-divider" aria-hidden="true"></div><p class="about-text" style="font-weight:600;font-size:1rem;margin-bottom:0.5rem;">Products/Services</p>' + products.map(function (prod) {
+                return '<p class="about-text" style="font-size:0.95rem;margin-bottom:0.3rem;"><strong>' + escapeHtml(prod.name) + '</strong><br>' + escapeHtml(prod.desc) + '</p>';
+              }).join('') : '') +
               '<div class="contact-actions">' +
               '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
               '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
@@ -2814,13 +2955,15 @@
         confirmOverlay.classList.remove('visible');
         customiserOverlay.classList.remove('visible');
 
+        var tier = getSelectedTier();
+        var cost = tier === '3' ? '$20' : '$10';
         var biz = document.getElementById('cc-business').value.trim() || 'My Business';
         var nam = document.getElementById('cc-name').value.trim() || '';
         var tag = document.getElementById('cc-tagline').value.trim() || '';
         var ph = document.getElementById('cc-phone').value.trim() || '';
         var em = document.getElementById('cc-email').value.trim() || '';
         var desc = document.getElementById('cc-description').value.trim() || '';
-        var svcs = document.getElementById('cc-services').value.trim() || '';
+        var products = getProductsArray().filter(function (p) { return p.name.trim(); });
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
@@ -2830,14 +2973,20 @@
         var bf = document.getElementById('cc-body-font').value;
 
         var body = 'Digicard Design\n\n';
+        body += 'Tier: ' + tier + ' Pages (' + cost + ')\n';
         body += 'Business: ' + biz + '\n';
         body += 'Name: ' + nam + '\n';
         body += 'Tagline: ' + tag + '\n';
         body += 'Phone: ' + ph + '\n';
         body += 'Email: ' + em + '\n';
         body += 'Description: ' + desc + '\n';
-        body += 'Services:\n' + (svcs || '—') + '\n\n';
-        body += 'Colours:\n';
+        if (products.length) {
+          body += 'Products/Services:\n';
+          products.forEach(function (prod) {
+            body += '  - ' + prod.name + ': ' + prod.desc + '\n';
+          });
+        }
+        body += '\nColours:\n';
         body += '  Primary: ' + p + '\n';
         body += '  Secondary: ' + s + '\n';
         body += '  Background: ' + b + '\n';
@@ -2848,8 +2997,9 @@
         body += '  Body Font: ' + bf + '\n\n';
         body += '===JSON===\n';
         body += JSON.stringify({
+          tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
-          description: desc, services: svcs.split('\n').filter(Boolean),
+          description: desc, products: products,
           palette: { primary: p, secondary: s, background: b, text: t, title: ti },
           fonts: { title: tf, body: bf }
         }, null, 2);
