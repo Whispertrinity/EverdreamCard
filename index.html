@@ -1873,11 +1873,13 @@
       <div class="customiser-modal-scroll" style="text-align:center;padding:2rem 1.5rem;font-family:Verdana,Geneva,sans-serif;font-size:1.3rem;color:#3e2723;">
         <p>Are you sure you're finished?<br>This will send your design to us.</p>
         <p style="margin-top:1.2rem;font-size:2rem;font-weight:bold;color:#2e7d32;" id="cc-confirm-cost">$10</p>
-        <p style="font-size:0.9rem;color:#5d4037;margin-top:0.3rem;">Pay Brett directly — cash, bank transfer, or in person at market</p>
+        <p style="font-size:0.9rem;color:#5d4037;margin-top:0.3rem;">Bank transfer to my account — I'll wait for payment before giving you the URL</p>
+        <p style="font-size:0.8rem;color:#5d4037;margin-top:0.5rem;line-height:1.4;"><strong>Buy Now</strong> — get a unique reference code, see my bank details, then the design goes through<br><strong>Send Design Only</strong> — no payment, just send me the design</p>
       </div>
       <div class="customiser-actions">
-        <button type="button" class="customiser-btn customiser-btn-preview" id="cc-confirm-yes" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;">Yes</button>
-        <button type="button" class="customiser-btn customiser-btn-reset" id="cc-confirm-no">No</button>
+      <button type="button" class="customiser-btn customiser-btn-save" id="cc-confirm-pay" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;">Buy Now →</button>
+      <button type="button" class="customiser-btn customiser-btn-preview" id="cc-confirm-email">Send Design Only</button>
+      <button type="button" class="customiser-btn customiser-btn-reset" id="cc-confirm-no">Cancel</button>
       </div>
     </div>
   </div>
@@ -1915,10 +1917,11 @@
     <div class="payments-modal">
       <div class="modal-header"><h2>Payments</h2></div>
       <div class="payments-modal-body">
+        <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;margin-bottom:1rem;">Transfer the amount above to my account, using your unique reference code.</p>
         <p class="payments-row"><span class="payments-label">Name</span><br><button type="button" class="payments-value copy-contact" data-copy="Brett Hurst" aria-label="Copy name">Brett Hurst</button></p>
         <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" data-copy="105025" aria-label="Copy BSB">105 025</button></p>
         <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
-        <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><span class="payments-ref-value">(Your Name)</span></p>
+        <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close">Close</button>
@@ -2491,6 +2494,12 @@
         hapticBuzz();
         paymentsModal.classList.remove('visible');
         paymentsModal.setAttribute('aria-hidden', 'true');
+        /* If there's a pending reference code, fire the email now */
+        var refCode = paymentsModal.dataset.pendingRef || null;
+        if (refCode) {
+          delete paymentsModal.dataset.pendingRef;
+          sendDesignEmail(refCode);
+        }
       });
       var packsWholesaleOverlay = document.getElementById('packs-wholesale-overlay');
       var packsWholesaleFlipCard = document.getElementById('packs-wholesale-flip-card');
@@ -3565,12 +3574,18 @@
         confirmOverlay.setAttribute('aria-hidden', 'true');
       });
 
-      /* Confirm Yes → build mailto */
-      document.getElementById('cc-confirm-yes').addEventListener('click', function () {
-        hapticBuzz();
-        confirmOverlay.classList.remove('visible');
-        customiserOverlay.classList.remove('visible');
+      /* Generate a 7-char alphanumeric reference code */
+      function generateRefCode() {
+        var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; /* no O/0, I/1 to avoid confusion */
+        var code = '';
+        for (var i = 0; i < 7; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+      }
 
+      /* Build the email body from current customiser state, with optional refCode */
+      function buildDesignEmail(refCode) {
         var tier = getSelectedTier();
         var cost = tier === '3' ? '$20' : '$10';
         var biz = document.getElementById('cc-business').value.trim() || 'My Business';
@@ -3591,6 +3606,7 @@
         var btnText = document.getElementById('cc-button-text').value;
 
         var body = 'Digicard Design\n\n';
+        if (refCode) body += 'Reference: ' + refCode + ' — use this when paying\n\n';
         body += 'Tier: ' + tier + ' Pages (' + cost + ')\n';
         body += 'Business: ' + biz + '\n';
         body += 'Name: ' + nam + '\n';
@@ -3604,7 +3620,7 @@
             body += '  - ' + prod.name + ': ' + prod.desc + '\n';
             if (prod.sizes && prod.sizes.length) {
               prod.sizes.forEach(function (s) {
-                if (s.name || s.price) body += '      Size: ' + (s.name || '—') + ' — ' + (s.price || '—') + '\n';
+                if (s.name || s.price) body += '      Size: ' + (s.name || '\u2014') + ' \u2014 ' + (s.price || '\u2014') + '\n';
               });
             }
           });
@@ -3615,7 +3631,6 @@
           body += '\nPacks:\n';
           packs.forEach(function (pack) {
             body += '  - ' + pack.name + ' (' + pack.price + ')\n';
-            /* List product names if we can */
             var allProds = getProductsArray();
             Object.keys(pack.items).forEach(function (idx) {
               var prod = allProds[parseInt(idx)];
@@ -3640,14 +3655,44 @@
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
           description: desc, products: products, packs: packs,
           palette: { primary: p, secondary: s, background: b, text: t, title: ti, button: btn, buttonText: btnText },
-          fonts: { title: tf, body: bf }
+          fonts: { title: tf, body: bf },
+          reference: refCode || null
         }, null, 2);
 
-        var mailto = 'mailto:everdreamgoods@gmail.com?subject=' +
-          encodeURIComponent('Digicard Design - ' + biz) +
+        var subject = 'Digicard Design - ' + biz + (refCode ? ' [' + refCode + ']' : '');
+        return 'mailto:everdreamgoods@gmail.com?subject=' +
+          encodeURIComponent(subject) +
           '&body=' + encodeURIComponent(body);
+      }
 
-        window.location.href = mailto;
+      /* Send the email (shared by both buttons) */
+      function sendDesignEmail(refCode) {
+        confirmOverlay.classList.remove('visible');
+        confirmOverlay.setAttribute('aria-hidden', 'true');
+        customiserOverlay.classList.remove('visible');
+        customiserOverlay.setAttribute('aria-hidden', 'true');
+        window.location.href = buildDesignEmail(refCode);
+      }
+
+      /* Buy Now → generates a reference code, sets it in payments modal, opens payments */
+      document.getElementById('cc-confirm-pay').addEventListener('click', function () {
+        hapticBuzz();
+        var refCode = generateRefCode();
+        var refEl = document.getElementById('payments-ref-value');
+        if (refEl) {
+          refEl.textContent = refCode;
+          refEl.setAttribute('data-copy', refCode);
+        }
+        /* Store the ref code on the overlay for close handler */
+        paymentsModal.dataset.pendingRef = refCode;
+        paymentsModal.classList.add('visible');
+        paymentsModal.setAttribute('aria-hidden', 'false');
+      });
+
+      /* Send Design Only — no reference code, just emails */
+      document.getElementById('cc-confirm-email').addEventListener('click', function () {
+        hapticBuzz();
+        sendDesignEmail(null);
       });
 
       /* Close confirm on overlay click */
