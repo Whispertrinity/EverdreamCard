@@ -726,6 +726,11 @@
       background-color: #1b5e20;
     }
 
+    /* Payments modal close — inside footer, no extra top margin */
+    #payments-modal-close {
+      margin: 0 auto;
+    }
+
     /* Wholesale modal header — brand purple */
     #wholesale-modal-content .modal-header {
       background-color: #4a2864;
@@ -896,28 +901,6 @@
       font-weight: 600;
       color: #3e2723;
     }
-    .payments-modal .share-modal-close {
-      display: block;
-      margin: 0 auto;
-      padding: 0.5rem 1rem;
-      font-family: 'The Wanters DEMO', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #fff;
-      background: #c62828;
-      border: 2px solid #8b0000;
-      border-radius: 9999px;
-      cursor: pointer;
-      text-align: center;
-      -webkit-text-stroke: 1.5px #000;
-      text-stroke: 1.5px #000;
-      paint-order: stroke fill;
-      -webkit-paint-order: stroke fill;
-    }
-    .payments-modal .share-modal-close:hover {
-      background: #b71c1c;
-    }
-
     .save-icon-modal-overlay {
       display: none;
       position: fixed;
@@ -2019,14 +2002,13 @@
     <div class="payments-modal">
       <div class="modal-header"><h2>Payments</h2></div>
       <div class="payments-modal-body">
-        <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;margin-bottom:1rem;" id="payments-message">Transfer the amount above to my account, using your unique reference code.</p>
         <p class="payments-row"><span class="payments-label">Name</span><br><button type="button" class="payments-value copy-contact" data-copy="Brett Hurst" aria-label="Copy name">Brett Hurst</button></p>
         <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" data-copy="105025" aria-label="Copy BSB">105 025</button></p>
         <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
         <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
-        <div style="margin-top:1.25rem;">
-          <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close" style="background:linear-gradient(135deg,#c62828 0%,#e53935 50%,#c62828 100%);border-color:#b71c1c;color:#f5f5dc;width:100%;box-sizing:border-box;">Close</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="wholesale-modal-close" id="payments-modal-close" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
