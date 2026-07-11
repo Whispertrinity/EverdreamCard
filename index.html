@@ -593,6 +593,33 @@
       box-sizing: border-box;
     }
 
+    .contact-actions-divider {
+      width: 100%;
+      max-width: 200px;
+      height: 0;
+      border: none;
+      border-top: 2px solid rgba(93, 64, 55, 0.35);
+      margin: 0.75rem auto 0.6rem;
+      display: block;
+    }
+
+    .contact-actions-bottom {
+      width: 100%;
+      text-align: center;
+      margin-top: 0;
+    }
+    .contact-actions-bottom .share-btn {
+      width: 100%;
+      max-width: 18rem;
+      box-sizing: border-box;
+    }
+
+    .design-yours-btn {
+      background: linear-gradient(135deg, #c62828 0%, #e53935 50%, #c62828 100%) !important;
+      border-color: #b71c1c !important;
+      color: #f5f5dc !important;
+    }
+
     .share-btn {
       display: block;
       margin: 0;
@@ -1728,7 +1755,10 @@
             <button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>
             <button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>
             <button type="button" class="share-btn" id="share-btn">Share</button>
-            <button type="button" class="share-btn design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border:2px solid #1b5e20;">Design Yours!</button>
+          </div>
+          <div class="contact-actions-divider" aria-hidden="true"></div>
+          <div class="contact-actions-bottom">
+            <button type="button" class="share-btn design-yours-btn" id="design-yours-btn">Design Yours!</button>
           </div>
         </div>
       </div>
@@ -1942,15 +1972,14 @@
     <div class="payments-modal">
       <div class="modal-header"><h2>Payments</h2></div>
       <div class="payments-modal-body">
-        <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;margin-bottom:1rem;">Transfer the amount above to my account, using your unique reference code.</p>
+        <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;margin-bottom:1rem;" id="payments-message">Transfer the amount above to my account, using your unique reference code.</p>
         <p class="payments-row"><span class="payments-label">Name</span><br><button type="button" class="payments-value copy-contact" data-copy="Brett Hurst" aria-label="Copy name">Brett Hurst</button></p>
         <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" data-copy="105025" aria-label="Copy BSB">105 025</button></p>
         <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
         <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
       </div>
       <div class="modal-footer" style="display:flex;flex-direction:column;gap:0.5rem;padding:0 1rem 1.25rem;">
-        <button type="button" class="share-modal-close payments-sent-btn" id="payments-sent-btn" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;color:#f5f5dc;">I've Sent the Money</button>
-        <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close" style="background:linear-gradient(135deg,#5d4037 0%,#6d4c41 50%,#5d4037 100%);">Close</button>
+        <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close" style="background:linear-gradient(135deg,#c62828 0%,#e53935 50%,#c62828 100%);border-color:#b71c1c;color:#f5f5dc;">Close</button>
       </div>
     </div>
   </div>
@@ -2187,7 +2216,10 @@
             '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
             '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
             '<button type="button" class="share-btn" id="share-btn">Share</button>' +
-            '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border:2px solid #1b5e20;">Design Yours!</button>' +
+            '</div>' +
+            '<div class="contact-actions-divider" aria-hidden="true"></div>' +
+            '<div class="contact-actions-bottom">' +
+            '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn">Design Yours!</button>' +
             '</div>';
         }
         var wholesaleModalRoot = document.getElementById('wholesale-modal-content');
@@ -2522,8 +2554,14 @@
       var paymentsModal = document.getElementById('payments-modal-overlay');
       var paymentBtn = document.getElementById('payment-btn');
       var paymentsModalClose = document.getElementById('payments-modal-close');
+      var paymentsMessage = document.getElementById('payments-message');
+      var paymentsRefRow = document.querySelector('.payments-reference-row');
       if (paymentBtn && paymentsModal) paymentBtn.addEventListener('click', function () {
         hapticBuzz();
+        /* Jerky purchase — use name as reference, hide generated code */
+        if (paymentsMessage) paymentsMessage.textContent = 'Please enter your name as the reference for sales.';
+        if (paymentsRefRow) paymentsRefRow.style.display = 'none';
+        paymentsModal.dataset.pendingRef = '';
         paymentsModal.classList.add('visible');
         paymentsModal.setAttribute('aria-hidden', 'false');
       });
@@ -2533,18 +2571,7 @@
         paymentsModal.setAttribute('aria-hidden', 'true');
         /* Close without firing email — customer hasn't paid yet */
       });
-      /* I've Sent the Money button — fires the email with the ref code */
-      var paymentsSentBtn = document.getElementById('payments-sent-btn');
-      if (paymentsSentBtn && paymentsModal) paymentsSentBtn.addEventListener('click', function () {
-        hapticBuzz();
-        var refCode = paymentsModal.dataset.pendingRef || null;
-        if (refCode) {
-          delete paymentsModal.dataset.pendingRef;
-          paymentsModal.classList.remove('visible');
-          paymentsModal.setAttribute('aria-hidden', 'true');
-          sendDesignEmail(refCode);
-        }
-      });
+      /* I've Sent the Money button removed — email is now sent from Buy Now or customiser paths */
       var packsWholesaleOverlay = document.getElementById('packs-wholesale-overlay');
       var packsWholesaleFlipCard = document.getElementById('packs-wholesale-flip-card');
       if (wholesaleBtn && packsWholesaleOverlay) wholesaleBtn.addEventListener('click', function () {
@@ -3584,7 +3611,10 @@
               '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
               '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
               '<button type="button" class="share-btn" id="share-btn">Share</button>' +
-              '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border:2px solid #1b5e20;">Design Yours!</button></div>';
+              '</div>' +
+              '<div class="contact-actions-divider" aria-hidden="true"></div>' +
+              '<div class="contact-actions-bottom">' +
+              '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn">Design Yours!</button></div>';
           }
         }
         /* Update products page */
@@ -3740,8 +3770,8 @@
           body: params.body || ''
         };
 
-        /* Show a brief sending indicator — try the button that was clicked */
-        var btn = document.getElementById('payments-sent-btn') || document.getElementById('cc-confirm-pay') || document.getElementById('cc-confirm-email');
+        /* Show a brief sending indicator */
+        var btn = document.getElementById('cc-confirm-pay') || document.getElementById('cc-confirm-email');
         var origText = btn ? btn.textContent : '';
         if (btn) btn.textContent = 'Sending...';
 
@@ -3773,7 +3803,12 @@
           refEl.textContent = refCode;
           refEl.setAttribute('data-copy', refCode);
         }
-        /* Store the ref code on the overlay for close handler */
+        /* Digicard purchase — show unique code message and reference row */
+        var pm = document.getElementById('payments-message');
+        if (pm) pm.textContent = 'Transfer the amount above to my account, using your unique reference code.';
+        var prr = document.querySelector('.payments-reference-row');
+        if (prr) prr.style.display = '';
+        /* Store the ref code on the overlay */
         paymentsModal.dataset.pendingRef = refCode;
         paymentsModal.classList.add('visible');
         paymentsModal.setAttribute('aria-hidden', 'false');
