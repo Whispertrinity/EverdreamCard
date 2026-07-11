@@ -342,10 +342,27 @@
 
     .prices-once {
       color: #3e2723;
-      font-size: clamp(2rem, 4.5vw, 2.6rem);
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(2.2rem, 5vw, 2.8rem);
       font-weight: bold;
       margin-bottom: 1.5rem;
       text-align: center;
+    }
+    .prices-once .size-row {
+      display: block;
+      padding: 0.15rem 0;
+    }
+    .size-row {
+      display: block;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1.6rem, 4vw, 2rem);
+      font-weight: bold;
+      margin-top: 0.5rem;
+      line-height: 1.7;
+    }
+    .size-row span {
+      display: block;
+      padding: 0.1rem 0;
     }
 
     .flavour-accordions {
@@ -1461,6 +1478,7 @@
       gap: 0.6rem;
       padding: 0.75rem 1rem 1rem;
       border-top: 2px solid rgba(93,64,55,0.25);
+      background-color: #5d4037;
     }
     .customiser-btn {
       flex: 1;
@@ -1628,7 +1646,6 @@
                 </div>
                 <div class="intro-footer">
                   <p class="intro-message">Business Card</p>
-                  <button type="button" class="intro-message design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;font-size:clamp(0.9rem,2vw,1.1rem);background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);-webkit-text-stroke:0.8px #000;text-stroke:0.8px #000;border:2px solid #1b5e20;border-radius:9999px;padding:0.5rem 1.2rem;color:#f5f5dc;font-family:'The Wanters DEMO',serif;cursor:pointer;font-weight:600;letter-spacing:0.05em;box-shadow:0 4px 12px rgba(46,125,50,0.35);">Design Yours!</button>
                 </div>
               </section>
             </div>
@@ -1644,42 +1661,47 @@
                 <h1>Products</h1>
               </div>
               <div class="products-body">
+                <div class="prices-once"><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></div>
                 <ul class="flavour-accordions">
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The original flavour. Marinated in a blend of barbecue sauce, soy sauce and Worcestershire - This sweet blend with a chewy consistency will leave you wanting more.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
-                  </li>
-                  <li class="flavour-panel">
-                    <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The original flavour. Marinated in a blend of barbecue sauce, soy sauce and Worcestershire - This sweet blend with a chewy consistency will leave you wanting more.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
+                   </li>
+                   <li class="flavour-panel">
+                     <button type="button" class="flavour-panel-header" aria-expanded="false">Smokey BBQ</button>
+                     <div class="flavour-panel-body"><p class="flavour-panel-desc">The classic barbecue flavour with a Smokey edge. Dryer than its brother, with a hint of campfire that keeps you coming back.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Teriyaki</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Sweet, sticky and full in flavour. A rich glaze of teriyaki and soy for those who love bold Japanese flavours.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Sweet, sticky and full in flavour. A rich glaze of teriyaki and soy for those who love bold Japanese flavours.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Korean BBQ</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Bulgogi marinade with a dash of soy and fresh garlic - Korean BBQ with its rich, unique flavour is a must try.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Sweet Chilli</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. Just a whisper of spice makes it great for people who don't like it too hot.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">The familiar taste of sweet chilli creates a tacky beef jerky different to the other flavours. Just a whisper of spice makes it great for people who don't like it too hot.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Exotic Spice</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A slightly spicy, South Korean marinade gives Exotic Spice its uncanny flavour. Tends to be dryer than other flavours.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Hot Chilli</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A Hot Chilli that never lets the chilli fans down. Its barbecue base is infused with chilli and the seeds turn up the heat again. A must try for chilli lovers!<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">A Hot Chilli that never lets the chilli fans down. Its barbecue base is infused with chilli and the seeds turn up the heat again. A must try for chilli lovers!<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Roast Lamb</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">40g — $5 · 80g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Lamb topside is a lean cut of lamb that is perfect for Jerky. A barbecue base with fresh rosemary and garlic - tastes just like a Sunday roast.<br><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></p></div>
                   </li>
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Pet treats</button>
-                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">100g — $10</span></p></div>
+                    <div class="flavour-panel-body"><p class="flavour-panel-desc">Delicious dehydrated sticks of chicken breast - Your dog will be dreaming of these healthy natural treats!<br><span class="size-row"><span>100g — $10</span></span></p></div>
+                  </li>
+                  <li class="flavour-list-divider" aria-hidden="true"></li>
+                  <li class="flavour-panel">
+                    <button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open packs" style="border:2px solid #1b5e20;">Packs</button>
                   </li>
                 </ul>
               </div>
@@ -1702,8 +1724,7 @@
       </div>
       <div class="contact-body">
         <div class="contact-block">
-          <p class="about-text">Everdream Jerky is a home business in the Adelaide Hills.<br><br>What began with just Barbecue and Hot Chilli has grown into a range of eight flavours,<br>all handcrafted in small batches for quality and flavour.<br><br>I'm proud to bring you real ingredients and real taste—no shortcuts.</p>
-          <p class="about-text pet-treats-coming">We also have a healthy chicken option for your furry friends!</p>
+          <p class="about-text">Everdream Jerky is a home business in the Adelaide Hills.<br><br>What began with just Barbecue and Hot Chilli has grown into a range of eight flavours,<br>all handcrafted in small batches for quality and flavour.<br><br>I'm proud to bring you real ingredients and real taste—no shortcuts.<br><br>We also have a healthy chicken option for your furry friends!</p>
           <div class="contact-divider" aria-hidden="true"></div>
           <p class="name-line">
             <span class="contact-label">Name:</span><br>
@@ -1720,6 +1741,7 @@
             <button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>
             <button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>
             <button type="button" class="share-btn" id="share-btn">Share</button>
+            <button type="button" class="share-btn design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border:2px solid #1b5e20;">Design Yours!</button>
           </div>
         </div>
       </div>
@@ -2129,11 +2151,12 @@
         if (!d || !d.businessName) return;
         SHARE_URL = d.shareUrl || SHARE_URL;
         document.querySelectorAll('.title-panel h1').forEach(function (h) { h.textContent = d.businessName; });
+        document.querySelectorAll('.intro-header h1').forEach(function (h) { h.textContent = d.businessName; });
         var logo = document.querySelector('.intro-icon');
         if (logo) { logo.src = d.logoUrl || logo.src; logo.alt = d.businessName; }
         var pricesEl = document.querySelector('.prices-once');
         if (pricesEl && d.productPrices && d.productPrices.length)
-          pricesEl.innerHTML = d.productPrices.map(function (p) { return escapeHtml(p.size) + ' = ' + escapeHtml(p.price); }).join('<br>');
+          pricesEl.innerHTML = d.productPrices.map(function (p) { return '<span class=\"size-row\"><span>' + escapeHtml(p.size) + ' — ' + escapeHtml(p.price) + '</span></span>'; }).join('');
         var flavoursUl = document.querySelector('.flavour-accordions');
         if (flavoursUl && d.products && d.products.length) {
           flavoursUl.innerHTML = '';
@@ -2156,9 +2179,13 @@
           d.products.forEach(function (prod) {
             if (prod.afterDivider) appendProduct(prod);
           });
+          var divLi2 = document.createElement('li');
+          divLi2.className = 'flavour-list-divider';
+          divLi2.setAttribute('aria-hidden', 'true');
+          flavoursUl.appendChild(divLi2);
           var packsLi = document.createElement('li');
           packsLi.className = 'flavour-panel';
-          packsLi.innerHTML = '<button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open wholesale packs">Packs</button>';
+          packsLi.innerHTML = '<button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open packs" style="border:2px solid #1b5e20;">Packs</button>';
           flavoursUl.appendChild(packsLi);
         }
         var contactBlock = document.querySelector('.contact-block');
@@ -2166,41 +2193,50 @@
           var c = d.contact;
           var appHtml = (c.app && c.app.trim()) ? '<a href="' + escapeHtml(c.app) + '" class="contact-value">Open in app</a>' : '<a href="#" class="contact-value copy-soon">Coming Soon</a>';
           contactBlock.innerHTML = '<p class="about-text">' + (d.about || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&lt;br\s*\/?&gt;/gi, '<br>') + '</p>' +
-            '<p class="about-text pet-treats-coming">We also have a healthy chicken option for your furry friends!</p>' +
             '<div class="contact-divider" aria-hidden="true"></div>' +
             '<p class="name-line"><span class="contact-label">Name:</span><br><button type="button" class="add-contact-trigger name-value" aria-label="Add ' + escapeHtml(c.name) + ' to contacts" data-name="' + escapeHtml(c.name) + '" data-tel="' + escapeHtml(c.phone) + '" data-email="' + escapeHtml(c.email) + '" data-org="' + escapeHtml(d.businessName) + '">' + escapeHtml(c.name) + '</button></p>' +
             '<p><span class="contact-label">Mobile:</span><br><a href="tel:' + escapeHtml(c.phone) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(c.phone) + '">' + escapeHtml(c.phone) + '</a></p>' +
             '<p><span class="contact-label">Email:</span><br><a href="mailto:' + escapeHtml(c.email) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(c.email) + '">' + escapeHtml(c.email) + '</a></p>' +
-            '<p><span class="contact-label">App:</span><br>' + appHtml + '</p>' +
+            (c.app ? '<p><span class="contact-label">App:</span><br>' + appHtml + '</p>' : '') +
             '<div class="contact-actions">' +
             '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
             '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
             '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
             '<button type="button" class="share-btn" id="share-btn">Share</button>' +
+            '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border:2px solid #1b5e20;">Design Yours!</button>' +
             '</div>';
         }
         var wholesaleModalRoot = document.getElementById('wholesale-modal-content');
         var wholesaleUl = wholesaleModalRoot ? wholesaleModalRoot.querySelector('.wholesale-accordions') : null;
-        if (wholesaleUl && d.packs && d.packs.length) {
-          wholesaleUl.innerHTML = '';
-          d.packs.forEach(function (pack, i) {
-            var contentsHtml = (pack.contents || []).map(function (line) {
-              return '<li>' + line + '</li>';
-            }).join('');
-            var li = document.createElement('li');
-            li.className = 'wholesale-panel pack-' + (i + 1);
-            li.innerHTML = '<button type="button" class="wholesale-panel-header" aria-expanded="false">' +
-              '<span class="wholesale-pack-header-text">' +
-              '<span class="wholesale-pack-title">' + escapeHtml(pack.title) + '</span>' +
-              '<span class="wholesale-pack-cost">' + escapeHtml(pack.price) + '</span></span></button>' +
-              '<div class="wholesale-panel-body"><div class="wholesale-panel-desc">' +
-              '<ul class="pack-contents pack-contents-simple">' + contentsHtml + '</ul>' +
-              '<div class="wholesale-panel-summary">' +
-              '<p class="wholesale-summary-line wholesale-summary-price">' + escapeHtml(packSummaryPriceLine(pack.nowPrice, pack.price)) + '</p>' +
-              '<p class="wholesale-summary-line wholesale-summary-saved">' + escapeHtml(packSummarySavedLine(pack.save)) + '</p>' +
-              '<p class="wholesale-summary-line wholesale-summary-pct">' + escapeHtml(pack.savePct || '') + '</p></div></div></div>';
-            wholesaleUl.appendChild(li);
-          });
+        var packsModalRoot = document.getElementById('packs-modal-content');
+        var packsUl = packsModalRoot ? packsModalRoot.querySelector('.wholesale-accordions') : null;
+        if (d.packs && d.packs.length) {
+          function populatePacksList(ul, packs, showSummary) {
+            if (!ul) return;
+            ul.innerHTML = '';
+            packs.forEach(function (pack, i) {
+              var contentsHtml = (pack.contents || []).map(function (line) {
+                return '<li>' + line + '</li>';
+              }).join('');
+              var summaryHtml = showSummary ? (
+                '<div class="wholesale-panel-summary">' +
+                '<p class="wholesale-summary-line wholesale-summary-price">' + escapeHtml(packSummaryPriceLine(pack.nowPrice, pack.price)) + '</p>' +
+                '<p class="wholesale-summary-line wholesale-summary-saved">' + escapeHtml(packSummarySavedLine(pack.save)) + '</p>' +
+                '<p class="wholesale-summary-line wholesale-summary-pct">' + escapeHtml(pack.savePct || '') + '</p></div>'
+              ) : '';
+              var li = document.createElement('li');
+              li.className = 'wholesale-panel pack-' + (i + 1);
+              li.innerHTML = '<button type="button" class="wholesale-panel-header" aria-expanded="false">' +
+                '<span class="wholesale-pack-header-text">' +
+                '<span class="wholesale-pack-title">' + escapeHtml(pack.title) + '</span>' +
+                '<span class="wholesale-pack-cost">' + escapeHtml(pack.price) + '</span></span></button>' +
+                '<div class="wholesale-panel-body"><div class="wholesale-panel-desc">' +
+                '<ul class="pack-contents pack-contents-simple">' + contentsHtml + '</ul>' + summaryHtml + '</div></div></div>';
+              ul.appendChild(li);
+            });
+          }
+          populatePacksList(wholesaleUl, d.packs, true);
+          populatePacksList(packsUl, d.packs, false);
         }
         /* Share modal uses static SmoothQR.png; skip dynamic QR overwrite */
       }
@@ -3282,16 +3318,26 @@
           li.className = 'flavour-panel';
           var sizesHtml = '';
           if (prod.sizes && prod.sizes.length) {
-            sizesHtml = '<br><span style="display:block;margin-top:0.5rem;font-weight:bold;">' +
+            sizesHtml = '<br><span class="size-row">' +
               prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
-                return (s.name || '') + (s.price ? ' — ' + s.price : '');
-              }).join(' · ') +
+                return '<span>' + (s.name || '') + (s.price ? ' — ' + s.price : '') + '</span>';
+              }).join('') +
               '</span>';
           }
           li.innerHTML = '<button type="button" class="flavour-panel-header" aria-expanded="false">' + escapeHtml(prod.name) + '</button>' +
             '<div class="flavour-panel-body"><p class="flavour-panel-desc">' + escapeHtml(prod.desc) + sizesHtml + '</p></div>';
           ul.appendChild(li);
         });
+
+        /* Add divider and packs button */
+        var divLi = document.createElement('li');
+        divLi.className = 'flavour-list-divider';
+        divLi.setAttribute('aria-hidden', 'true');
+        ul.appendChild(divLi);
+        var packsLi = document.createElement('li');
+        packsLi.className = 'flavour-panel';
+        packsLi.innerHTML = '<button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open packs" style="border:2px solid #1b5e20;">Packs</button>';
+        ul.appendChild(packsLi);
 
         /* Re-attach accordion click handlers on new products */
         ul.querySelectorAll('.flavour-panel-header').forEach(function (btn) {
@@ -3404,7 +3450,7 @@
 
         if (header) header.style.backgroundColor = p;
         if (title) {
-          title.style.color = ti;
+          title.style.color = '#f6f6de';
           title.style.fontFamily = tf;
         }
 
@@ -3467,16 +3513,17 @@
         });
       });
 
-      /* Open customiser */
-      if (designBtn) {
-        designBtn.addEventListener('click', function () {
+      /* Open customiser — delegated so it survives contact block rebuilds */
+      document.addEventListener('click', function (e) {
+        var btn = e.target.closest('#design-yours-btn');
+        if (btn) {
           hapticBuzz();
           loadCustomiserState();
           applyLiveModalColours();
           customiserOverlay.classList.add('visible');
           customiserOverlay.setAttribute('aria-hidden', 'false');
-        });
-      }
+        }
+      });
 
       /* Close customiser on overlay click */
       customiserOverlay.addEventListener('click', function (e) {
@@ -3556,7 +3603,8 @@
               '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
               '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
               '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
-              '<button type="button" class="share-btn" id="share-btn">Share</button></div>';
+              '<button type="button" class="share-btn" id="share-btn">Share</button>' +
+              '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn" style="margin-top:0.6rem;background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border:2px solid #1b5e20;">Design Yours!</button></div>';
           }
         }
         /* Update products page */
