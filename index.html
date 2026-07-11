@@ -653,8 +653,8 @@
     }
 
     .design-yours-btn {
-      background: linear-gradient(135deg, #c62828 0%, #e53935 50%, #c62828 100%) !important;
-      border-color: #b71c1c !important;
+      background: linear-gradient(135deg, #7a0000 0%, #a31515 50%, #7a0000 100%) !important;
+      border-color: #4a0000 !important;
       color: #f5f5dc !important;
     }
 
@@ -686,22 +686,22 @@
     }
 
     #share-btn {
-      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
-      border-color: #1b5e20;
-      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
+      border-color: #0d3b0f;
+      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.35);
     }
 
     #share-btn:hover {
-      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+      box-shadow: 0 6px 16px rgba(27, 94, 32, 0.45);
     }
 
     #save-icon-btn {
-      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
-      border-color: #1b5e20;
-      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
+      border-color: #0d3b0f;
+      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.35);
     }
     #save-icon-btn:hover {
-      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+      box-shadow: 0 6px 16px rgba(27, 94, 32, 0.45);
     }
 
     #wholesale-btn {
@@ -736,6 +736,21 @@
     .packs-wholesale-face .modal-header,
     #packs-modal-content .modal-header {
       background-color: #1b5e20;
+    }
+
+    /* Share modal header — brand green */
+    .share-modal .modal-header {
+      background-color: #1b5e20;
+    }
+
+    /* Save icon modal header — brand green */
+    .save-icon-modal .modal-header {
+      background-color: #1b5e20;
+    }
+
+    /* Customiser modal header — dark red accent */
+    #cc-modal-header {
+      background-color: #7a0000;
     }
 
     /* Payments modal close — inside footer, no extra top margin */
@@ -1440,12 +1455,11 @@
     .customiser-accordion-header.cc-products-master-header,
     .customiser-accordion-header.cc-packs-master-header {
       background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
-      border-bottom: 2px solid #0a1a1d;
-      padding: 0.7rem 0.85rem;
-      font-size: clamp(1rem,2.4vw,1.15rem);
-      -webkit-text-stroke: 0.8px #000;
-      text-stroke: 0.8px #000;
-      text-align: left;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: clamp(1.35rem, 3vw, 1.6rem);
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
     }
     .customiser-accordion-header.cc-products-master-header:hover,
     .customiser-accordion-header.cc-packs-master-header:hover {
@@ -1460,6 +1474,7 @@
     .customiser-accordion-body.open {
       max-height: 600px;
       padding: 0.6rem 0.6rem;
+      background: #F6F6DE;
     }
 
     /* Preset colour swatches */
@@ -1527,13 +1542,13 @@
     }
     .customiser-text::placeholder, .customiser-textarea::placeholder { color: #a1887f; }
 
-    /* Action buttons */
+    /* Action buttons — in cream scroll area */
     .customiser-actions {
       display: flex;
       gap: 0.6rem;
-      padding: 0.75rem 1rem 1rem;
-      border-top: 2px solid rgba(93,64,55,0.25);
-      background-color: #5d4037;
+      padding: 0.75rem 0 0;
+      border-top: none;
+      background: transparent;
     }
     .customiser-btn {
       flex: 1;
@@ -1566,6 +1581,19 @@
       background: linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);
       border-color: #1b5e20;
       box-shadow: 0 4px 12px rgba(46,125,50,0.35);
+    }
+
+    /* Customiser footer — brown bar with Back button */
+    .customiser-footer {
+      background-color: #5d4037;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .customiser-btn-back {
+      background: linear-gradient(135deg, #7a0000 0%, #a31515 50%, #7a0000 100%) !important;
+      border-color: #4a0000 !important;
     }
 
     /* Inner product accordions */
@@ -1938,6 +1966,9 @@
         <button type="button" class="customiser-btn customiser-btn-preview" id="cc-preview">Preview</button>
         <button type="button" class="customiser-btn customiser-btn-reset" id="cc-reset">Reset</button>
         <button type="button" class="customiser-btn customiser-btn-save" id="cc-save">Save</button>
+      </div>
+      <div class="modal-footer customiser-footer">
+        <button type="button" class="wholesale-modal-close customiser-btn-back" id="cc-back" aria-label="Back">Back</button>
       </div>
     </div>
   </div>
@@ -3680,6 +3711,13 @@
       document.getElementById('cc-preview').addEventListener('click', function () {
         hapticBuzz();
         applyCustomiserPreview();
+        customiserOverlay.classList.remove('visible');
+        customiserOverlay.setAttribute('aria-hidden', 'true');
+      });
+
+      /* Back button */
+      document.getElementById('cc-back').addEventListener('click', function () {
+        hapticBuzz();
         customiserOverlay.classList.remove('visible');
         customiserOverlay.setAttribute('aria-hidden', 'true');
       });
