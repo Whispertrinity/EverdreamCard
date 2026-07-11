@@ -1990,9 +1990,9 @@
         <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" data-copy="105025" aria-label="Copy BSB">105 025</button></p>
         <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
         <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
-      </div>
-      <div class="modal-footer" style="display:flex;flex-direction:column;gap:0.5rem;padding:0 1rem 1.25rem;">
-        <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close" style="background:linear-gradient(135deg,#c62828 0%,#e53935 50%,#c62828 100%);border-color:#b71c1c;color:#f5f5dc;">Close</button>
+        <div style="margin-top:1.25rem;">
+          <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close" style="background:linear-gradient(135deg,#c62828 0%,#e53935 50%,#c62828 100%);border-color:#b71c1c;color:#f5f5dc;width:100%;box-sizing:border-box;">Close</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2568,12 +2568,17 @@
       var paymentBtn = document.getElementById('payment-btn');
       var paymentsModalClose = document.getElementById('payments-modal-close');
       var paymentsMessage = document.getElementById('payments-message');
-      var paymentsRefRow = document.querySelector('.payments-reference-row');
+      var paymentsRefValue = document.getElementById('payments-ref-value');
       if (paymentBtn && paymentsModal) paymentBtn.addEventListener('click', function () {
         hapticBuzz();
-        /* Jerky purchase — use name as reference, hide generated code */
+        /* Jerky purchase — suggest using name, show reference row with placeholder */
         if (paymentsMessage) paymentsMessage.textContent = 'Please enter your name as the reference for sales.';
-        if (paymentsRefRow) paymentsRefRow.style.display = 'none';
+        if (paymentsRefValue) {
+          paymentsRefValue.textContent = 'Your name';
+          paymentsRefValue.setAttribute('data-copy', '');
+          paymentsRefValue.style.opacity = '0.6';
+          paymentsRefValue.style.fontStyle = 'italic';
+        }
         paymentsModal.dataset.pendingRef = '';
         paymentsModal.classList.add('visible');
         paymentsModal.setAttribute('aria-hidden', 'false');
@@ -3811,10 +3816,13 @@
       document.getElementById('cc-confirm-pay').addEventListener('click', function () {
         hapticBuzz();
         var refCode = generateRefCode();
+        if (refCode.length !== 7) refCode = generateRefCode(); /* safety retry */
         var refEl = document.getElementById('payments-ref-value');
         if (refEl) {
           refEl.textContent = refCode;
           refEl.setAttribute('data-copy', refCode);
+          refEl.style.opacity = '1';
+          refEl.style.fontStyle = 'normal';
         }
         /* Digicard purchase — show unique code message and reference row */
         var pm = document.getElementById('payments-message');
@@ -3831,6 +3839,7 @@
       document.getElementById('cc-confirm-email').addEventListener('click', function () {
         hapticBuzz();
         var refCode = generateRefCode();
+        if (refCode.length !== 7) refCode = generateRefCode(); /* safety retry */
         var refEl = document.getElementById('order-placed-ref');
         if (refEl) refEl.textContent = refCode;
         /* Store ref on the overlay for close handler */
