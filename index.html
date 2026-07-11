@@ -1396,60 +1396,61 @@
     .customiser-tier-btn:hover { transform: scale(1.03); }
     .customiser-tier-btn.tier-active:hover { transform: scale(1.04); }
 
-    /* Preview bar */
-    .customiser-preview-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.6rem 0.75rem;
-      margin-bottom: 0.75rem;
-      background: rgba(20,84,92,0.08);
-      border-radius: 10px;
-      border: 1px solid rgba(20,84,92,0.15);
-    }
-    .customiser-preview-label {
-      font-family: 'The Wanters DEMO', serif;
-      font-size: 0.9rem;
-      color: #14545c;
-      font-weight: 600;
-    }
-    .customiser-preview-dots { display: flex; gap: 0.4rem; }
-    .preview-dot {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid rgba(62,39,35,0.3);
-    }
-
-    /* Accordion headers inside customiser */
+    /* Accordion headers inside customiser — match product accordion style */
     .customiser-accordion-header {
       width: 100%;
-      padding: 0.7rem 0.85rem;
-      margin: 0.25rem 0;
+      padding: 0.75rem 1rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1rem,2.4vw,1.15rem);
       font-weight: 600;
+      font-size: clamp(1.35rem, 3vw, 1.6rem);
       color: #f5f5dc;
-      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
-      border: 2px solid #0a1a1d;
-      border-radius: 10px;
+      text-align: center;
       cursor: pointer;
-      text-align: left;
-      -webkit-text-stroke: 0.8px #000;
-      text-stroke: 0.8px #000;
+      border: none;
+      background: transparent;
+      display: block;
+      transition: background 0.2s ease;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
       paint-order: stroke fill;
       -webkit-paint-order: stroke fill;
-      transition: background 0.2s;
     }
-    .customiser-accordion-header:hover { background: linear-gradient(135deg,#1a6b75 0%,#20808a 50%,#1a6b75 100%); }
+    .customiser-accordion-header:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
     .customiser-accordion-header::after {
       content: '▼';
       float: right;
-      font-size: 0.75em;
+      font-size: 0.6em;
+      margin-right: 0.25rem;
       transition: transform 0.2s;
     }
     .customiser-accordion-header[aria-expanded="true"]::after { transform: rotate(180deg); }
+    /* Wrap each customiser accordion in a brown panel like product panels */
+    .customiser-accordion-wrapper {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      border: 2px solid #3e2723;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #6d5047;
+      transition: all 0.25s ease;
+    }
+    /* Master headers (Products, Packs) stay teal */
+    .customiser-accordion-header.cc-products-master-header,
+    .customiser-accordion-header.cc-packs-master-header {
+      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
+      border-bottom: 2px solid #0a1a1d;
+      padding: 0.7rem 0.85rem;
+      font-size: clamp(1rem,2.4vw,1.15rem);
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      text-align: left;
+    }
+    .customiser-accordion-header.cc-products-master-header:hover,
+    .customiser-accordion-header.cc-packs-master-header:hover {
+      background: linear-gradient(135deg,#1a6b75 0%,#20808a 50%,#1a6b75 100%);
+    }
     .customiser-accordion-body {
       max-height: 0;
       overflow: hidden;
@@ -1458,9 +1459,6 @@
     }
     .customiser-accordion-body.open {
       max-height: 600px;
-      border: 2px solid #5d4037;
-      border-radius: 10px;
-      margin: 0.25rem 0 0.5rem;
       padding: 0.6rem 0.6rem;
     }
 
@@ -1821,18 +1819,9 @@
           <button type="button" class="customiser-tier-btn tier-active" data-tier="2" id="cc-tier-2">2 Pages</button>
           <button type="button" class="customiser-tier-btn" data-tier="3" id="cc-tier-3">3 Pages</button>
         </div>
-        <div class="customiser-preview-bar" id="customiser-preview-bar">
-          <span class="customiser-preview-label">Live Preview</span>
-          <div class="customiser-preview-dots" id="customiser-preview-dots">
-            <span class="preview-dot" style="background:#14545C" title="Primary"></span>
-            <span class="preview-dot" style="background:#5D4037" title="Secondary"></span>
-            <span class="preview-dot" style="background:#F6F6DE" title="Background"></span>
-            <span class="preview-dot" style="background:#3E2723" title="Text"></span>
-            <span class="preview-dot preview-dot-btn" style="background:#14545C" title="Button"></span>
-          </div>
-        </div>
 
         <!-- Accordion: Details -->
+        <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header" aria-expanded="false">Details</button>
         <div class="customiser-accordion-body">
           <div class="customiser-field">
@@ -1860,8 +1849,10 @@
             <textarea class="customiser-textarea" id="cc-description" placeholder="Tell people about your business..." rows="3"></textarea>
           </div>
         </div>
+        </div>
 
         <!-- Accordion: Text -->
+        <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header" aria-expanded="false">Text</button>
         <div class="customiser-accordion-body">
           <div class="customiser-field">
@@ -1880,8 +1871,10 @@
             </select>
           </div>
         </div>
+        </div>
 
         <!-- Accordion: Colours -->
+        <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header" aria-expanded="false">Colours</button>
         <div class="customiser-accordion-body">
           <div class="customiser-preset-row">
@@ -1918,6 +1911,7 @@
             <label class="customiser-label">Button Text Colour</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-button-text" value="#f5f5dc" data-cssvar="--cc-button-text">
           </div>
+        </div>
         </div>
 
         <!-- Accordion: Products (3-page tier only) -->
@@ -2910,15 +2904,27 @@
         });
       });
 
-      /* Accordion toggle for main customiser accordions */
-      document.querySelectorAll('.customiser-accordion-header').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var expanded = this.getAttribute('aria-expanded') === 'true';
-          this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          var body = this.nextElementSibling;
-          if (body && body.classList.contains('customiser-accordion-body')) {
-            body.classList.toggle('open');
-          }
+      /* Accordion toggle for main customiser accordions — collapse others */
+      document.querySelectorAll('.customiser-modal-scroll').forEach(function (scrollArea) {
+        scrollArea.querySelectorAll('.customiser-accordion-header').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            /* Collapse all other customiser accordions in the same scroll area */
+            scrollArea.querySelectorAll('.customiser-accordion-header').forEach(function (other) {
+              if (other !== this) {
+                other.setAttribute('aria-expanded', 'false');
+                var ob = other.nextElementSibling;
+                if (ob && ob.classList.contains('customiser-accordion-body')) {
+                  ob.classList.remove('open');
+                }
+              }
+            }.bind(this));
+            this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+            var body = this.nextElementSibling;
+            if (body && body.classList.contains('customiser-accordion-body')) {
+              body.classList.toggle('open');
+            }
+          });
         });
       });
 
