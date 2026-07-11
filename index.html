@@ -2773,6 +2773,16 @@
         btn.addEventListener('click', function () {
           hapticBuzz();
           var panel = this.closest('.wholesale-panel');
+          var ul = panel ? panel.closest('.wholesale-accordions') : null;
+          if (ul) {
+            ul.querySelectorAll('.wholesale-panel').forEach(function (p) {
+              if (p !== panel) {
+                p.classList.remove('expanded');
+                var h = p.querySelector('.wholesale-panel-header');
+                if (h) h.setAttribute('aria-expanded', 'false');
+              }
+            });
+          }
           var isExpanded = panel.classList.toggle('expanded');
           this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
         });
