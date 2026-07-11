@@ -817,6 +817,13 @@
       opacity: 0.95;
     }
 
+    .share-modal-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(62, 39, 35, 0.2);
+      margin: 1rem 0;
+    }
+
     .share-modal .share-modal-close {
       display: block;
       margin: 0 auto;
@@ -1960,8 +1967,7 @@
         <img id="share-qr" class="share-modal-qr" src="SmoothQR.png" alt="QR code" />
         <p id="share-modal-url" class="share-modal-url"></p>
         <button type="button" class="share-modal-copy" id="share-copy-url">Copy</button>
-      </div>
-      <div class="modal-footer">
+        <div class="share-modal-divider" aria-hidden="true"></div>
         <button type="button" class="share-modal-close" id="share-modal-close" aria-label="Close">Close</button>
       </div>
     </div>
