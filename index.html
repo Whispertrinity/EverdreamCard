@@ -1913,6 +1913,22 @@
     </div>
   </div>
 
+  <!-- Order Placed Confirmation Modal (Order Now, Pay Later) -->
+  <div id="order-placed-overlay" class="payments-modal-overlay" aria-hidden="true">
+    <div class="payments-modal" style="max-width:360px;">
+      <div class="modal-header"><h2>Order Placed!</h2></div>
+      <div class="payments-modal-body">
+        <p style="font-family:Verdana,Geneva,sans-serif;font-size:1rem;color:#3e2723;margin-bottom:0.75rem;">Your design has been sent to Brett.</p>
+        <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.9rem;color:#5d4037;margin-bottom:0.3rem;">Your reference code is:</p>
+        <p style="font-family:Verdana,Geneva,sans-serif;font-size:2rem;font-weight:bold;color:#14545c;letter-spacing:0.1em;margin-bottom:1rem;" id="order-placed-ref">xxx0000</p>
+        <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;margin-bottom:1.5rem;">Pay when you're ready using this code as the bank reference. Brett will build your card once payment clears.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="share-modal-close" id="order-placed-close" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+
   <div id="payments-modal-overlay" class="payments-modal-overlay" aria-hidden="true">
     <div class="payments-modal">
       <div class="modal-header"><h2>Payments</h2></div>
@@ -1923,8 +1939,9 @@
         <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
         <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close">Close</button>
+      <div class="modal-footer" style="display:flex;flex-direction:column;gap:0.5rem;padding:0 1rem 1.25rem;">
+        <button type="button" class="share-modal-close payments-sent-btn" id="payments-sent-btn" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;color:#f5f5dc;">I've Sent the Money</button>
+        <button type="button" class="share-modal-close" id="payments-modal-close" aria-label="Close" style="background:linear-gradient(135deg,#5d4037 0%,#6d4c41 50%,#5d4037 100%);">Close</button>
       </div>
     </div>
   </div>
@@ -2494,10 +2511,17 @@
         hapticBuzz();
         paymentsModal.classList.remove('visible');
         paymentsModal.setAttribute('aria-hidden', 'true');
-        /* If there's a pending reference code, fire the email now */
+        /* Close without firing email — customer hasn't paid yet */
+      });
+      /* I've Sent the Money button — fires the email with the ref code */
+      var paymentsSentBtn = document.getElementById('payments-sent-btn');
+      if (paymentsSentBtn && paymentsModal) paymentsSentBtn.addEventListener('click', function () {
+        hapticBuzz();
         var refCode = paymentsModal.dataset.pendingRef || null;
         if (refCode) {
           delete paymentsModal.dataset.pendingRef;
+          paymentsModal.classList.remove('visible');
+          paymentsModal.setAttribute('aria-hidden', 'true');
           sendDesignEmail(refCode);
         }
       });
@@ -3688,8 +3712,8 @@
           body: params.body || ''
         };
 
-        /* Show a brief sending indicator */
-        var btn = document.getElementById('cc-confirm-pay') || document.getElementById('cc-confirm-email');
+        /* Show a brief sending indicator — try the button that was clicked */
+        var btn = document.getElementById('payments-sent-btn') || document.getElementById('cc-confirm-pay') || document.getElementById('cc-confirm-email');
         var origText = btn ? btn.textContent : '';
         if (btn) btn.textContent = 'Sending...';
 
@@ -3727,10 +3751,36 @@
         paymentsModal.setAttribute('aria-hidden', 'false');
       });
 
-      /* Order Now, Pay Later — generates a xxx- code and emails immediately */
+      /* Order Now, Pay Later — generates a xxx- code, shows confirmation modal */
       document.getElementById('cc-confirm-email').addEventListener('click', function () {
         hapticBuzz();
-        sendDesignEmail(generateRefCode());
+        var refCode = generateRefCode();
+        var refEl = document.getElementById('order-placed-ref');
+        if (refEl) refEl.textContent = refCode;
+        /* Store ref on the overlay for close handler */
+        var orderPlacedOverlay = document.getElementById('order-placed-overlay');
+        orderPlacedOverlay.dataset.pendingRef = refCode;
+        orderPlacedOverlay.classList.add('visible');
+        orderPlacedOverlay.setAttribute('aria-hidden', 'false');
+        /* Also close the main confirm and customiser modals */
+        confirmOverlay.classList.remove('visible');
+        confirmOverlay.setAttribute('aria-hidden', 'true');
+        customiserOverlay.classList.remove('visible');
+        customiserOverlay.setAttribute('aria-hidden', 'true');
+      });
+
+      /* Order placed close — fires the email with the ref code */
+      var orderPlacedClose = document.getElementById('order-placed-close');
+      var orderPlacedOverlay = document.getElementById('order-placed-overlay');
+      if (orderPlacedClose && orderPlacedOverlay) orderPlacedClose.addEventListener('click', function () {
+        hapticBuzz();
+        var refCode = orderPlacedOverlay.dataset.pendingRef || null;
+        if (refCode) {
+          delete orderPlacedOverlay.dataset.pendingRef;
+          orderPlacedOverlay.classList.remove('visible');
+          orderPlacedOverlay.setAttribute('aria-hidden', 'true');
+          sendDesignEmail(refCode);
+        }
       });
 
       /* Close confirm on overlay click */
