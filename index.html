@@ -731,6 +731,16 @@
       margin: 0 auto;
     }
 
+    /* Share modal close — inside footer, no extra top margin */
+    #share-modal-close {
+      margin: 0 auto;
+    }
+
+    /* Save icon modal close — inside footer, no extra top margin */
+    #save-icon-modal-close {
+      margin: 0 auto;
+    }
+
     /* Wholesale modal header — brand purple */
     #wholesale-modal-content .modal-header {
       background-color: #4a2864;
@@ -815,29 +825,6 @@
 
     .share-modal-copy:hover {
       opacity: 0.95;
-    }
-
-    .share-modal .share-modal-close {
-      display: block;
-      margin: 0 auto;
-      padding: 0.5rem 1rem;
-      font-family: 'The Wanters DEMO', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #fff;
-      background: #c62828;
-      border: 2px solid #8b0000;
-      border-radius: 9999px;
-      cursor: pointer;
-      text-align: center;
-      -webkit-text-stroke: 1.5px #000;
-      text-stroke: 1.5px #000;
-      paint-order: stroke fill;
-      -webkit-paint-order: stroke fill;
-    }
-
-    .share-modal .share-modal-close:hover {
-      background: #b71c1c;
     }
 
     .payments-modal-overlay {
@@ -993,25 +980,6 @@
     }
     .save-icon-modal-save-btn:hover {
       box-shadow: 0 6px 16px rgba(91, 33, 182, 0.5);
-    }
-    .save-icon-modal .share-modal-close {
-      padding: 0.5rem 1rem;
-      font-family: 'The Wanters DEMO', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #fff;
-      background: #c62828;
-      border: 2px solid #8b0000;
-      border-radius: 9999px;
-      cursor: pointer;
-      text-align: center;
-      -webkit-text-stroke: 1.5px #000;
-      text-stroke: 1.5px #000;
-      paint-order: stroke fill;
-      -webkit-paint-order: stroke fill;
-    }
-    .save-icon-modal .share-modal-close:hover {
-      background: #b71c1c;
     }
 
     .wholesale-modal-overlay {
@@ -1967,7 +1935,7 @@
         <button type="button" class="share-modal-copy" id="share-copy-url">Copy</button>
       </div>
       <div class="modal-footer">
-        <button type="button" class="share-modal-close" id="share-modal-close" aria-label="Close">Close</button>
+        <button type="button" class="wholesale-modal-close" id="share-modal-close" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
@@ -1982,7 +1950,7 @@
         <div id="save-icon-modal-body-below" class="save-icon-modal-body save-icon-modal-body-below"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="share-modal-close" id="save-icon-modal-close" aria-label="Close">Close</button>
+        <button type="button" class="wholesale-modal-close" id="save-icon-modal-close" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
@@ -1998,7 +1966,7 @@
         <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;margin-bottom:1.5rem;">Pay when you're ready using this code as the bank reference. Brett will build your card once payment clears.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="share-modal-close" id="order-placed-close" aria-label="Close">Close</button>
+        <button type="button" class="wholesale-modal-close" id="order-placed-close" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
