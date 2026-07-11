@@ -951,7 +951,7 @@
     }
     .save-icon-modal-fallback-text {
       font-family: Verdana, Geneva, sans-serif;
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
       line-height: 1.4;
       color: #5d4037;
       margin-bottom: 0.5rem;
@@ -1054,6 +1054,26 @@
     .packs-wholesale-link-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(13, 123, 168, 0.45);
+    }
+
+    /* Smaller? (inside Wholesale/purple modal) — green, matches Packs header */
+    #wholesale-to-packs-btn {
+      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
+      border-color: #1b5e20;
+      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+    }
+    #wholesale-to-packs-btn:hover {
+      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+    }
+
+    /* Bigger? (inside Packs/green modal) — purple, matches Wholesale header */
+    #packs-to-wholesale-btn {
+      background: linear-gradient(135deg, #5b21b6 0%, #6d28d9 50%, #5b21b6 100%);
+      border-color: #4a2864;
+      box-shadow: 0 4px 12px rgba(91, 33, 182, 0.35);
+    }
+    #packs-to-wholesale-btn:hover {
+      box-shadow: 0 6px 16px rgba(91, 33, 182, 0.45);
     }
 
     .wholesale-modal {
