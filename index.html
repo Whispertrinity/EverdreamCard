@@ -962,9 +962,17 @@
       margin-bottom: 0;
       margin-top: 1rem;
     }
+    .save-icon-modal-fallback-text {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      line-height: 1.4;
+      color: #5d4037;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
     .save-icon-modal-body-wrap .save-icon-modal-save-btn {
       display: block;
-      margin: 1rem auto 0;
+      margin: 0 auto 0.5rem;
     }
     .save-icon-modal-save-btn {
       padding: 0.5rem 1rem;
@@ -985,9 +993,6 @@
     }
     .save-icon-modal-save-btn:hover {
       box-shadow: 0 6px 16px rgba(91, 33, 182, 0.5);
-    }
-    .save-icon-modal-save-btn.hidden {
-      display: none !important;
     }
     .save-icon-modal .share-modal-close {
       padding: 0.5rem 1rem;
@@ -1971,10 +1976,10 @@
     <div class="save-icon-modal">
       <div class="modal-header"><h2>Home Screen</h2></div>
       <div class="save-icon-modal-body-wrap">
-        <div id="save-icon-modal-body" class="save-icon-modal-body"></div>
+        <button type="button" class="save-icon-modal-save-btn" id="save-icon-modal-save" aria-label="Save to home screen">Save</button>
+        <div id="save-icon-modal-fallback-text" class="save-icon-modal-body save-icon-modal-fallback-text">if this save button doesnt work, try this —</div>
         <img id="save-icon-modal-img" class="save-icon-modal-img" src="" alt="" />
         <div id="save-icon-modal-body-below" class="save-icon-modal-body save-icon-modal-body-below"></div>
-        <button type="button" class="save-icon-modal-save-btn" id="save-icon-modal-save" aria-label="Save to home screen">Save</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="share-modal-close" id="save-icon-modal-close" aria-label="Close">Close</button>
@@ -2561,7 +2566,6 @@
       var wholesaleBtn = document.getElementById('wholesale-btn');
       var saveIconBtn = document.getElementById('save-icon-btn');
       var saveIconModal = document.getElementById('save-icon-modal-overlay');
-      var saveIconModalBody = document.getElementById('save-icon-modal-body');
       var saveIconModalClose = document.getElementById('save-icon-modal-close');
       var wholesaleClose = document.getElementById('wholesale-modal-close');
       var packsClose = document.getElementById('packs-modal-close');
@@ -2614,8 +2618,7 @@
         packsWholesaleOverlay.classList.add('visible');
         packsWholesaleOverlay.setAttribute('aria-hidden', 'false');
       });
-      var SAVE_ICON_INTRO = 'Depending on your device/browser, you might be able to use the Save button below. If not, follow the add to home screen instructions.<br><br>';
-      var SAVE_ICON_INTRO_NO_PROMPT = 'Add this card to your home screen using the steps below.<br><br>';
+      var deferredInstallPrompt = null;
       var SAVE_ICON_MSG_ANDROID = 'Click on the three dots in the menu bar,<br>then look for Add to Home screen or Install app.';
       var SAVE_ICON_MSG_IOS = 'Tap the Share button in the menu bar,<br>then tap Add to Home Screen.';
       function getSaveIconInstructions() {
@@ -2629,24 +2632,16 @@
         return { msg: SAVE_ICON_MSG_ANDROID, img: 'assets/Android.png', imgAlt: 'How to add to home screen' };
       }
       var saveIconModalBodyBelow = document.getElementById('save-icon-modal-body-below');
-      var deferredInstallPrompt = null;
       window.addEventListener('beforeinstallprompt', function (e) {
         e.preventDefault();
         deferredInstallPrompt = e;
       });
       var saveIconModalSave = document.getElementById('save-icon-modal-save');
-      if (saveIconBtn && saveIconModal && saveIconModalBody) {
+      if (saveIconBtn && saveIconModal) {
         var saveIconModalImg = document.getElementById('save-icon-modal-img');
         saveIconBtn.addEventListener('click', function () {
           hapticBuzz();
           var inst = getSaveIconInstructions();
-          if (deferredInstallPrompt) {
-            saveIconModalBody.innerHTML = SAVE_ICON_INTRO;
-            if (saveIconModalSave) saveIconModalSave.classList.remove('hidden');
-          } else {
-            saveIconModalBody.innerHTML = SAVE_ICON_INTRO_NO_PROMPT;
-            if (saveIconModalSave) saveIconModalSave.classList.add('hidden');
-          }
           if (saveIconModalBodyBelow) saveIconModalBodyBelow.innerHTML = inst.msg;
           if (saveIconModalImg) {
             saveIconModalImg.src = inst.img;
