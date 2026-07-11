@@ -1874,7 +1874,7 @@
         <p>Are you sure you're finished?<br>This will send your design to us.</p>
         <p style="margin-top:1.2rem;font-size:2rem;font-weight:bold;color:#2e7d32;" id="cc-confirm-cost">$10</p>
         <p style="font-size:0.9rem;color:#5d4037;margin-top:0.3rem;">Bank transfer to my account — I'll wait for payment before giving you the URL</p>
-        <p style="font-size:0.8rem;color:#5d4037;margin-top:0.5rem;line-height:1.4;"><strong>Buy Now</strong> — get a unique reference code, see my bank details, then the design goes through<br><strong>Order Now, Pay Later</strong> — just send me the design, pay when you're ready</p>
+        <p style="font-size:0.8rem;color:#5d4037;margin-top:0.5rem;line-height:1.4;"><strong>Buy Now</strong> — get a unique reference code, see my bank details, then the design goes through<br><strong>Order Now, Pay Later</strong> — get a reference code, send the design, pay when you're ready</p>
       </div>
       <div class="customiser-actions">
       <button type="button" class="customiser-btn customiser-btn-save" id="cc-confirm-pay" style="background:linear-gradient(135deg,#2e7d32 0%,#388e3c 50%,#2e7d32 100%);border-color:#1b5e20;">Buy Now →</button>
@@ -3574,14 +3574,14 @@
         confirmOverlay.setAttribute('aria-hidden', 'true');
       });
 
-      /* Generate a 7-char alphanumeric reference code */
+      /* Generate a 7-char reference code: xxx + 4 random alphanumeric */
       function generateRefCode() {
-        var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; /* no O/0, I/1 to avoid confusion */
-        var code = '';
-        for (var i = 0; i < 7; i++) {
-          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        var suffix = '';
+        for (var i = 0; i < 4; i++) {
+          suffix += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-        return code;
+        return 'xxx' + suffix.toLowerCase();
       }
 
       /* Build the email body from current customiser state, with optional refCode */
@@ -3689,10 +3689,10 @@
         paymentsModal.setAttribute('aria-hidden', 'false');
       });
 
-      /* Send Design Only — no reference code, just emails */
+      /* Order Now, Pay Later — generates a xxx- code and emails immediately */
       document.getElementById('cc-confirm-email').addEventListener('click', function () {
         hapticBuzz();
-        sendDesignEmail(null);
+        sendDesignEmail(generateRefCode());
       });
 
       /* Close confirm on overlay click */
