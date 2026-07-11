@@ -3665,13 +3665,52 @@
           '&body=' + encodeURIComponent(body);
       }
 
-      /* Send the email (shared by both buttons) */
+      /* Send the email via Vercel API (shared by both buttons) */
       function sendDesignEmail(refCode) {
         confirmOverlay.classList.remove('visible');
         confirmOverlay.setAttribute('aria-hidden', 'true');
         customiserOverlay.classList.remove('visible');
         customiserOverlay.setAttribute('aria-hidden', 'true');
-        window.location.href = buildDesignEmail(refCode);
+
+        var mailtoUrl = buildDesignEmail(refCode);
+        /* Parse the mailto URL to extract data */
+        var parts = mailtoUrl.split('?');
+        var params = {};
+        if (parts[1]) {
+          parts[1].split('&').forEach(function (pair) {
+            var kv = pair.split('=');
+            params[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1] || '');
+          });
+        }
+
+        var payload = {
+          to: 'everdreamgoods@gmail.com',
+          subject: params.subject || 'Digicard Design',
+          body: params.body || ''
+        };
+
+        /* Show a brief sending indicator */
+        var btn = document.getElementById('cc-confirm-pay') || document.getElementById('cc-confirm-email');
+        var origText = btn ? btn.textContent : '';
+        if (btn) btn.textContent = 'Sending...';
+
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function (r) { return r.json(); }).then(function (data) {
+          if (data.success) {
+            if (btn) btn.textContent = 'Sent!';
+            setTimeout(function () { if (btn) btn.textContent = origText; }, 3000);
+          } else {
+            if (btn) btn.textContent = 'Failed — try mailto';
+            /* Fallback: open mailto link so they can still send it */
+            window.location.href = mailtoUrl;
+          }
+        }).catch(function () {
+          if (btn) btn.textContent = 'Failed — try mailto';
+          window.location.href = mailtoUrl;
+        });
       }
 
       /* Buy Now → generates a reference code, sets it in payments modal, opens payments */
