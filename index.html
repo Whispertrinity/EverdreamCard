@@ -340,18 +340,6 @@
       }
     }
 
-    .prices-once {
-      color: #3e2723;
-      font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(2.2rem, 5vw, 2.8rem);
-      font-weight: bold;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .prices-once .size-row {
-      display: block;
-      padding: 0.15rem 0;
-    }
     .size-row {
       display: block;
       font-family: 'The Wanters DEMO', serif;
@@ -1661,7 +1649,6 @@
                 <h1>Products</h1>
               </div>
               <div class="products-body">
-                <div class="prices-once"><span class="size-row"><span>40g — $5</span><span>80g — $10</span></span></div>
                 <ul class="flavour-accordions">
                   <li class="flavour-panel">
                     <button type="button" class="flavour-panel-header" aria-expanded="false">Barbecue</button>
@@ -2154,9 +2141,6 @@
         document.querySelectorAll('.intro-header h1').forEach(function (h) { h.textContent = d.businessName; });
         var logo = document.querySelector('.intro-icon');
         if (logo) { logo.src = d.logoUrl || logo.src; logo.alt = d.businessName; }
-        var pricesEl = document.querySelector('.prices-once');
-        if (pricesEl && d.productPrices && d.productPrices.length)
-          pricesEl.innerHTML = d.productPrices.map(function (p) { return '<span class=\"size-row\"><span>' + escapeHtml(p.size) + ' — ' + escapeHtml(p.price) + '</span></span>'; }).join('');
         var flavoursUl = document.querySelector('.flavour-accordions');
         if (flavoursUl && d.products && d.products.length) {
           flavoursUl.innerHTML = '';
@@ -3302,10 +3286,6 @@
 
         var ul = productsSection.querySelector('.flavour-accordions');
         if (!ul) return;
-
-        /* Remove the prices-once text if it exists */
-        var pricesEl = productsSection.querySelector('.prices-once');
-        if (pricesEl) pricesEl.style.display = 'none';
 
         if (!products.length) {
           ul.innerHTML = '<li style="font-family:Verdana,Geneva,sans-serif;padding:1rem;color:#5d4037;">Add your products in the customiser.</li>';
