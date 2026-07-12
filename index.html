@@ -1460,16 +1460,26 @@
       background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
       border-color: #0a1a1d;
     }
-    /* Inactive (greyed out) */
+    /* Inactive — no grey-out, just slightly smaller */
     .customiser-tier-btn.tier-inactive {
-      opacity: 0.4;
-      filter: grayscale(0.6);
       transform: scale(0.97);
     }
     .customiser-tier-btn.tier-inactive:hover {
       transform: scale(0.99);
     }
     .customiser-tier-btn:hover { transform: scale(1.03); }
+
+    /* Price inside tier buttons */
+    .tier-price {
+      display: block;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+      font-weight: 700;
+      margin-top: 0.15rem;
+      -webkit-text-stroke: 0;
+      text-stroke: 0;
+      opacity: 0.9;
+    }
 
     /* Accordion headers inside customiser — match product accordion style */
     .customiser-accordion-header {
@@ -1543,6 +1553,28 @@
       color: #5d4037;
       margin: 0.5rem 0;
       text-align: center;
+    }
+
+    /* Centre-aligned fields for Details & Text accordion bodies */
+    .cc-body-centre .customiser-field {
+      text-align: center;
+    }
+    .cc-body-centre .customiser-label {
+      text-align: center;
+    }
+    .cc-body-centre .customiser-text,
+    .cc-body-centre .customiser-select,
+    .cc-body-centre .customiser-textarea {
+      text-align: center;
+    }
+
+    /* Character count below textarea */
+    .cc-charcount {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.75rem;
+      color: #8d6e63;
+      text-align: right;
+      margin-top: 0.2rem;
     }
 
     /* Preset colour swatches */
@@ -1641,9 +1673,9 @@
       box-shadow: 0 4px 12px rgba(20,84,92,0.35);
     }
     .customiser-btn-reset {
-      background: linear-gradient(135deg,#c62828 0%,#d32f2f 50%,#c62828 100%);
-      border-color: #8b0000;
-      box-shadow: 0 4px 12px rgba(198,40,40,0.35);
+      background: #7a0000;
+      border-color: #4a0000;
+      box-shadow: 0 4px 12px rgba(122, 0, 0, 0.35);
     }
     .customiser-btn-save {
       background: #1b5e20;
@@ -1940,14 +1972,14 @@
       <div class="customiser-modal-scroll">
         <!-- Tier selector -->
         <div class="customiser-tier-bar">
-          <button type="button" class="customiser-tier-btn cc-tier-2 tier-active" data-tier="2" id="cc-tier-2">2 Pages</button>
-          <button type="button" class="customiser-tier-btn cc-tier-3" data-tier="3" id="cc-tier-3">3 Pages</button>
+          <button type="button" class="customiser-tier-btn cc-tier-2 tier-active" data-tier="2" id="cc-tier-2">2 Pages<br><span class="tier-price">$10</span></button>
+          <button type="button" class="customiser-tier-btn cc-tier-3" data-tier="3" id="cc-tier-3">3 Pages<br><span class="tier-price">$20</span></button>
         </div>
 
         <!-- Accordion: Details -->
         <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Details</button>
-        <div class="customiser-accordion-body">
+        <div class="customiser-accordion-body cc-body-centre">
           <div class="customiser-field">
             <label class="customiser-label">Business Name</label>
             <input type="text" class="customiser-text" id="cc-business" placeholder="Everdream Jerky">
@@ -1970,7 +2002,8 @@
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Description</label>
-            <textarea class="customiser-textarea" id="cc-description" placeholder="Tell people about your business..." rows="3"></textarea>
+            <textarea class="customiser-textarea" id="cc-description" placeholder="Tell people about your business..." rows="3" maxlength="300"></textarea>
+            <div class="cc-charcount" id="cc-desc-count">0/300</div>
           </div>
         </div>
         </div>
@@ -1978,7 +2011,7 @@
         <!-- Accordion: Text -->
         <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Text</button>
-        <div class="customiser-accordion-body">
+        <div class="customiser-accordion-body cc-body-centre">
           <div class="customiser-field">
             <label class="customiser-label">Title Font</label>
             <select class="customiser-select" id="cc-title-font">
@@ -3655,6 +3688,18 @@
         el.addEventListener('input', function () { saveCustomiserState(); applyLiveModalColours(); });
         el.addEventListener('change', function () { saveCustomiserState(); applyLiveModalColours(); });
       });
+
+      /* Description character counter */
+      var descField = document.getElementById('cc-description');
+      var descCount = document.getElementById('cc-desc-count');
+      if (descField && descCount) {
+        function updateCharCount() {
+          descCount.textContent = descField.value.length + '/300';
+        }
+        descField.addEventListener('input', updateCharCount);
+        /* Call once on init */
+        updateCharCount();
+      }
 
       /* Apply colour changes live to the modal itself */
       function applyLiveModalColours() {
