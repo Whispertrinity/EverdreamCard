@@ -1575,12 +1575,19 @@
       transition: opacity 0.2s, transform 0.15s;
       color: #f5f5dc;
     }
-    /* 2 Pages — always brown */
+    /* 2 Pages — base brown (inactive) */
     .customiser-tier-btn.cc-tier-2 {
       background: linear-gradient(135deg, #5d4037 0%, #6d5047 50%, #5d4037 100%);
     }
-    /* 3 Pages — always teal */
+    .customiser-tier-btn.cc-tier-2.tier-active {
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+      border-color: #0a1a1d;
+    }
+    /* 3 Pages — base brown (inactive) */
     .customiser-tier-btn.cc-tier-3 {
+      background: linear-gradient(135deg, #5d4037 0%, #6d5047 50%, #5d4037 100%);
+    }
+    .customiser-tier-btn.cc-tier-3.tier-active {
       background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
       border-color: #0a1a1d;
     }
@@ -1597,9 +1604,9 @@
     .tier-price {
       display: block;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      font-size: clamp(1.2rem, 3.2vw, 1.5rem);
       font-weight: 700;
-      margin-top: 0.2rem;
+      margin-top: 0.25rem;
       -webkit-text-stroke: 0;
       text-stroke: 0;
       opacity: 0.95;
@@ -1697,7 +1704,7 @@
       font-family: Verdana, Geneva, sans-serif;
       font-size: 0.75rem;
       color: #8d6e63;
-      text-align: right;
+      text-align: center;
       margin-top: 0.2rem;
     }
 
@@ -2141,14 +2148,6 @@
             <select class="customiser-select" id="cc-title-font">
               <option value="'The Wanters DEMO', serif">The Wanters DEMO</option>
               <option value="'Lemon Milk Light', sans-serif">Lemon Milk Light</option>
-            </select>
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Body Font</label>
-            <select class="customiser-select" id="cc-body-font">
-              <option value="'The Wanters DEMO', serif">The Wanters DEMO</option>
-              <option value="'Lemon Milk Light', sans-serif">Lemon Milk Light</option>
-              <option value="Verdana, Geneva, sans-serif">Verdana</option>
             </select>
           </div>
         </div>
@@ -3195,7 +3194,6 @@
         tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
         text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc',
         titleFont: "'The Wanters DEMO', serif",
-        bodyFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
         description: '', products: []
@@ -3245,7 +3243,7 @@
           w.style.marginBottom = (w === lastVisible) ? '0' : '';
         });
         var costEl = document.getElementById('cc-confirm-cost');
-        if (costEl) costEl.textContent = tier === '3' ? '$20' : '$10';
+        if (costEl) costEl.textContent = tier === '3' ? '$30' : '$20';
       }
 
       /* Tier button clicks */
@@ -3788,7 +3786,6 @@
         document.getElementById('cc-button').value = state.button || CUSTOMISER_DEFAULTS.button;
         document.getElementById('cc-button-text').value = state.buttonText || CUSTOMISER_DEFAULTS.buttonText;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
-        document.getElementById('cc-body-font').value = state.bodyFont || CUSTOMISER_DEFAULTS.bodyFont;
         document.getElementById('cc-business').value = state.business || '';
         document.getElementById('cc-name').value = state.name || '';
         document.getElementById('cc-tagline').value = state.tagline || '';
@@ -3819,7 +3816,6 @@
           button: document.getElementById('cc-button').value,
           buttonText: document.getElementById('cc-button-text').value,
           titleFont: document.getElementById('cc-title-font').value,
-          bodyFont: document.getElementById('cc-body-font').value,
           business: document.getElementById('cc-business').value,
           name: document.getElementById('cc-name').value,
           tagline: document.getElementById('cc-tagline').value,
@@ -3875,7 +3871,6 @@
         var btn = document.getElementById('cc-button').value;
         var btnText = document.getElementById('cc-button-text').value;
         var tf = document.getElementById('cc-title-font').value;
-        var bf = document.getElementById('cc-body-font').value;
 
         /* Customiser header is always teal — never overridden by colour picker */
         if (header) header.style.backgroundColor = '#14545c';
@@ -3884,7 +3879,7 @@
           title.style.fontFamily = tf;
         }
 
-        /* Update tier buttons — each has a fixed colour (cc-tier-2 brown, cc-tier-3 teal) */
+        /* Update tier buttons — active gets teal, inactive gets brown (cleared to base CSS) */
         document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
           b.style.background = '';
           if (b.classList.contains('tier-active')) {
@@ -3977,7 +3972,6 @@
         var btn = document.getElementById('cc-button').value;
         var btnText = document.getElementById('cc-button-text').value;
         var tf = document.getElementById('cc-title-font').value;
-        var bf = document.getElementById('cc-body-font').value;
         var biz = document.getElementById('cc-business').value.trim();
         var nam = document.getElementById('cc-name').value.trim();
         var tag = document.getElementById('cc-tagline').value.trim();
@@ -4003,9 +3997,9 @@
           '.content-panel { background-color: ' + b + ' !important; }' +
           '.intro-header h1,.products-header h1,.contact-header h1 { color: ' + b + ' !important; }' +
           '.title-panel h1 { color: ' + ti + ' !important; }' +
-          'body { font-family: ' + bf + ' !important; }' +
+          'body { font-family: \'The Wanters DEMO\', serif !important; }' +
           '.title-panel h1,.intro-header h1,.products-header h1,.contact-header h1,.flavour-panel-header,.wholesale-panel-header,.intro-message,.share-btn,.customiser-accordion-header,.customiser-inner-prod-header,.contact-label { font-family: ' + tf + ' !important; }' +
-          '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: ' + bf + ' !important; }' +
+          '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: \'The Wanters DEMO\', serif !important; }' +
           '.card-face { border-color: ' + s + ' !important; }' +
           '.content-panel { border-color: ' + s + ' !important; }' +
           '.share-btn { background: linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%) !important; color: ' + btnText + ' !important; }' +
@@ -4060,7 +4054,6 @@
         var btn = document.getElementById('cc-button').value;
         var btnText = document.getElementById('cc-button-text').value;
         var tf = document.getElementById('cc-title-font').value;
-        var bf = document.getElementById('cc-body-font').value;
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
         var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
         var tag = document.getElementById('cc-tagline').value.trim() || 'Tagline';
@@ -4100,7 +4093,7 @@
         /* Description */
         var aboutEl = document.getElementById('preview-about');
         aboutEl.textContent = desc;
-        aboutEl.style.fontFamily = bf;
+        aboutEl.style.fontFamily = "'The Wanters DEMO', serif";
         aboutEl.style.color = t;
 
         /* Name, phone, email */
@@ -4194,7 +4187,6 @@
         var t = document.getElementById('cc-text').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
-        var bf = document.getElementById('cc-body-font').value;
         var btn = document.getElementById('cc-button').value;
         var btnText = document.getElementById('cc-button-text').value;
 
@@ -4241,14 +4233,14 @@
         body += '  Button Text: ' + btnText + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
-        body += '  Body Font: ' + bf + '\n\n';
+        body += '  Body Font: The Wanters DEMO (fixed)\n\n';
         body += '===JSON===\n';
         body += JSON.stringify({
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
           description: desc, products: products, packs: packs,
           palette: { primary: p, secondary: s, background: b, text: t, title: ti, button: btn, buttonText: btnText },
-          fonts: { title: tf, body: bf },
+          fonts: { title: tf },
           reference: refCode || null
         }, null, 2);
 
