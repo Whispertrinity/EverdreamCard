@@ -804,6 +804,125 @@
       border-top: 2px solid #3e2723;
     }
 
+    /* Preview modal overlay */
+    .preview-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 220;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .preview-overlay.visible {
+      display: flex;
+    }
+    .preview-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+    .preview-body {
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+    .preview-card {
+      width: 100%;
+      max-width: 360px;
+      border: 3px solid #3e2723;
+      border-radius: 18px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+    .preview-face {
+      width: 100%;
+    }
+    .preview-section-header {
+      background-color: #14545c;
+      padding: 0.6rem 1rem;
+      text-align: center;
+    }
+    .preview-section-header h3 {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 900;
+      color: #F6F6DE;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+    }
+    .preview-section-body {
+      padding: 1rem;
+      text-align: center;
+      min-height: 100px;
+    }
+    .preview-section-footer {
+      background-color: #5d4037;
+      padding: 0.5rem 1rem;
+      text-align: center;
+    }
+    .preview-logo {
+      display: block;
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 0.5rem;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+    .preview-swipe-hint {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 0.3rem;
+    }
+    .preview-message {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1rem, 2.8vw, 1.3rem);
+      color: #F6F6DE;
+      -webkit-text-stroke: 0.6px #000;
+      text-stroke: 0.6px #000;
+      paint-order: stroke fill;
+    }
+    .preview-about {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.8rem;
+      color: #3e2723;
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+    .preview-divider {
+      height: 1px;
+      background: #ccc;
+      margin: 0.75rem 0;
+    }
+    .preview-label {
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 0.9rem;
+      color: #5d4037;
+    }
+    .preview-value {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.95rem;
+      color: #3e2723;
+    }
+    .preview-name-line {
+      margin-bottom: 0.4rem;
+    }
+    .preview-face + .preview-face {
+      border-top: 2px solid #ddd;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
     .share-modal-overlay {
       display: none;
       position: fixed;
@@ -1436,10 +1555,10 @@
     }
     .customiser-tier-btn {
       flex: 1;
-      padding: 0.65rem 0.5rem;
+      padding: 0.75rem 0.5rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1rem,2.4vw,1.15rem);
-      font-weight: 600;
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      font-weight: 700;
       border: 2px solid #3e2723;
       border-radius: 10px;
       cursor: pointer;
@@ -1469,16 +1588,16 @@
     }
     .customiser-tier-btn:hover { transform: scale(1.03); }
 
-    /* Price inside tier buttons */
+    /* Price inside tier buttons — Wanters DEMO, larger */
     .tier-price {
       display: block;
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
       font-weight: 700;
-      margin-top: 0.15rem;
+      margin-top: 0.2rem;
       -webkit-text-stroke: 0;
       text-stroke: 0;
-      opacity: 0.9;
+      opacity: 0.95;
     }
 
     /* Accordion headers inside customiser — match product accordion style */
@@ -1972,8 +2091,8 @@
       <div class="customiser-modal-scroll">
         <!-- Tier selector -->
         <div class="customiser-tier-bar">
-          <button type="button" class="customiser-tier-btn cc-tier-2 tier-active" data-tier="2" id="cc-tier-2">2 Pages<br><span class="tier-price">$10</span></button>
-          <button type="button" class="customiser-tier-btn cc-tier-3" data-tier="3" id="cc-tier-3">3 Pages<br><span class="tier-price">$20</span></button>
+          <button type="button" class="customiser-tier-btn cc-tier-2 tier-active" data-tier="2" id="cc-tier-2">2 Pages<br><span class="tier-price">$20</span></button>
+          <button type="button" class="customiser-tier-btn cc-tier-3" data-tier="3" id="cc-tier-3">3 Pages<br><span class="tier-price">$30</span></button>
         </div>
 
         <!-- Accordion: Details -->
@@ -2106,13 +2225,52 @@
     </div>
   </div>
 
+  <!-- Preview Modal -->
+  <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
+    <div class="preview-modal" id="preview-modal">
+      <div class="modal-header" id="preview-modal-header"><h2 id="preview-title">Everdream Jerky</h2></div>
+      <div class="preview-body" id="preview-body">
+        <div class="preview-card" id="preview-card">
+          <!-- Front side of card -->
+          <div class="preview-face" id="preview-face-front">
+            <div class="preview-section" id="preview-section-front">
+              <div class="preview-section-header" id="preview-front-header"><h3 id="preview-front-heading">Business Name</h3></div>
+              <div class="preview-section-body" id="preview-front-body">
+                <img src="Everdream-Logo-Circle.png" alt="Logo" class="preview-logo" id="preview-logo" />
+                <p class="preview-swipe-hint" aria-hidden="true">Swipe</p>
+              </div>
+              <div class="preview-section-footer" id="preview-front-footer"><p class="preview-message" id="preview-message">Tagline</p></div>
+            </div>
+          </div>
+          <!-- Back side of card -->
+          <div class="preview-face" id="preview-face-back">
+            <div class="preview-section" id="preview-section-back">
+              <div class="preview-section-header" id="preview-back-header"><h3 id="preview-back-heading">Details</h3></div>
+              <div class="preview-section-body" id="preview-back-body">
+                <p class="preview-about" id="preview-about">Description text goes here</p>
+                <div class="preview-divider"></div>
+                <p class="preview-name-line" id="preview-name-line"><span class="preview-label">Name:</span><br><span class="preview-value" id="preview-name-val">Your Name</span></p>
+                <p id="preview-phone-line"><span class="preview-label">Mobile:</span><br><span class="preview-value" id="preview-phone-val">Phone</span></p>
+                <p id="preview-email-line"><span class="preview-label">Email:</span><br><span class="preview-value" id="preview-email-val">Email</span></p>
+              </div>
+              <div class="preview-section-footer" id="preview-back-footer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="wholesale-modal-close" id="preview-close" aria-label="Close Preview">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Confirm Export Modal -->
   <div id="confirm-overlay" class="customiser-overlay" aria-hidden="true">
     <div class="customiser-modal" style="max-width:380px">
       <div class="modal-header"><h2>Lock it in?</h2></div>
       <div class="customiser-modal-scroll" style="text-align:center;padding:2rem 1.5rem;font-family:Verdana,Geneva,sans-serif;font-size:1.3rem;color:#3e2723;">
         <p>Are you sure you're finished?<br>This will send your design to us.</p>
-        <p style="margin-top:1.2rem;font-size:2rem;font-weight:bold;color:#2e7d32;" id="cc-confirm-cost">$10</p>
+        <p style="margin-top:1.2rem;font-size:2rem;font-weight:bold;color:#2e7d32;" id="cc-confirm-cost">$20</p>
         <p style="font-size:0.9rem;color:#5d4037;margin-top:0.3rem;">Bank transfer to my account — I'll wait for payment before giving you the URL</p>
         <p style="font-size:0.8rem;color:#5d4037;margin-top:0.5rem;line-height:1.4;"><strong>Buy Now</strong> — get a unique reference code, see my bank details, then the design goes through<br><strong>Order Now, Pay Later</strong> — get a reference code, send the design, pay when you're ready</p>
       </div>
@@ -3887,12 +4045,88 @@
         updateProductsPreview();
       }
 
-      /* Preview button */
+      /* Populate preview modal with user's current colours and content */
+      function populatePreview() {
+        var p = document.getElementById('cc-primary').value;
+        var s = document.getElementById('cc-secondary').value;
+        var b = document.getElementById('cc-background').value;
+        var t = document.getElementById('cc-text').value;
+        var ti = document.getElementById('cc-title').value;
+        var btn = document.getElementById('cc-button').value;
+        var btnText = document.getElementById('cc-button-text').value;
+        var tf = document.getElementById('cc-title-font').value;
+        var bf = document.getElementById('cc-body-font').value;
+        var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
+        var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
+        var tag = document.getElementById('cc-tagline').value.trim() || 'Tagline';
+        var ph = document.getElementById('cc-phone').value.trim() || 'Phone';
+        var em = document.getElementById('cc-email').value.trim() || 'Email';
+        var desc = document.getElementById('cc-description').value.trim() || 'Description text goes here';
+
+        /* Header — primary colour */
+        var modalHeader = document.getElementById('preview-modal-header');
+        modalHeader.style.backgroundColor = p;
+        document.getElementById('preview-title').textContent = biz;
+        document.getElementById('preview-title').style.fontFamily = tf;
+
+        /* Front section header — primary */
+        document.getElementById('preview-front-header').style.backgroundColor = p;
+        document.getElementById('preview-front-heading').textContent = biz;
+        document.getElementById('preview-front-heading').style.fontFamily = tf;
+
+        /* Front section body — background */
+        document.getElementById('preview-front-body').style.backgroundColor = b;
+        document.getElementById('preview-front-body').style.color = t;
+
+        /* Front footer — secondary */
+        document.getElementById('preview-front-footer').style.backgroundColor = s;
+        document.getElementById('preview-message').textContent = tag;
+        document.getElementById('preview-message').style.fontFamily = tf;
+
+        /* Back section header — primary */
+        document.getElementById('preview-back-header').style.backgroundColor = p;
+        document.getElementById('preview-back-heading').textContent = 'Details';
+        document.getElementById('preview-back-heading').style.fontFamily = tf;
+
+        /* Back section body — background */
+        document.getElementById('preview-back-body').style.backgroundColor = b;
+        document.getElementById('preview-back-body').style.color = t;
+
+        /* Description */
+        var aboutEl = document.getElementById('preview-about');
+        aboutEl.textContent = desc;
+        aboutEl.style.fontFamily = bf;
+        aboutEl.style.color = t;
+
+        /* Name, phone, email */
+        document.getElementById('preview-name-val').textContent = nam;
+        document.getElementById('preview-phone-val').textContent = ph;
+        document.getElementById('preview-email-val').textContent = em;
+
+        /* Back footer — secondary */
+        document.getElementById('preview-back-footer').style.backgroundColor = s;
+      }
+
+      /* Preview button — open preview modal */
       document.getElementById('cc-preview').addEventListener('click', function () {
         hapticBuzz();
-        applyCustomiserPreview();
-        customiserOverlay.classList.remove('visible');
-        customiserOverlay.setAttribute('aria-hidden', 'true');
+        populatePreview();
+        document.getElementById('preview-overlay').classList.add('visible');
+        document.getElementById('preview-overlay').setAttribute('aria-hidden', 'false');
+      });
+      /* Preview modal close */
+      document.getElementById('preview-close').addEventListener('click', function () {
+        hapticBuzz();
+        document.getElementById('preview-overlay').classList.remove('visible');
+        document.getElementById('preview-overlay').setAttribute('aria-hidden', 'true');
+      });
+      /* Close preview overlay on background click */
+      document.getElementById('preview-overlay').addEventListener('click', function (e) {
+        if (e.target === this) {
+          hapticBuzz();
+          this.classList.remove('visible');
+          this.setAttribute('aria-hidden', 'true');
+        }
       });
 
       /* Back button */
