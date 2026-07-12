@@ -99,6 +99,14 @@
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
     }
+    /* Landing panel (front) — smaller padding, compact panel */
+    #flip-front.card-face {
+      padding: clamp(0.5rem, 2vw, 1rem);
+    }
+    /* Products panel (back) — medium padding */
+    #flip-back.card-face {
+      padding: clamp(0.65rem, 2.5vw, 1.35rem);
+    }
 
     .flip-front.card-face {
       position: relative;
