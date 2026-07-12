@@ -1128,6 +1128,7 @@
       justify-content: center;
       gap: 0.5rem;
       margin-top: 0.75rem;
+      align-items: center;
     }
     .preview-dot {
       width: 10px;
@@ -1137,6 +1138,11 @@
       border: 1px solid #aaa;
       cursor: pointer;
       transition: background 0.2s, transform 0.2s;
+      padding: 0;
+      min-height: unset;
+      font-size: 0;
+      line-height: 0;
+      display: inline-block;
     }
     .preview-dot:hover {
       transform: scale(1.3);
@@ -2514,9 +2520,9 @@
 
         <!-- Page dots indicator -->
         <div class="preview-page-dots" id="preview-page-dots">
-          <span class="preview-dot preview-dot-active" data-page="intro"></span>
-          <span class="preview-dot" data-page="contact"></span>
-          <span class="preview-dot" data-page="products"></span>
+          <button type="button" class="preview-dot preview-dot-active" data-page="intro" aria-label="Page 1: Intro"></button>
+          <button type="button" class="preview-dot" data-page="contact" aria-label="Page 2: Contact"></button>
+          <button type="button" class="preview-dot" data-page="products" aria-label="Page 3: Products"></button>
         </div>
       </div>
       <div class="modal-footer">
