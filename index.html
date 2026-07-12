@@ -686,13 +686,13 @@
     }
 
     #share-btn {
-      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
-      border-color: #0d3b0f;
-      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.35);
+      background: linear-gradient(135deg, #b8860b 0%, #d4a017 50%, #b8860b 100%);
+      border-color: #8b6508;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.35);
     }
 
     #share-btn:hover {
-      box-shadow: 0 6px 16px rgba(27, 94, 32, 0.45);
+      box-shadow: 0 6px 16px rgba(184, 134, 11, 0.45);
     }
 
     #save-icon-btn {
@@ -738,9 +738,9 @@
       background-color: #1b5e20;
     }
 
-    /* Share modal header — brand green */
+    /* Share modal header — deep gold */
     .share-modal .modal-header {
-      background-color: #1b5e20;
+      background-color: #b8860b;
     }
 
     /* Save icon modal header — brand green */
@@ -3678,7 +3678,8 @@
           '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: ' + bf + ' !important; }' +
           '.card-face { border-color: ' + s + ' !important; }' +
           '.content-panel { border-color: ' + s + ' !important; }' +
-          '.share-btn { background: linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%) !important; color: ' + btnText + ' !important; }';
+          '.share-btn { background: linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%) !important; color: ' + btnText + ' !important; }' +
+          '/* Lock Share button to gold */ #share-btn { background: linear-gradient(135deg,#b8860b 0%,#d4a017 50%,#b8860b 100%) !important; border-color: #8b6508 !important; }' ;
 
         /* Update text content */
         if (biz) {
