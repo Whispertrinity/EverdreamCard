@@ -1102,12 +1102,12 @@
 
     /* Bigger? (inside Packs/green modal) — purple, matches Wholesale header */
     #packs-to-wholesale-btn {
-      background: linear-gradient(135deg, #5b21b6 0%, #6d28d9 50%, #5b21b6 100%);
-      border-color: #4a2864;
-      box-shadow: 0 4px 12px rgba(91, 33, 182, 0.35);
+      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
+      border-color: #3a1e50;
+      box-shadow: 0 4px 12px rgba(74, 40, 100, 0.35);
     }
     #packs-to-wholesale-btn:hover {
-      box-shadow: 0 6px 16px rgba(91, 33, 182, 0.45);
+      box-shadow: 0 6px 16px rgba(74, 40, 100, 0.45);
     }
 
     .wholesale-modal {
@@ -1451,20 +1451,6 @@
       background: #6d5047;
       transition: all 0.25s ease;
     }
-    /* Master headers (Products, Packs) stay teal */
-    .customiser-accordion-header.cc-products-master-header,
-    .customiser-accordion-header.cc-packs-master-header {
-      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
-      text-align: center;
-      padding: 0.75rem 1rem;
-      font-size: clamp(1.35rem, 3vw, 1.6rem);
-      -webkit-text-stroke: 1.5px #000;
-      text-stroke: 1.5px #000;
-    }
-    .customiser-accordion-header.cc-products-master-header:hover,
-    .customiser-accordion-header.cc-packs-master-header:hover {
-      background: linear-gradient(135deg,#1a6b75 0%,#20808a 50%,#1a6b75 100%);
-    }
     .customiser-accordion-body {
       max-height: 0;
       overflow: hidden;
@@ -1546,8 +1532,9 @@
     .customiser-actions {
       display: flex;
       gap: 0.6rem;
-      padding: 0.75rem 0 0;
-      border-top: none;
+      padding: 0.75rem 0.5rem 0.25rem;
+      border-top: 2px solid #5d4037;
+      margin-top: 0.5rem;
       background: transparent;
     }
     .customiser-btn {
@@ -1583,6 +1570,30 @@
       box-shadow: 0 4px 12px rgba(46,125,50,0.35);
     }
 
+    /* Small pill buttons inside Products/Packs accordion bodies */
+    .cc-add-pill {
+      display: inline-block;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fff;
+      padding: 0.35rem 0.85rem;
+      border: none;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .cc-add-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .cc-add-pill-teal {
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+    }
+    .cc-add-pill-green {
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
+    }
+
     /* Customiser footer — brown bar with Back button */
     .customiser-footer {
       background-color: #5d4037;
@@ -1590,10 +1601,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-    .customiser-btn-back {
-      background: linear-gradient(135deg, #7a0000 0%, #a31515 50%, #7a0000 100%) !important;
-      border-color: #4a0000 !important;
     }
 
     /* Inner product accordions */
@@ -1943,32 +1950,36 @@
         </div>
 
         <!-- Accordion: Products (3-page tier only) -->
-        <button type="button" class="customiser-accordion-header cc-products-master-header" aria-expanded="false" id="cc-products-header">Products</button>
+        <div class="customiser-accordion-wrapper">
+        <button type="button" class="customiser-accordion-header" aria-expanded="false" id="cc-products-header">Products</button>
         <div class="customiser-accordion-body" id="cc-products-body">
           <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Add products one at a time. Each gets its own accordion on your card, just like the Everdream Jerky flavours.</p>
           <div id="cc-products-container">
             <!-- Inner product accordions go here -->
           </div>
-          <button type="button" id="cc-add-product" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin:0.5rem 0;">+ Add Product</button>
+          <button type="button" class="cc-add-pill cc-add-pill-teal" id="cc-add-product">+ Add Product</button>
+        </div>
         </div>
 
         <!-- Accordion: Packs (3-page tier only) -->
-        <button type="button" class="customiser-accordion-header cc-packs-master-header" aria-expanded="false" id="cc-packs-header">Packs</button>
+        <div class="customiser-accordion-wrapper">
+        <button type="button" class="customiser-accordion-header" aria-expanded="false" id="cc-packs-header">Packs</button>
         <div class="customiser-accordion-body" id="cc-packs-body">
           <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Bundle products into packs with a discounted price. These show in the Wholesale modal on your contact page.</p>
           <div id="cc-packs-container">
             <!-- Inner pack accordions go here -->
           </div>
-          <button type="button" id="cc-add-pack" style="font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#14545c;background:none;border:1px dashed #14545c;border-radius:8px;padding:0.4rem 0.8rem;cursor:pointer;width:100%;margin:0.5rem 0;">+ Add Pack</button>
+          <button type="button" class="cc-add-pill cc-add-pill-green" id="cc-add-pack">+ Add Pack</button>
         </div>
-      </div>
-      <div class="customiser-actions">
+        </div>
+        <div class="customiser-actions">
         <button type="button" class="customiser-btn customiser-btn-preview" id="cc-preview">Preview</button>
         <button type="button" class="customiser-btn customiser-btn-reset" id="cc-reset">Reset</button>
         <button type="button" class="customiser-btn customiser-btn-save" id="cc-save">Save</button>
       </div>
+      </div>
       <div class="modal-footer customiser-footer">
-        <button type="button" class="wholesale-modal-close customiser-btn-back" id="cc-back" aria-label="Back">Back</button>
+        <button type="button" class="wholesale-modal-close" id="cc-back" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
@@ -3540,7 +3551,8 @@
         var tf = document.getElementById('cc-title-font').value;
         var bf = document.getElementById('cc-body-font').value;
 
-        if (header) header.style.backgroundColor = p;
+        /* Customiser header is always deep red — never overridden by colour picker */
+        if (header) header.style.backgroundColor = '#7a0000';
         if (title) {
           title.style.color = '#f6f6de';
           title.style.fontFamily = tf;
