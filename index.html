@@ -4426,14 +4426,18 @@
           flavourList.innerHTML = '<li style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;list-style:none;">Add your products in the customiser.</li>';
         }
 
-        /* ===== Show/hide pages based on tier ===== */
+        /* ===== Show/hide pages — show only first page, dots navigate ===== */
         var showIntro = true;
         var showContact = true;
         var showProducts = (tier === '3');
 
-        document.getElementById('preview-page-intro').classList.toggle('preview-page-active', showIntro);
-        document.getElementById('preview-page-contact').classList.toggle('preview-page-active', showContact);
-        document.getElementById('preview-page-products').classList.toggle('preview-page-active', showProducts);
+        /* All pages should be shown (marked as existing) but only first active */
+        document.getElementById('preview-page-intro').classList.toggle('preview-page-active', false);
+        document.getElementById('preview-page-contact').classList.toggle('preview-page-active', false);
+        document.getElementById('preview-page-products').classList.toggle('preview-page-active', false);
+        /* Activate first available page */
+        var firstPage = showProducts ? 'intro' : 'intro'; /* always intro first */
+        document.getElementById('preview-page-intro').classList.add('preview-page-active');
 
         /* Update page dots */
         var dots = document.querySelectorAll('.preview-dot');
