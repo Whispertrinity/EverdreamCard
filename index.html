@@ -1480,6 +1480,16 @@
     .customiser-accordion-header:hover {
       background: rgba(255, 255, 255, 0.08);
     }
+    /* Per-accordion colour classes — override JS-applied gradient */
+    .customiser-accordion-header.cc-accordion-brown {
+      background: linear-gradient(135deg, #5d4037 0%, #6d5047 50%, #5d4037 100%);
+    }
+    .customiser-accordion-header.cc-accordion-teal {
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+    }
+    .customiser-accordion-header.cc-accordion-green {
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
+    }
     .customiser-accordion-header::after {
       content: '▼';
       float: right;
@@ -1496,6 +1506,9 @@
       border-radius: 12px;
       background: #6d5047;
       transition: all 0.25s ease;
+    }
+    .customiser-accordion-wrapper:last-of-type {
+      margin-bottom: 0;
     }
     .customiser-accordion-body {
       max-height: 0;
@@ -1580,7 +1593,6 @@
       display: flex;
       gap: 0.6rem;
       padding: 0.75rem 0.5rem;
-      margin-top: 0.5rem;
       background: transparent;
     }
     .customiser-btn {
@@ -1906,7 +1918,7 @@
 
         <!-- Accordion: Details -->
         <div class="customiser-accordion-wrapper">
-        <button type="button" class="customiser-accordion-header" aria-expanded="false">Details</button>
+        <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Details</button>
         <div class="customiser-accordion-body">
           <div class="customiser-field">
             <label class="customiser-label">Business Name</label>
@@ -1937,7 +1949,7 @@
 
         <!-- Accordion: Text -->
         <div class="customiser-accordion-wrapper">
-        <button type="button" class="customiser-accordion-header" aria-expanded="false">Text</button>
+        <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Text</button>
         <div class="customiser-accordion-body">
           <div class="customiser-field">
             <label class="customiser-label">Title Font</label>
@@ -1959,7 +1971,7 @@
 
         <!-- Accordion: Colours -->
         <div class="customiser-accordion-wrapper">
-        <button type="button" class="customiser-accordion-header" aria-expanded="false">Colours</button>
+        <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Colours</button>
         <div class="customiser-accordion-body">
           <div class="customiser-preset-row">
             <button type="button" class="cc-preset-swatch" data-palette="teal" style="background:#14545c;" title="Teal (Everdream)"></button>
@@ -2000,7 +2012,7 @@
 
         <!-- Accordion: Products (3-page tier only) -->
         <div class="customiser-accordion-wrapper">
-        <button type="button" class="customiser-accordion-header" aria-expanded="false" id="cc-products-header">Products</button>
+        <button type="button" class="customiser-accordion-header cc-accordion-teal" aria-expanded="false" id="cc-products-header">Products</button>
         <div class="customiser-accordion-body" id="cc-products-body">
           <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Add products one at a time. Each gets its own accordion on your card, just like the Everdream Jerky flavours.</p>
           <div id="cc-products-container">
@@ -2012,7 +2024,7 @@
 
         <!-- Accordion: Packs (3-page tier only) -->
         <div class="customiser-accordion-wrapper">
-        <button type="button" class="customiser-accordion-header" aria-expanded="false" id="cc-packs-header">Packs</button>
+        <button type="button" class="customiser-accordion-header cc-accordion-green" aria-expanded="false" id="cc-packs-header">Packs</button>
         <div class="customiser-accordion-body" id="cc-packs-body">
           <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Bundle products into packs with a discounted price. These show in the Wholesale modal on your contact page.</p>
           <div id="cc-packs-container">
@@ -3616,8 +3628,11 @@
           }
         });
 
-        /* Update accordion headers */
+        /* Update accordion headers — skip ones with specific colour classes */
         document.querySelectorAll('.customiser-accordion-header').forEach(function (h) {
+          if (h.classList.contains('cc-accordion-brown') ||
+              h.classList.contains('cc-accordion-teal') ||
+              h.classList.contains('cc-accordion-green')) return;
           h.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
         });
 
