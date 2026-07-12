@@ -3666,12 +3666,12 @@
           title.style.fontFamily = tf;
         }
 
-        /* Update tier buttons */
+        /* Update tier buttons — active gets user primary colour, inactive uses CSS class */
         document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
           if (b.classList.contains('tier-active')) {
             b.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
           } else {
-            b.style.background = 'linear-gradient(135deg,#5d4037 0%,#6d5047 50%,#5d4037 100%)';
+            b.style.background = '';
           }
         });
 
