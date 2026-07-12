@@ -1501,15 +1501,11 @@
     /* Wrap each customiser accordion in a brown panel like product panels */
     .customiser-accordion-wrapper {
       width: 100%;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.35rem;
       border: 2px solid #3e2723;
       border-radius: 12px;
       background: #6d5047;
       transition: all 0.25s ease;
-    }
-    .customiser-accordion-wrapper:last-of-type {
-      margin-bottom: 0;
-      border-bottom-width: 0;
     }
 
     .customiser-accordion-body {
@@ -2995,6 +2991,19 @@
           if (packsHeader) packsHeader.style.display = 'none';
           if (packsBody) packsBody.style.display = 'none';
         }
+        /* Remove bottom margin from last visible accordion wrapper */
+        document.querySelectorAll('.customiser-accordion-wrapper').forEach(function (w) {
+          if (w.style.display === 'none') {
+            w.style.marginBottom = '';
+          } else {
+            w.style.marginBottom = '0.35rem';
+          }
+        });
+        var lastVisible = null;
+        document.querySelectorAll('.customiser-accordion-wrapper').forEach(function (w) {
+          if (w.style.display !== 'none') lastVisible = w;
+        });
+        if (lastVisible) lastVisible.style.marginBottom = '0';
         var costEl = document.getElementById('cc-confirm-cost');
         if (costEl) costEl.textContent = tier === '3' ? '$20' : '$10';
       }
