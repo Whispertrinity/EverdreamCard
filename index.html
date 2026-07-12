@@ -1431,6 +1431,8 @@
       display: flex;
       gap: 0.5rem;
       margin-bottom: 0.75rem;
+      border-bottom: 2px solid #b8a87e;
+      padding-bottom: 0.75rem;
     }
     .customiser-tier-btn {
       flex: 1;
@@ -1438,21 +1440,24 @@
       font-family: 'The Wanters DEMO', serif;
       font-size: clamp(1rem,2.4vw,1.15rem);
       font-weight: 600;
-      color: #f5f5dc;
-      background: linear-gradient(135deg,#5d4037 0%,#6d5047 50%,#5d4037 100%);
-      border: 2px solid #3e2723;
+      color: #5d4037;
+      background: #D4C5A0;
+      border: 2px solid #b8a87e;
       border-radius: 10px;
       cursor: pointer;
       text-align: center;
-      -webkit-text-stroke: 0.8px #000;
-      text-stroke: 0.8px #000;
+      -webkit-text-stroke: 0.6px #3e2723;
+      text-stroke: 0.6px #3e2723;
       paint-order: stroke fill;
       -webkit-paint-order: stroke fill;
-      transition: background 0.2s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s, color 0.2s;
     }
     .customiser-tier-btn.tier-active {
       background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
       border-color: #0a1a1d;
+      color: #f5f5dc;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
       transform: scale(1.02);
     }
     .customiser-tier-btn:hover { transform: scale(1.03); }
@@ -1511,14 +1516,24 @@
     .customiser-accordion-body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease;
-      padding: 0 0.25rem;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 0.75rem;
+      background: #F6F6DE;
+      border-radius: 0 0 12px 12px;
     }
     .customiser-accordion-body.open {
       max-height: 2000px;
       overflow: visible;
-      padding: 0.6rem 0.6rem;
-      background: #F6F6DE;
+      padding: 0.75rem;
+    }
+
+    /* Description text inside Products/Packs accordions */
+    .cc-accordion-desc {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.8rem;
+      color: #5d4037;
+      margin: 0.5rem 0;
+      text-align: center;
     }
 
     /* Preset colour swatches */
@@ -1632,16 +1647,21 @@
 
     /* Small pill buttons inside Products/Packs accordion bodies */
     .cc-add-pill {
-      display: inline-block;
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: 0.8rem;
+      display: block;
+      margin: 0.5rem auto 0;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.9rem, 2.2vw, 1.05rem);
       font-weight: 600;
       color: #fff;
-      padding: 0.35rem 0.85rem;
+      padding: 0.4rem 1rem;
       border: none;
       border-radius: 9999px;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
     }
     .cc-add-pill:hover {
       transform: translateY(-1px);
@@ -2013,7 +2033,7 @@
         <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header cc-accordion-teal" aria-expanded="false" id="cc-products-header">Products</button>
         <div class="customiser-accordion-body" id="cc-products-body">
-          <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Add products one at a time. Each gets its own accordion on your card, just like the Everdream Jerky flavours.</p>
+          <p class="cc-accordion-desc">Add products one at a time. Each gets its own accordion on your card, just like the Everdream Jerky flavours.</p>
           <div id="cc-products-container">
             <!-- Inner product accordions go here -->
           </div>
@@ -2025,7 +2045,7 @@
         <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header cc-accordion-green" aria-expanded="false" id="cc-packs-header">Packs</button>
         <div class="customiser-accordion-body" id="cc-packs-body">
-          <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin:0.5rem 0;">Bundle products into packs with a discounted price. These show in the Wholesale modal on your contact page.</p>
+          <p class="cc-accordion-desc">Bundle products into packs with a discounted price. These show in the Wholesale modal on your contact page.</p>
           <div id="cc-packs-container">
             <!-- Inner pack accordions go here -->
           </div>
