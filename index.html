@@ -2979,31 +2979,34 @@
         var prodBody = document.getElementById('cc-products-body');
         var packsHeader = document.getElementById('cc-packs-header');
         var packsBody = document.getElementById('cc-packs-body');
+        var prodWrapper = prodHeader ? prodHeader.closest('.customiser-accordion-wrapper') : null;
+        var packsWrapper = packsHeader ? packsHeader.closest('.customiser-accordion-wrapper') : null;
         if (!prodHeader || !prodBody) return;
         if (tier === '3') {
+          if (prodWrapper) prodWrapper.style.display = '';
           prodHeader.style.display = '';
           prodBody.style.display = '';
+          if (packsWrapper) packsWrapper.style.display = '';
           if (packsHeader) packsHeader.style.display = '';
           if (packsBody) packsBody.style.display = '';
         } else {
+          if (prodWrapper) prodWrapper.style.display = 'none';
           prodHeader.style.display = 'none';
           prodBody.style.display = 'none';
+          if (packsWrapper) packsWrapper.style.display = 'none';
           if (packsHeader) packsHeader.style.display = 'none';
           if (packsBody) packsBody.style.display = 'none';
         }
-        /* Remove bottom margin from last visible accordion wrapper */
-        document.querySelectorAll('.customiser-accordion-wrapper').forEach(function (w) {
-          if (w.style.display === 'none') {
-            w.style.marginBottom = '';
-          } else {
-            w.style.marginBottom = '0.35rem';
-          }
-        });
+        /* Remove bottom margin from last visible accordion wrapper, reset others */
         var lastVisible = null;
         document.querySelectorAll('.customiser-accordion-wrapper').forEach(function (w) {
-          if (w.style.display !== 'none') lastVisible = w;
+          if (w.style.display !== 'none') {
+            lastVisible = w;
+          }
         });
-        if (lastVisible) lastVisible.style.marginBottom = '0';
+        document.querySelectorAll('.customiser-accordion-wrapper').forEach(function (w) {
+          w.style.marginBottom = (w === lastVisible) ? '0' : '';
+        });
         var costEl = document.getElementById('cc-confirm-cost');
         if (costEl) costEl.textContent = tier === '3' ? '$20' : '$10';
       }
