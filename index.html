@@ -1440,28 +1440,36 @@
       font-family: 'The Wanters DEMO', serif;
       font-size: clamp(1rem,2.4vw,1.15rem);
       font-weight: 600;
-      color: #5d4037;
-      background: #D4C5A0;
-      border: 2px solid #b8a87e;
+      border: 2px solid #3e2723;
       border-radius: 10px;
       cursor: pointer;
       text-align: center;
-      -webkit-text-stroke: 0.6px #3e2723;
-      text-stroke: 0.6px #3e2723;
-      paint-order: stroke fill;
-      -webkit-paint-order: stroke fill;
-      transition: background 0.2s, transform 0.15s, color 0.2s;
-    }
-    .customiser-tier-btn.tier-active {
-      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
-      border-color: #0a1a1d;
-      color: #f5f5dc;
       -webkit-text-stroke: 0.8px #000;
       text-stroke: 0.8px #000;
-      transform: scale(1.02);
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+      transition: opacity 0.2s, transform 0.15s;
+      color: #f5f5dc;
+    }
+    /* 2 Pages — always brown */
+    .customiser-tier-btn.cc-tier-2 {
+      background: linear-gradient(135deg, #5d4037 0%, #6d5047 50%, #5d4037 100%);
+    }
+    /* 3 Pages — always teal */
+    .customiser-tier-btn.cc-tier-3 {
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+      border-color: #0a1a1d;
+    }
+    /* Inactive (greyed out) */
+    .customiser-tier-btn.tier-inactive {
+      opacity: 0.4;
+      filter: grayscale(0.6);
+      transform: scale(0.97);
+    }
+    .customiser-tier-btn.tier-inactive:hover {
+      transform: scale(0.99);
     }
     .customiser-tier-btn:hover { transform: scale(1.03); }
-    .customiser-tier-btn.tier-active:hover { transform: scale(1.04); }
 
     /* Accordion headers inside customiser — match product accordion style */
     .customiser-accordion-header {
@@ -1932,8 +1940,8 @@
       <div class="customiser-modal-scroll">
         <!-- Tier selector -->
         <div class="customiser-tier-bar">
-          <button type="button" class="customiser-tier-btn tier-active" data-tier="2" id="cc-tier-2">2 Pages</button>
-          <button type="button" class="customiser-tier-btn" data-tier="3" id="cc-tier-3">3 Pages</button>
+          <button type="button" class="customiser-tier-btn cc-tier-2 tier-active" data-tier="2" id="cc-tier-2">2 Pages</button>
+          <button type="button" class="customiser-tier-btn cc-tier-3" data-tier="3" id="cc-tier-3">3 Pages</button>
         </div>
 
         <!-- Accordion: Details -->
@@ -3051,6 +3059,7 @@
           this.classList.add('tier-active');
           updateTierUI();
           saveCustomiserState();
+          applyLiveModalColours();
           hapticBuzz();
         });
       });
@@ -3667,12 +3676,13 @@
           title.style.fontFamily = tf;
         }
 
-        /* Update tier buttons — active gets user primary colour, inactive uses CSS class */
+        /* Update tier buttons — each has a fixed colour (cc-tier-2 brown, cc-tier-3 teal) */
         document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
+          b.style.background = '';
           if (b.classList.contains('tier-active')) {
-            b.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
+            b.classList.remove('tier-inactive');
           } else {
-            b.style.background = '';
+            b.classList.add('tier-inactive');
           }
         });
 
