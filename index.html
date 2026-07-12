@@ -1113,14 +1113,14 @@
       box-shadow: 0 6px 16px rgba(13, 123, 168, 0.45);
     }
 
-    /* Smaller? (inside Wholesale/purple modal) — green, matches Packs header */
+    /* Smaller? (inside Wholesale/purple modal) — matches Packs header green #1b5e20 */
     #wholesale-to-packs-btn {
-      background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%);
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
       border-color: #1b5e20;
-      box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.35);
     }
     #wholesale-to-packs-btn:hover {
-      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.45);
+      box-shadow: 0 6px 16px rgba(27, 94, 32, 0.45);
     }
 
     /* Bigger? (inside Packs/green modal) — purple, matches Wholesale header */
@@ -1210,7 +1210,32 @@
       background: rgba(255, 255, 255, 0.08);
     }
 
-    .wholesale-pack-cost {
+    .wholesale-pack-header-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+    .wholesale-pack-header-text .wholesale-pack-title::after {
+      content: '\00a0\00b7\00a0';
+      color: #f5f5dc;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 700;
+      opacity: 0.9;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .wholesale-pack-header-text .wholesale-pack-title {
+      font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+      font-weight: 700;
+      color: #f5f5dc;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .wholesale-pack-header-text .wholesale-pack-cost {
       font-family: 'The Wanters DEMO', serif;
       font-weight: 700;
       font-size: clamp(1.5rem, 3.2vw, 1.85rem);
@@ -1218,12 +1243,9 @@
       -webkit-text-stroke: 1.5px #000;
       paint-order: stroke fill;
       -webkit-paint-order: stroke fill;
-    }
-
-    .wholesale-pack-title {
-      font-size: clamp(1.35rem, 3.2vw, 1.75rem);
-      font-weight: 700;
-      color: #f5f5dc;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
     }
 
     .wholesale-panel-header {
