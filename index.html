@@ -812,7 +812,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       z-index: 400;
       align-items: center;
       justify-content: center;
@@ -825,9 +825,9 @@
       background: #F6F6DE;
       border: 4px solid #3e2723;
       border-radius: 20px;
-      max-width: 440px;
+      max-width: 460px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       display: flex;
       flex-direction: column;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
@@ -836,96 +836,315 @@
     .preview-body {
       padding: 1rem;
       display: flex;
-      justify-content: center;
-      max-height: 60vh;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      max-height: 70vh;
       overflow-y: auto;
     }
+    /* The card replica — miniaturised version of the live card */
     .preview-card {
       width: 100%;
-      max-width: 360px;
-      border: 3px solid #3e2723;
-      border-radius: 18px;
-      background: #ffffff;
+      max-width: 400px;
+      position: relative;
+    }
+    .preview-page {
+      display: none;
+    }
+    .preview-page.preview-page-active {
+      display: block;
+    }
+
+    /* ===== Shared card panel styles ===== */
+    .preview-content-panel {
+      background-color: #F6F6DE;
+      border: 4px solid #5d4037;
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
       overflow: hidden;
     }
-    .preview-face {
-      width: 100%;
-    }
-    .preview-section-header {
-      background-color: #14545c;
-      padding: 0.6rem 1rem;
+
+    /* ===== PAGE 1: Intro / Landing ===== */
+    .preview-intro-header {
+      background-color: #14545C;
+      border-radius: 16px 16px 0 0;
+      padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
       text-align: center;
+      border-bottom: 2px solid #3e2723;
     }
-    .preview-section-header h3 {
-      font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
+    .preview-intro-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 900;
       color: #F6F6DE;
-      -webkit-text-stroke: 1.5px #000;
-      text-stroke: 1.5px #000;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      -webkit-text-stroke: 1.2px #000;
+      text-stroke: 1.2px #000;
       paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
     }
-    .preview-section-body {
-      padding: 1rem;
-      text-align: center;
-      min-height: 100px;
+    .preview-intro-body {
+      background-color: #F6F6DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 2.5rem);
+      min-height: 80px;
     }
-    .preview-section-footer {
-      background-color: #5d4037;
-      padding: 0.5rem 1rem;
-      text-align: center;
+    .preview-intro-body-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .preview-logo {
+    .preview-intro-icon {
       display: block;
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 0.5rem;
-      border-radius: 50%;
+      margin: 0 auto;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
     }
-    .preview-swipe-hint {
+    .preview-intro-swipe-hint {
       font-family: 'The Wanters DEMO', serif;
-      font-size: 0.75rem;
-      color: #999;
+      font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+      color: #3e2723;
       margin-top: 0.3rem;
+      animation: preview-swipe-fade 5s ease-out forwards;
     }
-    .preview-message {
-      font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1rem, 2.8vw, 1.3rem);
+    @keyframes preview-swipe-fade {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    .preview-intro-footer {
+      background-color: #4F362F;
+      border-radius: 0 0 16px 16px;
+      padding: clamp(0.6rem, 1.8vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+      text-align: center;
+      border-top: 2px solid #3e2723;
+    }
+    .preview-intro-message {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 700;
       color: #F6F6DE;
-      -webkit-text-stroke: 0.6px #000;
-      text-stroke: 0.6px #000;
+      line-height: 1.5;
+      text-align: center;
+      -webkit-text-stroke: 1.2px #000;
+      text-stroke: 1.2px #000;
       paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
     }
-    .preview-about {
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: 0.8rem;
+
+    /* ===== PAGE 2: Contact / Details ===== */
+    .preview-contact-header {
+      background-color: #14545C;
+      border-radius: 16px 16px 0 0;
+      padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+      text-align: center;
+      border-bottom: 2px solid #3e2723;
+    }
+    .preview-contact-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: #F6F6DE;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      -webkit-text-stroke: 1.2px #000;
+      text-stroke: 1.2px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .preview-contact-body {
+      background-color: #F6F6DE;
+      padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.2rem, 3vw, 2rem);
+      text-align: center;
+    }
+    .preview-contact-block p {
+      margin-bottom: 0.5rem;
+      font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+      font-weight: 600;
       color: #3e2723;
-      line-height: 1.4;
-      margin-bottom: 0.75rem;
     }
-    .preview-divider {
-      height: 1px;
-      background: #ccc;
-      margin: 0.75rem 0;
+    .preview-contact-block .preview-name-line {
+      margin-bottom: 0.6rem;
     }
-    .preview-label {
+    .preview-contact-label {
       font-family: 'The Wanters DEMO', serif;
-      font-size: 0.9rem;
-      color: #5d4037;
+      font-weight: 600;
     }
-    .preview-value {
+    .preview-contact-value {
       font-family: Verdana, Geneva, sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #14545c;
+    }
+    .preview-about-text {
+      margin: 0.5rem 0 1rem;
+      padding: 0;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+      font-weight: 600;
+      line-height: 1.55;
       color: #3e2723;
+      text-align: center;
     }
-    .preview-name-line {
-      margin-bottom: 0.4rem;
-    }
-    .preview-face + .preview-face {
-      border-top: 2px solid #ddd;
-      margin-top: 0.5rem;
+    .preview-contact-divider {
+      margin-top: 0.75rem;
+      margin-bottom: 0;
       padding-top: 0.5rem;
+      border-top: 2px solid rgba(93, 64, 55, 0.3);
+    }
+    .preview-contact-footer {
+      background-color: #4F362F;
+      border-radius: 0 0 16px 16px;
+      padding: clamp(0.8rem, 2.5vw, 1.5rem) clamp(1.5rem, 4vw, 2.5rem);
+      text-align: center;
+      border-top: 2px solid #3e2723;
+    }
+
+    /* ===== PAGE 3: Products ===== */
+    .preview-products-header {
+      background-color: #14545C;
+      border-radius: 16px 16px 0 0;
+      padding: clamp(0.6rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+      text-align: center;
+      border-bottom: 2px solid #3e2723;
+    }
+    .preview-products-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: #F6F6DE;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      -webkit-text-stroke: 1.2px #000;
+      text-stroke: 1.2px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .preview-products-body {
+      background-color: #F6F6DE;
+      padding: clamp(0.5rem, 1.5vw, 0.75rem) 0.75rem;
+      text-align: center;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .preview-products-footer {
+      background-color: #4F362F;
+      border-radius: 0 0 16px 16px;
+      padding: clamp(0.8rem, 2.5vw, 1.5rem) clamp(1.5rem, 4vw, 2.5rem);
+      text-align: center;
+      border-top: 2px solid #3e2723;
+    }
+
+    /* Product accordions inside preview */
+    .preview-flavour-accordions {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .preview-flavour-panel {
+      width: 100%;
+      margin-bottom: 0.4rem;
+      border: 2px solid #3e2723;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #6d5047;
+      transition: all 0.25s ease;
+    }
+    .preview-flavour-panel.preview-expanded {
+      border-color: #8d6e63;
+      background: #6d5047;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .preview-flavour-panel-header {
+      width: 100%;
+      display: block;
+      padding: 0.5rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 700;
+      color: #f5f5dc;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+    }
+    .preview-flavour-panel-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #fff;
+    }
+    .preview-flavour-panel.preview-expanded .preview-flavour-panel-body {
+      max-height: 300px;
+    }
+    .preview-flavour-panel-desc {
+      padding: 0.6rem 0.75rem 0.6rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: clamp(0.75rem, 1.8vw, 0.88rem);
+      line-height: 1.4;
+      color: #f5f5dc;
+      text-align: center;
+      border-top: 1px solid rgba(245, 245, 220, 0.25);
+    }
+    .preview-size-row {
+      display: block;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: bold;
+      margin-top: 0.3rem;
+      line-height: 1.5;
+    }
+    .preview-size-row span {
+      display: block;
+      padding: 0.05rem 0;
+    }
+    .preview-flavour-divider {
+      list-style: none;
+      margin: 0.5rem 0;
+      padding: 0;
+      border: none;
+      border-top: 2px solid rgba(93, 64, 55, 0.4);
+      height: 0;
+    }
+    .preview-flavour-panel-packs-btn {
+      background: #1b5e20;
+      border-color: #0d3b0f;
+      text-align: center;
+    }
+    .preview-flavour-panel-packs-btn .preview-flavour-panel-header {
+      text-align: center;
+      color: #f5f5dc;
+    }
+
+    /* Page dots indicator */
+    .preview-page-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .preview-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      border: 1px solid #aaa;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .preview-dot:hover {
+      transform: scale(1.3);
+    }
+    .preview-dot.preview-dot-active {
+      background: #14545c;
+      border-color: #14545c;
+      transform: scale(1.2);
     }
 
     .share-modal-overlay {
@@ -2229,41 +2448,79 @@
     </div>
   </div>
 
-  <!-- Preview Modal -->
+  <!-- Preview Modal — mimics the actual business card exactly -->
   <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
     <div class="preview-modal" id="preview-modal">
       <div class="modal-header" id="preview-modal-header"><h2 id="preview-title">Everdream Jerky</h2></div>
       <div class="preview-body" id="preview-body">
         <div class="preview-card" id="preview-card">
-          <!-- Front side of card -->
-          <div class="preview-face" id="preview-face-front">
-            <div class="preview-section" id="preview-section-front">
-              <div class="preview-section-header" id="preview-front-header"><h3 id="preview-front-heading">Business Name</h3></div>
-              <div class="preview-section-body" id="preview-front-body">
-                <img src="Everdream-Logo-Circle.png" alt="Logo" class="preview-logo" id="preview-logo" />
-                <p class="preview-swipe-hint" aria-hidden="true">Swipe</p>
+          <!-- ========== PAGE 1: INTRO / LANDING ========== -->
+          <div class="preview-page" id="preview-page-intro">
+            <div class="preview-content-panel" id="preview-intro-panel">
+              <div class="preview-intro-header" id="preview-intro-header">
+                <h1 id="preview-intro-title">Everdream Jerky</h1>
               </div>
-              <div class="preview-section-footer" id="preview-front-footer"><p class="preview-message" id="preview-message">Tagline</p></div>
+              <div class="preview-intro-body" id="preview-intro-body">
+                <div class="preview-intro-body-inner">
+                  <img src="Everdream-Logo-Circle.png" alt="Logo" class="preview-intro-icon" id="preview-intro-logo" />
+                  <p class="preview-intro-swipe-hint" aria-hidden="true">Swipe</p>
+                </div>
+              </div>
+              <div class="preview-intro-footer" id="preview-intro-footer">
+                <p class="preview-intro-message" id="preview-intro-message">Business Card</p>
+              </div>
             </div>
           </div>
-          <!-- Back side of card -->
-          <div class="preview-face" id="preview-face-back">
-            <div class="preview-section" id="preview-section-back">
-              <div class="preview-section-header" id="preview-back-header"><h3 id="preview-back-heading">Details</h3></div>
-              <div class="preview-section-body" id="preview-back-body">
-                <p class="preview-about" id="preview-about">Description text goes here</p>
-                <div class="preview-divider"></div>
-                <p class="preview-name-line" id="preview-name-line"><span class="preview-label">Name:</span><br><span class="preview-value" id="preview-name-val">Your Name</span></p>
-                <p id="preview-phone-line"><span class="preview-label">Mobile:</span><br><span class="preview-value" id="preview-phone-val">Phone</span></p>
-                <p id="preview-email-line"><span class="preview-label">Email:</span><br><span class="preview-value" id="preview-email-val">Email</span></p>
+
+          <!-- ========== PAGE 2: DETAILS / CONTACT ========== -->
+          <div class="preview-page" id="preview-page-contact">
+            <div class="preview-content-panel" id="preview-contact-panel">
+              <div class="preview-contact-header" id="preview-contact-header">
+                <h1 id="preview-contact-heading">Details</h1>
               </div>
-              <div class="preview-section-footer" id="preview-back-footer"></div>
+              <div class="preview-contact-body" id="preview-contact-body">
+                <div class="preview-contact-block" id="preview-contact-block">
+                  <p class="preview-about-text" id="preview-about-text">Description text goes here</p>
+                  <div class="preview-contact-divider" aria-hidden="true"></div>
+                  <p class="preview-name-line">
+                    <span class="preview-contact-label">Name:</span><br>
+                    <span class="preview-contact-value" id="preview-name-val">Your Name</span>
+                  </p>
+                  <p><span class="preview-contact-label">Mobile:</span><br>
+                    <span class="preview-contact-value" id="preview-phone-val">Phone</span></p>
+                  <p><span class="preview-contact-label">Email:</span><br>
+                    <span class="preview-contact-value" id="preview-email-val">Email</span></p>
+                </div>
+              </div>
+              <div class="preview-contact-footer" id="preview-contact-footer"></div>
+            </div>
+          </div>
+
+          <!-- ========== PAGE 3: PRODUCTS ========== -->
+          <div class="preview-page" id="preview-page-products">
+            <div class="preview-content-panel" id="preview-products-panel">
+              <div class="preview-products-header" id="preview-products-header">
+                <h1 id="preview-products-heading">Products</h1>
+              </div>
+              <div class="preview-products-body" id="preview-products-body">
+                <ul class="preview-flavour-accordions" id="preview-flavour-list">
+                  <!-- Products rendered dynamically -->
+                </ul>
+              </div>
+              <div class="preview-products-footer" id="preview-products-footer"></div>
             </div>
           </div>
         </div>
+
+        <!-- Page dots indicator -->
+        <div class="preview-page-dots" id="preview-page-dots">
+          <span class="preview-dot preview-dot-active" data-page="intro"></span>
+          <span class="preview-dot" data-page="contact"></span>
+          <span class="preview-dot" data-page="products"></span>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="wholesale-modal-close" id="preview-close" aria-label="Close Preview">Close</button>
+        <button type="button" class="wholesale-modal-close" id="preview-close" aria-label="Close Preview">Close Preview</button>
       </div>
     </div>
   </div>
@@ -4044,7 +4301,7 @@
         updateProductsPreview();
       }
 
-      /* Populate preview modal with user's current colours and content */
+      /* Populate preview modal with user's current colours and content — replicates real card exactly */
       function populatePreview() {
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
@@ -4056,53 +4313,163 @@
         var tf = document.getElementById('cc-title-font').value;
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
         var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
-        var tag = document.getElementById('cc-tagline').value.trim() || 'Tagline';
+        var tag = document.getElementById('cc-tagline').value.trim() || 'Business Card';
         var ph = document.getElementById('cc-phone').value.trim() || 'Phone';
         var em = document.getElementById('cc-email').value.trim() || 'Email';
         var desc = document.getElementById('cc-description').value.trim() || 'Description text goes here';
+        var tier = getSelectedTier();
+        var products = getProductsArray().filter(function (p) { return p.name.trim(); });
 
-        /* Header — primary colour */
+        /* ===== Modal header ===== */
         var modalHeader = document.getElementById('preview-modal-header');
         modalHeader.style.backgroundColor = p;
         document.getElementById('preview-title').textContent = biz;
         document.getElementById('preview-title').style.fontFamily = tf;
 
-        /* Front section header — primary */
-        document.getElementById('preview-front-header').style.backgroundColor = p;
-        document.getElementById('preview-front-heading').textContent = biz;
-        document.getElementById('preview-front-heading').style.fontFamily = tf;
+        /* ===== PAGE 1: INTRO ===== */
+        document.getElementById('preview-intro-header').style.backgroundColor = p;
+        var introTitle = document.getElementById('preview-intro-title');
+        introTitle.textContent = biz;
+        introTitle.style.fontFamily = tf;
 
-        /* Front section body — background */
-        document.getElementById('preview-front-body').style.backgroundColor = b;
-        document.getElementById('preview-front-body').style.color = t;
+        document.getElementById('preview-intro-body').style.backgroundColor = b;
+        document.getElementById('preview-intro-logo').src = 'Everdream-Logo-Circle.png';
 
-        /* Front footer — secondary */
-        document.getElementById('preview-front-footer').style.backgroundColor = s;
-        document.getElementById('preview-message').textContent = tag;
-        document.getElementById('preview-message').style.fontFamily = tf;
+        document.getElementById('preview-intro-footer').style.backgroundColor = s;
+        var introMsg = document.getElementById('preview-intro-message');
+        introMsg.textContent = tag;
+        introMsg.style.fontFamily = tf;
 
-        /* Back section header — primary */
-        document.getElementById('preview-back-header').style.backgroundColor = p;
-        document.getElementById('preview-back-heading').textContent = 'Details';
-        document.getElementById('preview-back-heading').style.fontFamily = tf;
+        /* ===== PAGE 2: CONTACT / DETAILS ===== */
+        document.getElementById('preview-contact-header').style.backgroundColor = p;
+        document.getElementById('preview-contact-heading').textContent = 'Details';
+        document.getElementById('preview-contact-heading').style.fontFamily = tf;
 
-        /* Back section body — background */
-        document.getElementById('preview-back-body').style.backgroundColor = b;
-        document.getElementById('preview-back-body').style.color = t;
+        document.getElementById('preview-contact-body').style.backgroundColor = b;
 
-        /* Description */
-        var aboutEl = document.getElementById('preview-about');
+        var aboutEl = document.getElementById('preview-about-text');
         aboutEl.textContent = desc;
         aboutEl.style.fontFamily = "'The Wanters DEMO', serif";
         aboutEl.style.color = t;
 
-        /* Name, phone, email */
         document.getElementById('preview-name-val').textContent = nam;
         document.getElementById('preview-phone-val').textContent = ph;
         document.getElementById('preview-email-val').textContent = em;
 
-        /* Back footer — secondary */
-        document.getElementById('preview-back-footer').style.backgroundColor = s;
+        /* Contact labels/values colour */
+        document.querySelectorAll('#preview-contact-block .preview-contact-label').forEach(function (el) {
+          el.style.color = t;
+        });
+        document.querySelectorAll('#preview-contact-block .preview-contact-value').forEach(function (el) {
+          el.style.color = ti;
+        });
+
+        document.getElementById('preview-contact-footer').style.backgroundColor = s;
+
+        /* ===== PAGE 3: PRODUCTS (3-page tier only) ===== */
+        document.getElementById('preview-products-header').style.backgroundColor = p;
+        document.getElementById('preview-products-heading').textContent = 'Products';
+        document.getElementById('preview-products-heading').style.fontFamily = tf;
+
+        document.getElementById('preview-products-body').style.backgroundColor = b;
+        document.getElementById('preview-products-footer').style.backgroundColor = s;
+
+        var flavourList = document.getElementById('preview-flavour-list');
+        flavourList.innerHTML = '';
+
+        if (products.length > 0) {
+          products.forEach(function (prod) {
+            var li = document.createElement('li');
+            li.className = 'preview-flavour-panel';
+
+            var sizesHtml = '';
+            if (prod.sizes && prod.sizes.length) {
+              sizesHtml = '<br><span class="preview-size-row">' +
+                prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
+                  return '<span>' + (s.name || '') + (s.price ? ' — ' + s.price : '') + '</span>';
+                }).join('') +
+                '</span>';
+            }
+
+            li.innerHTML = '<button type="button" class="preview-flavour-panel-header" aria-expanded="false">' +
+              escapeHtml(prod.name) +
+              '</button>' +
+              '<div class="preview-flavour-panel-body"><p class="preview-flavour-panel-desc">' +
+              escapeHtml(prod.desc) + sizesHtml +
+              '</p></div>';
+
+            flavourList.appendChild(li);
+          });
+
+          /* Divider and packs button */
+          var divLi = document.createElement('li');
+          divLi.className = 'preview-flavour-divider';
+          divLi.setAttribute('aria-hidden', 'true');
+          flavourList.appendChild(divLi);
+
+          var packsLi = document.createElement('li');
+          packsLi.className = 'preview-flavour-panel preview-flavour-panel-packs-btn';
+          packsLi.innerHTML = '<button type="button" class="preview-flavour-panel-header" style="text-align:center;">Packs</button>';
+          flavourList.appendChild(packsLi);
+
+          /* Attach accordion click handlers */
+          flavourList.querySelectorAll('.preview-flavour-panel-header').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              var panel = this.closest('.preview-flavour-panel');
+              if (!panel) return;
+              var expanded = panel.classList.toggle('preview-expanded');
+              this.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            });
+          });
+        } else {
+          flavourList.innerHTML = '<li style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;list-style:none;">Add your products in the customiser.</li>';
+        }
+
+        /* ===== Show/hide pages based on tier ===== */
+        var showIntro = true;
+        var showContact = true;
+        var showProducts = (tier === '3');
+
+        document.getElementById('preview-page-intro').classList.toggle('preview-page-active', showIntro);
+        document.getElementById('preview-page-contact').classList.toggle('preview-page-active', showContact);
+        document.getElementById('preview-page-products').classList.toggle('preview-page-active', showProducts);
+
+        /* Update page dots */
+        var dots = document.querySelectorAll('.preview-dot');
+        dots.forEach(function (d) { d.classList.remove('preview-dot-active'); });
+        var dotMap = { 'intro': 0, 'contact': 1, 'products': 2 };
+        var pages = ['intro', 'contact', 'products'];
+        pages.forEach(function (page, i) {
+          var dot = dots[i];
+          var el = document.getElementById('preview-page-' + page);
+          if (dot) {
+            dot.style.display = (page === 'products' && !showProducts) ? 'none' : '';
+            if (el && el.classList.contains('preview-page-active')) {
+              dot.classList.add('preview-dot-active');
+            }
+          }
+        });
+
+        /* If products page is hidden and active dot is on it, switch to first visible */
+        if (!showProducts) {
+          var activeDot = document.querySelector('.preview-dot.preview-dot-active');
+          if (activeDot && activeDot.dataset.page === 'products') {
+            gotoPreviewPage('intro');
+          }
+        }
+      }
+
+      /* Navigate preview to a specific page */
+      function gotoPreviewPage(pageId) {
+        document.querySelectorAll('.preview-page').forEach(function (p) {
+          p.classList.remove('preview-page-active');
+        });
+        var target = document.getElementById('preview-page-' + pageId);
+        if (target) target.classList.add('preview-page-active');
+        document.querySelectorAll('.preview-dot').forEach(function (d) {
+          d.classList.toggle('preview-dot-active', d.dataset.page === pageId);
+        });
       }
 
       /* Preview button — open preview modal */
@@ -4125,6 +4492,13 @@
           this.classList.remove('visible');
           this.setAttribute('aria-hidden', 'true');
         }
+      });
+      /* Page dot navigation in preview */
+      document.querySelectorAll('.preview-dot').forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          hapticBuzz();
+          gotoPreviewPage(this.dataset.page);
+        });
       });
 
       /* Back button */
