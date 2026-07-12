@@ -653,8 +653,8 @@
     }
 
     .design-yours-btn {
-      background: linear-gradient(135deg, #7a0000 0%, #a31515 50%, #7a0000 100%) !important;
-      border-color: #4a0000 !important;
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%) !important;
+      border-color: #0a1a1d !important;
       color: #f5f5dc !important;
     }
 
@@ -693,6 +693,16 @@
 
     #share-btn:hover {
       box-shadow: 0 6px 16px rgba(184, 134, 11, 0.45);
+    }
+
+    /* Payment button — dark red */
+    #payment-btn {
+      background: linear-gradient(135deg, #7a0000 0%, #a31515 50%, #7a0000 100%) !important;
+      border-color: #4a0000 !important;
+      box-shadow: 0 4px 12px rgba(122, 0, 0, 0.35) !important;
+    }
+    #payment-btn:hover {
+      box-shadow: 0 6px 16px rgba(122, 0, 0, 0.45) !important;
     }
 
     #save-icon-btn {
@@ -748,8 +758,13 @@
       background-color: #1b5e20;
     }
 
-    /* Customiser modal header — dark red accent */
+    /* Customiser modal header — teal accent */
     #cc-modal-header {
+      background-color: #14545c;
+    }
+
+    /* Payments modal header — dark red */
+    .payments-modal .modal-header {
       background-color: #7a0000;
     }
 
@@ -3551,8 +3566,8 @@
         var tf = document.getElementById('cc-title-font').value;
         var bf = document.getElementById('cc-body-font').value;
 
-        /* Customiser header is always deep red — never overridden by colour picker */
-        if (header) header.style.backgroundColor = '#7a0000';
+        /* Customiser header is always teal — never overridden by colour picker */
+        if (header) header.style.backgroundColor = '#14545c';
         if (title) {
           title.style.color = '#f6f6de';
           title.style.fontFamily = tf;
