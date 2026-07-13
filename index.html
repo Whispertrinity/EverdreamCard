@@ -822,96 +822,17 @@
     .preview-overlay.visible {
       display: flex;
     }
-    /* The preview card container — same max-width as the live .card */
-    .preview-card-wrapper {
-      width: 100%;
-      max-width: 960px;
-      position: relative;
-      perspective: 2200px;
-      perspective-origin: center center;
-      flex-shrink: 0;
-    }
-    .preview-flip-container {
-      width: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-    }
-    .preview-flip-card {
-      width: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateY(0deg);
-      transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
-    }
-    .preview-flip-card.preview-flip-next {
-      transform: rotateY(-180deg);
-    }
-    .preview-flip-card.preview-flip-prev {
-      transform: rotateY(180deg);
-    }
-    .preview-card-face {
-      width: 100%;
-      background: transparent;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-    .preview-face-front {
-      position: relative;
-      transform: rotateY(0deg);
-      z-index: 2;
-    }
-    .preview-face-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transform: rotateY(180deg);
-      z-index: 1;
-    }
-    /* Section pool — hidden, holds the offscreen section */
+    /* The preview reuses the live card's .card / .card-face / .content-panel classes */
+    /* so it gets the same sizing, borders, and styling automatically */
     .preview-sections-pool {
       display: none;
     }
-    /* Page dots + close row below the card */
-    .preview-bottom-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1.2rem;
-      flex-wrap: wrap;
-    }
-    .preview-page-dots {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      align-items: center;
-    }
-    .preview-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.4);
-      border: 2px solid rgba(255,255,255,0.6);
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-    .preview-dot:hover {
-      transform: scale(1.3);
-      background: rgba(255,255,255,0.6);
-    }
-    .preview-dot.preview-dot-active {
-      background: #14545c;
-      border-color: #14545c;
-    }
+    /* Close Preview button — same styling as wholesale-modal-close but positioned inside the card */
     .preview-close-btn {
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
       font-weight: 700;
-      padding: 0.6rem 2rem;
+      padding: 0.5rem 2rem;
       border: 3px solid #8b0000;
       border-radius: 40px;
       background: linear-gradient(135deg, #c62828, #b71c1c, #c62828);
@@ -2525,29 +2446,23 @@
     </div>
   </div>
 
-  <!-- Preview Modal — full-screen, card appears at same size as live card with 3D flip -->
+  <!-- Preview Modal — exact replica of the live card, same structure and sizes -->
   <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
-    <div class="preview-card-wrapper">
-      <div class="preview-flip-container">
-        <div class="preview-flip-card" id="preview-flip-card">
-          <!-- Front face — holds the current section -->
-          <div class="preview-card-face preview-face-front" id="preview-face-front">
-            <div class="preview-content-panel" id="preview-content-panel-front"></div>
+    <!-- Same .card wrapper as live card -->
+    <div class="card" style="z-index:410;max-width:960px;position:relative;perspective:2200px;perspective-origin:center center;flex-shrink:0;">
+      <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;">
+        <div class="flip-card" id="preview-flip-card" style="width:100%;position:relative;transform-style:preserve-3d;transform:rotateY(0deg);transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);">
+          <!-- Front face — current section (identical to .card-face) -->
+          <div id="preview-face-front" class="flip-front card-face" style="position:relative;transform:rotateY(0deg);z-index:2;width:100%;background-color:#fff;border:4px solid #3e2723;border-radius:28px;padding:clamp(0.85rem,3vw,1.75rem);box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;">
+            <div class="content-panel" id="preview-content-panel-front" style="background-color:rgba(245,245,220,0.95);border:4px solid #5d4037;border-radius:20px;padding:0;min-height:400px;text-align:center;position:relative;overflow:hidden;"></div>
           </div>
-          <!-- Back face — holds the next section -->
-          <div class="preview-card-face preview-face-back" id="preview-face-back">
-            <div class="preview-content-panel" id="preview-content-panel-back"></div>
+          <!-- Back face — next section (identical to .card-face) -->
+          <div id="preview-face-back" class="flip-back card-face" style="position:absolute;top:0;left:0;right:0;bottom:0;transform:rotateY(180deg);z-index:1;width:100%;background-color:#fff;border:4px solid #3e2723;border-radius:28px;padding:clamp(0.85rem,3vw,1.75rem);box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;">
+            <div class="content-panel" id="preview-content-panel-back" style="background-color:rgba(245,245,220,0.95);border:4px solid #5d4037;border-radius:20px;padding:0;min-height:400px;text-align:center;position:relative;overflow:hidden;"></div>
           </div>
         </div>
       </div>
-      <!-- Section definitions — same structure as live card, populated dynamically -->
-      <div class="preview-sections-pool" id="preview-sections-pool"></div>
-    </div>
-
-    <!-- Bottom row: dots + close button -->
-    <div class="preview-bottom-row">
-      <div class="preview-page-dots" id="preview-page-dots"></div>
-      <button type="button" class="preview-close-btn" id="preview-close">Close Preview</button>
+      <div class="preview-sections-pool" id="preview-sections-pool" style="display:none;" aria-hidden="true"></div>
     </div>
   </div>
 
@@ -4374,15 +4289,14 @@
         /* Put next section into back face before flipping */
         var nextEl = getPreviewSection(nextId);
         if (nextEl && nextEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(nextEl);
-        previewFlipCard.classList.remove('preview-flip-prev');
-        previewFlipCard.classList.add('preview-flip-next');
+        previewFlipCard.classList.remove('flip-prev');
+        previewFlipCard.classList.add('flip-next');
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
           if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
           previewFlipCard.removeEventListener('transitionend', onEnd);
           previewCurrentIndex = (previewCurrentIndex + 1) % 3;
-          previewFlipCard.classList.remove('preview-flip-next');
+          previewFlipCard.classList.remove('flip-next');
           previewResetRotation();
-          previewUpdateDots();
           previewIsFlipping = false;
         }, { once: false });
       }
@@ -4396,15 +4310,14 @@
         /* Put prev section into back face before flipping */
         var prevEl = getPreviewSection(prevId);
         if (prevEl && prevEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(prevEl);
-        previewFlipCard.classList.remove('preview-flip-next');
-        previewFlipCard.classList.add('preview-flip-prev');
+        previewFlipCard.classList.remove('flip-next');
+        previewFlipCard.classList.add('flip-prev');
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
           if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
           previewFlipCard.removeEventListener('transitionend', onEnd);
           previewCurrentIndex = (previewCurrentIndex - 1 + 3) % 3;
-          previewFlipCard.classList.remove('preview-flip-prev');
+          previewFlipCard.classList.remove('flip-prev');
           previewResetRotation();
-          previewUpdateDots();
           previewIsFlipping = false;
         }, { once: false });
       }
@@ -4423,10 +4336,8 @@
         var count = getPreviewVisibleCount();
         if (idx === previewCurrentIndex || idx >= count || idx < 0) return;
         var diff = idx - previewCurrentIndex;
-        /* Single step forward/back */
         if (diff === 1) { previewGoNext(); return; }
         if (diff === -1) { previewGoPrev(); return; }
-        /* Multi-step: hard jump */
         previewCurrentIndex = idx;
         previewFlipCard.style.transition = 'none';
         previewFlipCard.style.transform = 'rotateY(0deg)';
@@ -4434,8 +4345,9 @@
         previewFlipCard.offsetHeight;
         previewFlipCard.style.transition = '';
         previewFlipCard.style.transform = '';
-        previewUpdateDots();
       }
+
+      /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
       function previewBuildSection(sectionId, p, s, b, t, ti, tf, biz, nam, tag, ph, em, desc, products) {
@@ -4462,27 +4374,27 @@
             'padding:clamp(0.6rem,1.8vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;">' +
             '<p style="font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;color:#F6F6DE;line-height:1.5;text-align:center;' +
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">' +
-            escapeHtml(tag) + '</p></div>';
+            escapeHtml(tag) + '</p><br><button type="button" class="preview-close-btn" style="margin-top:0.3rem;">Close Preview</button></div>';
         } else if (sectionId === 'contact') {
-          section.innerHTML =
-            '<div class="preview-contact-header" style="background-color:' + p + ';border-radius:16px 16px 0 0;' +
-            'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
-            '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
-            '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
-            '<div class="preview-contact-body" style="background-color:' + b + ';padding:clamp(0.8rem,2vw,1.5rem) clamp(1.2rem,3vw,2rem);text-align:center;">' +
-            '<div class="preview-contact-block">' +
-            '<p class="preview-about-text" style="margin:0.5rem 0 1rem;padding:0;font-family:\'The Wanters DEMO\',serif;' +
-            'font-size:clamp(0.85rem,2.2vw,1.1rem);font-weight:600;line-height:1.55;color:' + t + ';text-align:center;">' +
-            escapeHtml(desc) + '</p>' +
-            '<div style="margin-top:0.75rem;padding-top:0.5rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-            '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
-            '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
-            '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
-            '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
-            '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
-            '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p></div></div>' +
-            '<div class="preview-contact-footer" style="background-color:' + s + ';border-radius:0 0 16px 16px;' +
-            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"></div>';
+                  section.innerHTML =
+                    '<div class="preview-contact-header" style="background-color:' + p + ';border-radius:16px 16px 0 0;' +
+                    'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
+                    '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
+                    '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
+                    '<div class="preview-contact-body" style="background-color:' + b + ';padding:clamp(0.8rem,2vw,1.5rem) clamp(1.2rem,3vw,2rem);text-align:center;">' +
+                    '<div class="preview-contact-block">' +
+                    '<p class="preview-about-text" style="margin:0.5rem 0 1rem;padding:0;font-family:\'The Wanters DEMO\',serif;' +
+                    'font-size:clamp(0.85rem,2.2vw,1.1rem);font-weight:600;line-height:1.55;color:' + t + ';text-align:center;">' +
+                    escapeHtml(desc) + '</p>' +
+                    '<div style="margin-top:0.75rem;padding-top:0.5rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
+                    '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
+                    '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
+                    '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p></div></div>' +
+                    '<div class="preview-contact-footer" style="background-color:' + s + ';border-radius:0 0 16px 16px;' +
+                    'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         } else if (sectionId === 'products') {
           var productsHtml = '';
           if (products.length > 0) {
@@ -4521,8 +4433,8 @@
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Products</h1></div>' +
             '<div class="preview-products-body" style="background-color:' + b + ';padding:clamp(0.5rem,1.5vw,0.75rem) 0.75rem;text-align:center;' +
             'max-height:280px;overflow-y:auto;">' + productsHtml + '</div>' +
-            '<div class="preview-products-footer" style="background-color:' + s + ';border-radius:0 0 16px 16px;' +
-            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"></div>';
+                        '<div class="preview-products-footer" style="background-color:' + s + ';border-radius:0 0 16px 16px;' +
+                        'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         }
 
         return section;
@@ -4575,32 +4487,26 @@
               }
             });
           });
+          /* Attach close button handlers */
+          document.querySelectorAll('#preview-overlay .preview-close-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              hapticBuzz();
+              document.getElementById('preview-overlay').classList.remove('visible');
+              document.getElementById('preview-overlay').setAttribute('aria-hidden', 'true');
+            });
+          });
         }, 50);
 
         /* Place sections into flip faces */
         previewPlaceSections();
 
         /* Reset flip card */
-        previewFlipCard.classList.remove('preview-flip-next', 'preview-flip-prev');
+        previewFlipCard.classList.remove('flip-next', 'flip-prev');
         previewFlipCard.style.transition = 'none';
         previewFlipCard.style.transform = 'rotateY(0deg)';
         previewFlipCard.offsetHeight;
         previewFlipCard.style.transition = '';
         previewFlipCard.style.transform = '';
-
-        /* Build dots */
-        var dotsContainer = document.getElementById('preview-page-dots');
-        dotsContainer.innerHTML = '';
-        var dotLabels = ['Intro', 'Contact', 'Products'];
-        for (var i = 0; i < 3; i++) {
-          var dot = document.createElement('button');
-          dot.type = 'button';
-          dot.className = 'preview-dot' + (i === 0 ? ' preview-dot-active' : '');
-          dot.dataset.idx = i;
-          dot.setAttribute('aria-label', 'Page ' + (i + 1) + ': ' + dotLabels[i]);
-          dotsContainer.appendChild(dot);
-        }
-        previewUpdateDots();
       }
 
       /* Preview button — open preview modal */
@@ -4610,12 +4516,6 @@
         document.getElementById('preview-overlay').classList.add('visible');
         document.getElementById('preview-overlay').setAttribute('aria-hidden', 'false');
       });
-      /* Preview modal close */
-      document.getElementById('preview-close').addEventListener('click', function () {
-        hapticBuzz();
-        document.getElementById('preview-overlay').classList.remove('visible');
-        document.getElementById('preview-overlay').setAttribute('aria-hidden', 'true');
-      });
       /* Close preview overlay on background click */
       document.getElementById('preview-overlay').addEventListener('click', function (e) {
         if (e.target === this) {
@@ -4624,33 +4524,23 @@
           this.setAttribute('aria-hidden', 'true');
         }
       });
-      /* Dot navigation — delegated on the dots container so dynamically created dots work */
-      document.getElementById('preview-page-dots').addEventListener('click', function (e) {
-        var dot = e.target.closest('.preview-dot');
-        if (!dot) return;
-        var idx = parseInt(dot.dataset.idx);
-        if (!isNaN(idx)) {
-          hapticBuzz();
-          previewGotoPage(idx);
-        }
-      });
-      /* Swipe navigation on preview card wrapper */
+      /* Swipe navigation on preview card — target the .card inside the preview overlay */
       (function () {
-        var wrapper = document.querySelector('.preview-card-wrapper');
-        if (!wrapper) return;
+        var previewCard = document.querySelector('#preview-overlay > .card');
+        if (!previewCard) return;
         var previewSwipeStartX = 0;
         var previewSwipePointerId = null;
         var previewSwipeTouchActive = false;
         var previewSwipeThreshold = 60;
 
-        wrapper.addEventListener('pointerdown', function (e) {
+        previewCard.addEventListener('pointerdown', function (e) {
           if (e.pointerType === 'touch') return;
           if (previewIsFlipping) return;
           previewSwipeStartX = e.clientX;
           previewSwipePointerId = e.pointerId;
         }, true);
 
-        wrapper.addEventListener('pointerup', function (e) {
+        previewCard.addEventListener('pointerup', function (e) {
           if (e.pointerType === 'touch') return;
           if (previewSwipePointerId === null || e.pointerId !== previewSwipePointerId) return;
           if (previewIsFlipping) { previewSwipePointerId = null; return; }
@@ -4661,14 +4551,14 @@
           else previewGoPrev();
         }, true);
 
-        wrapper.addEventListener('touchstart', function (e) {
+        previewCard.addEventListener('touchstart', function (e) {
           if (previewIsFlipping) return;
           if (e.touches.length !== 1) return;
           previewSwipeStartX = e.touches[0].clientX;
           previewSwipeTouchActive = true;
         }, { passive: true });
 
-        wrapper.addEventListener('touchend', function (e) {
+        previewCard.addEventListener('touchend', function (e) {
           if (!previewSwipeTouchActive || e.changedTouches.length !== 1) return;
           var touch = e.changedTouches[0];
           var deltaX = touch.clientX - previewSwipeStartX;
