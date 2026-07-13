@@ -827,6 +827,29 @@
     .preview-sections-pool {
       display: none;
     }
+
+    .preview-contact-actions .share-btn {
+      display: block;
+      width: 100%;
+      padding: 0.55rem 1rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      color: #f5f5dc;
+      border: 2px solid;
+      border-radius: 50px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      line-height: 1.3;
+      box-sizing: border-box;
+    }
+
+    .preview-contact-actions .share-btn:hover {
+      transform: translateY(-2px);
+    }
     /* Close Preview button — same styling as wholesale-modal-close but positioned inside the card */
     .preview-close-btn {
       font-family: 'The Wanters DEMO', serif;
@@ -2465,6 +2488,22 @@
         </div>
       </div>
       <div class="preview-sections-pool" id="preview-sections-pool" style="display:none;" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Preview Wholesale Modal — simple modal for customer's packs -->
+  <div id="preview-wholesale-overlay" class="preview-wholesale-overlay" aria-hidden="true" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+    <div id="preview-wholesale-modal" class="preview-wholesale-modal" style="width:90%;max-width:380px;max-height:80vh;background-color:rgba(245,245,220,0.97);border:3px solid #3e2723;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,0.3);">
+      <div class="preview-wholesale-header" style="background-color:#4a2864;padding:0.8rem 1.5rem;text-align:center;border-bottom:2px solid #3e2723;">
+        <h2 style="font-family:'The Wanters DEMO',serif;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;margin:0;">Wholesale Packs</h2>
+      </div>
+      <div id="preview-wholesale-content" class="preview-wholesale-content" style="flex:1;overflow-y:auto;padding:0.8rem 1rem;">
+        <ul id="preview-wholesale-list" class="preview-wholesale-list" style="list-style:none;margin:0;padding:0;"></ul>
+        <p id="preview-wholesale-empty" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9rem;color:#5d4037;text-align:center;padding:1rem;display:none;">No packs added yet. Add packs in the customiser.</p>
+      </div>
+      <div class="preview-wholesale-footer" style="flex-shrink:0;background-color:#5d4037;padding:0.7rem 1.5rem;text-align:center;border-top:2px solid #3e2723;">
+        <button type="button" id="preview-wholesale-close" class="preview-wholesale-close-btn" style="background:linear-gradient(135deg,#c62828 0%,#d32f2f 50%,#c62828 100%);border:2px solid #b71c1c;color:#f5f5dc;font-family:'The Wanters DEMO',serif;font-size:clamp(1rem,2.2vw,1.2rem);font-weight:700;padding:0.5rem 2rem;border-radius:50px;cursor:pointer;transition:transform 0.2s ease,box-shadow 0.2s ease;display:inline-block;">Close</button>
+      </div>
     </div>
   </div>
 
@@ -4310,9 +4349,10 @@
         var nextIdx = (previewCurrentIndex + 1) % 3;
         if (count < 3 && nextIdx === 2) nextIdx = 0;
         var nextId = previewSectionOrder[nextIdx];
-        /* Put next section into back face before flipping */
+        /* Clear back panel then put next section into it */
+        while (previewBackPanel.firstChild) previewSectionsPool.appendChild(previewBackPanel.firstChild);
         var nextEl = getPreviewSection(nextId);
-        if (nextEl && nextEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(nextEl);
+        if (nextEl) previewBackPanel.appendChild(nextEl);
         previewFlipCard.classList.remove('flip-prev');
         previewFlipCard.classList.add('flip-next');
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
@@ -4338,9 +4378,10 @@
         var prevIdx = (previewCurrentIndex - 1 + 3) % 3;
         if (count < 3 && prevIdx === 2) prevIdx = 0;
         var prevId = previewSectionOrder[prevIdx];
-        /* Put prev section into back face before flipping */
+        /* Clear back panel then put prev section into it */
+        while (previewBackPanel.firstChild) previewSectionsPool.appendChild(previewBackPanel.firstChild);
         var prevEl = getPreviewSection(prevId);
-        if (prevEl && prevEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(prevEl);
+        if (prevEl) previewBackPanel.appendChild(prevEl);
         previewFlipCard.classList.remove('flip-next');
         previewFlipCard.classList.add('flip-prev');
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
@@ -4418,20 +4459,25 @@
                     'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
                     '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
                     '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
-                    '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(0.8rem,2vw,1.5rem) clamp(1.2rem,3vw,2rem);text-align:center;">' +
+                    '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(0.6rem,1.5vw,1rem) clamp(1.2rem,3vw,2rem);text-align:center;overflow-y:auto;">' +
                     '<div class="preview-contact-block">' +
-                    '<p class="preview-about-text" style="margin:0.5rem 0 1rem;padding:0;font-family:Verdana,Geneva,sans-serif;' +
-                    'font-size:clamp(0.85rem,2.2vw,1.1rem);font-weight:400;line-height:1.55;color:' + t + ';text-align:center;">' +
+                    '<p class="preview-about-text" style="margin:0.3rem 0 0.6rem;padding:0;font-family:Verdana,Geneva,sans-serif;' +
+                    'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:' + t + ';text-align:center;">' +
                     escapeHtml(desc) + '</p>' +
-                    '<div style="margin-top:0.75rem;padding-top:0.5rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-                    '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
+                    '<div style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
-                    '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
-                    '<p style="margin-bottom:0.5rem;font-size:clamp(0.95rem,2.2vw,1.2rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p></div></div>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p>' +
+                    '<div class="preview-contact-actions" style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);display:flex;flex-direction:column;gap:0.35rem;">' +
+                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
+                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
+                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
+                    '</div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
-                    'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
+                    'padding:clamp(0.6rem,1.8vw,0.9rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         } else if (sectionId === 'products') {
           var productsHtml = '';
           if (products.length > 0) {
@@ -4533,6 +4579,90 @@
               document.getElementById('preview-overlay').setAttribute('aria-hidden', 'true');
             });
           });
+          /* Attach preview wholesale button — only on 3-page tier */
+          var previewWholesaleBtn = document.getElementById('preview-wholesale-btn');
+          var previewWholesaleOverlay = document.getElementById('preview-wholesale-overlay');
+          if (previewWholesaleBtn && previewWholesaleOverlay) {
+            var count = getPreviewVisibleCount();
+            if (count < 3) {
+              previewWholesaleBtn.style.display = 'none';
+            } else {
+              previewWholesaleBtn.style.display = '';
+              previewWholesaleBtn.addEventListener('click', function () {
+                hapticBuzz();
+                /* Populate packs list from customiser data */
+                var packs = getPacksArray().filter(function (p) { return p.name.trim(); });
+                var list = document.getElementById('preview-wholesale-list');
+                var emptyMsg = document.getElementById('preview-wholesale-empty');
+                if (list) {
+                  list.innerHTML = '';
+                  if (packs.length > 0) {
+                    if (emptyMsg) emptyMsg.style.display = 'none';
+                    packs.forEach(function (pack) {
+                      var li = document.createElement('li');
+                      li.style.cssText = 'margin-bottom:0.5rem;border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;';
+                      li.innerHTML = '<div style="padding:0.6rem 1rem;text-align:center;">' +
+                        '<span style="font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;">' + escapeHtml(pack.name) + '</span>' +
+                        (pack.price ? '<span style="display:block;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#f5f5dc;margin-top:0.3rem;">Price: ' + escapeHtml(pack.price) + '</span>' : '') +
+                        '</div>';
+                      list.appendChild(li);
+                    });
+                  } else {
+                    if (emptyMsg) emptyMsg.style.display = '';
+                  }
+                }
+                previewWholesaleOverlay.style.display = 'flex';
+                previewWholesaleOverlay.setAttribute('aria-hidden', 'false');
+              });
+            }
+          }
+          /* Attach preview save button — opens the existing save-to-home-screen modal */
+          var previewSaveBtn = document.getElementById('preview-save-btn');
+          var saveIconModal = document.getElementById('save-icon-modal-overlay');
+          if (previewSaveBtn && saveIconModal) {
+            previewSaveBtn.addEventListener('click', function () {
+              hapticBuzz();
+              var inst = getSaveIconInstructions ? getSaveIconInstructions() : { msg: 'Save to home screen from your browser menu.', img: 'assets/Android.png', imgAlt: 'Save instructions' };
+              var saveIconModalBodyBelow = document.getElementById('save-icon-modal-body-below');
+              var saveIconModalImg = document.getElementById('save-icon-modal-img');
+              if (saveIconModalBodyBelow) saveIconModalBodyBelow.innerHTML = inst.msg;
+              if (saveIconModalImg) { saveIconModalImg.src = inst.img; saveIconModalImg.alt = inst.imgAlt; }
+              saveIconModal.classList.add('visible');
+              saveIconModal.setAttribute('aria-hidden', 'false');
+            });
+          }
+          /* Attach preview share button — opens the existing share modal */
+          var previewShareBtn = document.getElementById('preview-share-btn');
+          var shareModal = document.getElementById('share-modal-overlay');
+          if (previewShareBtn && shareModal) {
+            previewShareBtn.addEventListener('click', function () {
+              hapticBuzz();
+              var shareModalUrl = document.getElementById('share-modal-url');
+              if (shareModalUrl) shareModalUrl.textContent = 'Your card URL will be ready once your design is finalised.';
+              document.getElementById('share-qr').src = 'SmoothQR.png';
+              shareModal.classList.add('visible');
+              shareModal.setAttribute('aria-hidden', 'false');
+            });
+          }
+          /* Attach preview wholesale modal close */
+          var previewWholesaleClose = document.getElementById('preview-wholesale-close');
+          if (previewWholesaleClose && previewWholesaleOverlay) {
+            previewWholesaleClose.addEventListener('click', function () {
+              hapticBuzz();
+              previewWholesaleOverlay.style.display = 'none';
+              previewWholesaleOverlay.setAttribute('aria-hidden', 'true');
+            });
+          }
+          /* Close preview wholesale overlay on background click */
+          if (previewWholesaleOverlay) {
+            previewWholesaleOverlay.addEventListener('click', function (e) {
+              if (e.target === this) {
+                hapticBuzz();
+                this.style.display = 'none';
+                this.setAttribute('aria-hidden', 'true');
+              }
+            });
+          }
         }, 50);
 
         /* Place sections into flip faces */
