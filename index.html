@@ -850,6 +850,13 @@
     .preview-contact-actions .share-btn:hover {
       transform: translateY(-2px);
     }
+
+    .preview-wholesale-overlay {
+      display: none !important;
+    }
+    .preview-wholesale-overlay.visible {
+      display: flex !important;
+    }
     /* Close Preview button — same styling as wholesale-modal-close but positioned inside the card */
     .preview-close-btn {
       font-family: 'The Wanters DEMO', serif;
@@ -4611,7 +4618,7 @@
                     if (emptyMsg) emptyMsg.style.display = '';
                   }
                 }
-                previewWholesaleOverlay.style.display = 'flex';
+                previewWholesaleOverlay.classList.add('visible');
                 previewWholesaleOverlay.setAttribute('aria-hidden', 'false');
               });
             }
@@ -4649,7 +4656,7 @@
           if (previewWholesaleClose && previewWholesaleOverlay) {
             previewWholesaleClose.addEventListener('click', function () {
               hapticBuzz();
-              previewWholesaleOverlay.style.display = 'none';
+            previewWholesaleOverlay.classList.remove('visible');
               previewWholesaleOverlay.setAttribute('aria-hidden', 'true');
             });
           }
@@ -4658,7 +4665,7 @@
             previewWholesaleOverlay.addEventListener('click', function (e) {
               if (e.target === this) {
                 hapticBuzz();
-                this.style.display = 'none';
+                this.classList.remove('visible');
                 this.setAttribute('aria-hidden', 'true');
               }
             });
