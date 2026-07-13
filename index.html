@@ -4261,15 +4261,33 @@
         var currentEl = getPreviewSection(currentId);
         var nextEl = getPreviewSection(nextId);
         var prevEl = getPreviewSection(prevId);
-        if (currentEl && currentEl.parentNode !== previewFrontPanel) previewFrontPanel.appendChild(currentEl);
-        if (nextEl && nextEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(nextEl);
-        /* Hide products section if tier=2 */
-        if (prevEl) {
-          if (prevId === 'products' && count < 3) {
-            if (prevEl.parentNode !== previewSectionsPool) previewSectionsPool.appendChild(prevEl);
+        /* Keep current section in front panel (skip products on 2-page tier) */
+        if (currentEl) {
+          if (currentId === 'products' && count < 3) {
+            if (currentEl.parentNode !== previewSectionsPool) previewSectionsPool.appendChild(currentEl);
           } else {
-            if (prevEl.parentNode !== previewSectionsPool) previewSectionsPool.appendChild(prevEl);
+            if (currentEl.parentNode !== previewFrontPanel) previewFrontPanel.appendChild(currentEl);
           }
+        }
+        /* Keep next section in back panel (skip products on 2-page tier) */
+        if (nextEl) {
+          if (nextId === 'products' && count < 3) {
+            if (nextEl.parentNode !== previewSectionsPool) previewSectionsPool.appendChild(nextEl);
+          } else {
+            if (nextEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(nextEl);
+          }
+        }
+        /* Move anything else to pool */
+        if (prevEl) {
+          if (prevEl.parentNode !== previewSectionsPool) previewSectionsPool.appendChild(prevEl);
+        }
+        /* If 2-page tier and we're sitting on products, bump back to intro */
+        if (count < 3 && previewCurrentIndex === 2) {
+          previewCurrentIndex = 0;
+          /* re-run after bumping index */
+          setTimeout(function () {
+            previewPlaceSections();
+          }, 0);
         }
       }
 
@@ -4287,7 +4305,10 @@
         var count = getPreviewVisibleCount();
         if (count < 2) return;
         previewIsFlipping = true;
-        var nextId = previewSectionOrder[(previewCurrentIndex + 1) % 3];
+        /* On 2-page tier, skip the products index */
+        var nextIdx = (previewCurrentIndex + 1) % 3;
+        if (count < 3 && nextIdx === 2) nextIdx = 0;
+        var nextId = previewSectionOrder[nextIdx];
         /* Put next section into back face before flipping */
         var nextEl = getPreviewSection(nextId);
         if (nextEl && nextEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(nextEl);
@@ -4296,7 +4317,12 @@
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
           if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
           previewFlipCard.removeEventListener('transitionend', onEnd);
-          previewCurrentIndex = (previewCurrentIndex + 1) % 3;
+          var count = getPreviewVisibleCount();
+          if (count < 3 && (previewCurrentIndex + 1) % 3 === 2) {
+            previewCurrentIndex = 0;
+          } else {
+            previewCurrentIndex = (previewCurrentIndex + 1) % 3;
+          }
           previewFlipCard.classList.remove('flip-next');
           previewResetRotation();
           previewIsFlipping = false;
@@ -4308,7 +4334,10 @@
         var count = getPreviewVisibleCount();
         if (count < 2) return;
         previewIsFlipping = true;
-        var prevId = previewSectionOrder[(previewCurrentIndex - 1 + 3) % 3];
+        /* On 2-page tier, skip the products index */
+        var prevIdx = (previewCurrentIndex - 1 + 3) % 3;
+        if (count < 3 && prevIdx === 2) prevIdx = 0;
+        var prevId = previewSectionOrder[prevIdx];
         /* Put prev section into back face before flipping */
         var prevEl = getPreviewSection(prevId);
         if (prevEl && prevEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(prevEl);
@@ -4317,7 +4346,12 @@
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
           if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
           previewFlipCard.removeEventListener('transitionend', onEnd);
-          previewCurrentIndex = (previewCurrentIndex - 1 + 3) % 3;
+          var count = getPreviewVisibleCount();
+          if (count < 3 && ((previewCurrentIndex - 1 + 3) % 3) === 2) {
+            previewCurrentIndex = 0;
+          } else {
+            previewCurrentIndex = (previewCurrentIndex - 1 + 3) % 3;
+          }
           previewFlipCard.classList.remove('flip-prev');
           previewResetRotation();
           previewIsFlipping = false;
