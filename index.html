@@ -3638,7 +3638,6 @@
           } else {
             header.textContent = 'Product ' + (index + 1);
           }
-          updateProductsPreview();
           saveCustomiserState();
           showTooltip(saveBtn, 'Saved!');
         });
@@ -3654,7 +3653,6 @@
           /* Re-number remaining products */
           renumberProductAccordions();
           saveCustomiserState();
-          updateProductsPreview();
         });
 
         body.appendChild(nameLabel);
@@ -3956,68 +3954,8 @@
         });
       }
 
-      /* Update the main products page during preview */
-      function updateProductsPreview() {
-        var products = getProductsArray().filter(function (p) { return p.name.trim(); });
-        var tier = getSelectedTier();
-        if (tier !== '3') return;
 
-        var productsSection = document.querySelector('.products-body');
-        if (!productsSection) return;
-
-        var ul = productsSection.querySelector('.flavour-accordions');
-        if (!ul) return;
-
-        if (!products.length) {
-          ul.innerHTML = '<li style="font-family:Verdana,Geneva,sans-serif;padding:1rem;color:#5d4037;">Add your products in the customiser.</li>';
-          return;
-        }
-
-        ul.innerHTML = '';
-        products.forEach(function (prod) {
-          var li = document.createElement('li');
-          li.className = 'flavour-panel';
-          var sizesHtml = '';
-          if (prod.sizes && prod.sizes.length) {
-            sizesHtml = '<br><span class="size-row">' +
-              prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
-                return '<span>' + (s.name || '') + (s.price ? ' — ' + s.price : '') + '</span>';
-              }).join('') +
-              '</span>';
-          }
-          li.innerHTML = '<button type="button" class="flavour-panel-header" aria-expanded="false">' + escapeHtml(prod.name) + '</button>' +
-            '<div class="flavour-panel-body"><p class="flavour-panel-desc">' + escapeHtml(prod.desc) + sizesHtml + '</p></div>';
-          ul.appendChild(li);
-        });
-
-        /* Add divider and packs button */
-        var divLi = document.createElement('li');
-        divLi.className = 'flavour-list-divider';
-        divLi.setAttribute('aria-hidden', 'true');
-        ul.appendChild(divLi);
-        var packsLi = document.createElement('li');
-        packsLi.className = 'flavour-panel';
-        packsLi.innerHTML = '<button type="button" class="flavour-panel-header packs-trigger" id="packs-btn" aria-label="Open packs" style="border:2px solid #1b5e20;">Packs</button>';
-        ul.appendChild(packsLi);
-
-        /* Re-attach accordion click handlers on new products */
-        ul.querySelectorAll('.flavour-panel-header').forEach(function (btn) {
-          btn.addEventListener('click', function () {
-            hapticBuzz();
-            if (this.id === 'packs-btn') return;
-            var panel = this.closest('.flavour-panel');
-            ul.querySelectorAll('.flavour-panel').forEach(function (p) {
-              if (p !== panel) {
-                p.classList.remove('expanded');
-                var h = p.querySelector('.flavour-panel-header');
-                if (h) h.setAttribute('aria-expanded', 'false');
-              }
-            });
-            var expanded = panel.classList.toggle('expanded');
-            this.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-          });
-        });
-      }
+      /* ── Preview modal: 3-section circular carousel ── */
 
       /* Load from localStorage or defaults */
       function loadCustomiserState() {
@@ -4199,87 +4137,7 @@
         }
       });
 
-      /* Apply palette CSS variables to card */
-      function applyCustomiserPreview() {
-        var p = document.getElementById('cc-primary').value;
-        var s = document.getElementById('cc-secondary').value;
-        var b = document.getElementById('cc-background').value;
-        var t = document.getElementById('cc-text').value;
-        var ti = document.getElementById('cc-title').value;
-        var btn = document.getElementById('cc-button').value;
-        var btnText = document.getElementById('cc-button-text').value;
-        var tf = document.getElementById('cc-title-font').value;
-        var biz = document.getElementById('cc-business').value.trim();
-        var nam = document.getElementById('cc-name').value.trim();
-        var tag = document.getElementById('cc-tagline').value.trim();
-        var ph = document.getElementById('cc-phone').value.trim();
-        var em = document.getElementById('cc-email').value.trim();
-        var desc = document.getElementById('cc-description').value.trim();
-        var products = getProductsArray().filter(function (p) { return p.name.trim(); });
-        var tier = getSelectedTier();
 
-        /* Build style override */
-        var existing = document.getElementById('cc-style-override');
-        if (!existing) {
-          existing = document.createElement('style');
-          existing.id = 'cc-style-override';
-          document.head.appendChild(existing);
-        }
-        existing.textContent =
-          '.intro-header,.products-header,.contact-header { background-color: ' + p + ' !important; }' +
-          '.intro-footer,.products-footer,.contact-footer { background-color: ' + s + ' !important; }' +
-          '.products-body,.contact-body,.share-modal,.save-icon-modal,.payments-modal,.wholesale-modal { background-color: ' + b + ' !important; }' +
-          'body { color: ' + t + ' !important; }' +
-          '.intro-message { color: ' + b + ' !important; }' +
-          '.content-panel { background-color: ' + b + ' !important; }' +
-          '.intro-header h1,.products-header h1,.contact-header h1 { color: ' + b + ' !important; }' +
-          '.title-panel h1 { color: ' + ti + ' !important; }' +
-          'body { font-family: \'The Wanters DEMO\', serif !important; }' +
-          '.title-panel h1,.intro-header h1,.products-header h1,.contact-header h1,.flavour-panel-header,.wholesale-panel-header,.intro-message,.share-btn,.customiser-accordion-header,.customiser-inner-prod-header,.contact-label { font-family: ' + tf + ' !important; }' +
-          '.flavour-panel-desc,.about-text,.pet-treats-coming,.contact-value { font-family: \'The Wanters DEMO\', serif !important; }' +
-          '.card-face { border-color: ' + s + ' !important; }' +
-          '.content-panel { border-color: ' + s + ' !important; }' +
-          '.share-btn { background: linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%) !important; color: ' + btnText + ' !important; }' +
-          '/* Lock Share button to gold */ #share-btn { background: #b8860b !important; border-color: #8b6508 !important; }' ;
-
-        /* Update text content */
-        if (biz) {
-          document.querySelectorAll('.title-panel h1').forEach(function (h) { h.textContent = biz; });
-          document.querySelectorAll('.intro-header h1').forEach(function (h) { h.textContent = biz; });
-          document.querySelectorAll('.products-header h1').forEach(function (h) { h.textContent = 'Products'; });
-          document.querySelectorAll('.contact-header h1').forEach(function (h) { h.textContent = 'Details'; });
-        }
-        if (tag) {
-          document.querySelectorAll('.intro-message').forEach(function (p) {
-            if (!p.classList.contains('design-yours-btn')) p.textContent = tag;
-          });
-        }
-        if (nam || ph || em) {
-          var contactBlock = document.querySelector('.contact-block');
-          if (contactBlock) {
-            var descHtml = desc ? desc.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') : '';
-            var aboutHtml = descHtml ? '<p class="about-text">' + descHtml + '</p>' : '';
-            contactBlock.innerHTML =
-              aboutHtml +
-              '<div class="contact-divider" aria-hidden="true"></div>' +
-              '<p class="name-line"><span class="contact-label">Name:</span><br><span class="contact-value name-line">' + escapeHtml(nam || '') + '</span></p>' +
-              (ph ? '<p><span class="contact-label">Mobile:</span><br><span class="contact-value">' + escapeHtml(ph) + '</span></p>' : '') +
-              (em ? '<p><span class="contact-label">Email:</span><br><span class="contact-value">' + escapeHtml(em) + '</span></p>' : '') +
-              '<div class="contact-actions">' +
-              '<button type="button" class="share-btn" id="payment-btn">Payment</button>' +
-              '<button type="button" class="share-btn" id="wholesale-btn">Wholesale</button>' +
-              '<button type="button" class="share-btn" id="save-icon-btn" aria-label="Save to home screen">Save</button>' +
-              '<button type="button" class="share-btn" id="share-btn">Share</button>' +
-              '</div>' +
-              '<div class="contact-actions-divider" aria-hidden="true"></div>' +
-              '<p class="design-prompt">Like this business card?</p>' +
-              '<div class="contact-actions-bottom">' +
-              '<button type="button" class="share-btn design-yours-btn" id="design-yours-btn">Design Your Own</button></div>';
-          }
-        }
-        /* Update products page */
-        updateProductsPreview();
-      }
 
       /* ── Preview modal: 3-section circular carousel ── */
       /* Mirrors the live card's placeSections() pattern exactly */
