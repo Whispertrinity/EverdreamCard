@@ -2158,6 +2158,13 @@
       -webkit-paint-order: stroke fill;
     }
     .cc-ip-save-btn:hover { transform: translateY(-1px); }
+    .cc-ip-save-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      background: linear-gradient(135deg,#9e9e9e 0%,#bdbdbd 50%,#9e9e9e 100%);
+      border-color: #757575;
+    }
 
     .cc-ip-remove-btn {
       display: block;
@@ -3598,13 +3605,14 @@
             hapticBuzz();
             row.parentNode.removeChild(row);
             saveCustomiserState();
+            if (typeof validateProductForm === 'function') validateProductForm();
           });
           row.appendChild(nInp);
           row.appendChild(pInp);
           row.appendChild(rmBtn);
           [nInp, pInp].forEach(function (el) {
-            el.addEventListener('input', saveCustomiserState);
-            el.addEventListener('change', saveCustomiserState);
+            el.addEventListener('input', function () { if (typeof validateProductForm === 'function') validateProductForm(); saveCustomiserState(); });
+            el.addEventListener('change', function () { if (typeof validateProductForm === 'function') validateProductForm(); saveCustomiserState(); });
           });
           sizesContainer.appendChild(row);
         }
@@ -3631,8 +3639,28 @@
         saveBtn.type = 'button';
         saveBtn.className = 'cc-ip-save-btn';
         saveBtn.textContent = 'Save';
+        saveBtn.disabled = true;
+
+        function validateProductForm() {
+          var n = nameInput.value.trim();
+          var d = descInput.value.trim();
+          var sizeRows = wrapper.querySelectorAll('.cc-ip-size-row');
+          var hasCompleteSize = false;
+          sizeRows.forEach(function (row) {
+            var sName = (row.querySelector('.cc-ip-size-name') || {}).value || '';
+            var sPrice = (row.querySelector('.cc-ip-size-price') || {}).value || '';
+            if (sName.trim() && sPrice.trim()) {
+              hasCompleteSize = true;
+            }
+          });
+          var valid = n.length > 0 && d.length > 0 && hasCompleteSize;
+          saveBtn.disabled = !valid;
+          return valid;
+        }
+
         saveBtn.addEventListener('click', function () {
           hapticBuzz();
+          if (!validateProductForm()) return;
           var n = nameInput.value.trim();
           if (n) {
             header.textContent = n;
@@ -3684,11 +3712,20 @@
         wrapper.appendChild(body);
         container.appendChild(wrapper);
 
-        /* Auto-save on input */
+        /* Auto-save on input + form validation */
         [nameInput, descInput].forEach(function (el) {
-          el.addEventListener('input', saveCustomiserState);
-          el.addEventListener('change', saveCustomiserState);
+          el.addEventListener('input', function () { validateProductForm(); saveCustomiserState(); });
+          el.addEventListener('change', function () { validateProductForm(); saveCustomiserState(); });
         });
+        /* Size inputs also trigger validation */
+        wrapper.addEventListener('input', function (e) {
+          if (e.target.classList.contains('cc-ip-size-name') || e.target.classList.contains('cc-ip-size-price')) {
+            validateProductForm();
+          }
+        });
+
+        /* Run initial validation to set correct button state (e.g. when loading saved data) */
+        validateProductForm();
 
         return wrapper;
       }
