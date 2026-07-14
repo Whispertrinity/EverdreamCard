@@ -3541,11 +3541,11 @@
         var header = document.createElement('button');
         header.type = 'button';
         header.className = 'customiser-inner-prod-header';
-        header.setAttribute('aria-expanded', 'false');
+        header.setAttribute("aria-expanded", "true");
         header.textContent = 'Product ' + (index + 1);
 
         var body = document.createElement('div');
-        body.className = 'customiser-inner-prod-body';
+        body.className = 'customiser-inner-prod-body open';
 
         var nameLabel = document.createElement('label');
         nameLabel.className = 'customiser-label';
@@ -3553,7 +3553,7 @@
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'customiser-text cc-ip-name';
-        nameInput.placeholder = 'e.g. Barbecue';
+        nameInput.placeholder = '';
         nameInput.value = name || '';
 
         var descLabel = document.createElement('label');
@@ -3561,7 +3561,8 @@
         descLabel.textContent = 'Description';
         var descInput = document.createElement('textarea');
         descInput.className = 'customiser-textarea cc-ip-desc';
-        descInput.placeholder = 'Describe this product...';
+        descInput.maxLength = 50;
+        descInput.placeholder = '';
         descInput.rows = 2;
         descInput.value = desc || '';
 
@@ -3646,7 +3647,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove product';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -3716,6 +3717,7 @@
       /* Add product button */
       document.getElementById('cc-add-product').addEventListener('click', function () {
         hapticBuzz();
+        if (ccProductCounter >= 30) { showTooltip(this, 'Max 30 products'); return; }
         createProductAccordion(ccProductCounter, '', '', '');
         ccProductCounter++;
         /* The main Products accordion might need to expand to show new product */
@@ -3742,11 +3744,11 @@
         var header = document.createElement('button');
         header.type = 'button';
         header.className = 'customiser-inner-prod-header';
-        header.setAttribute('aria-expanded', 'false');
+        header.setAttribute("aria-expanded", "true");
         header.textContent = name || 'Pack ' + (index + 1);
 
         var body = document.createElement('div');
-        body.className = 'customiser-inner-prod-body';
+        body.className = 'customiser-inner-prod-body open';
 
         var nameLabel = document.createElement('label');
         nameLabel.className = 'customiser-label';
@@ -3822,7 +3824,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove pack';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -3878,6 +3880,7 @@
       /* Add pack button */
       document.getElementById('cc-add-pack').addEventListener('click', function () {
         hapticBuzz();
+        if (ccPackCounter >= 7) { showTooltip(this, 'Max 7 packs'); return; }
         createPackAccordion(ccPackCounter, '', '', null);
         ccPackCounter++;
         var packsBody = document.getElementById('cc-packs-body');
