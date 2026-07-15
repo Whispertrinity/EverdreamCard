@@ -1185,7 +1185,7 @@
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 200;
+      z-index: 500;
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -1258,7 +1258,7 @@
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 200;
+      z-index: 500;
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -1319,7 +1319,7 @@
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 200;
+      z-index: 500;
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -1420,7 +1420,7 @@
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 200;
+      z-index: 500;
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -1888,10 +1888,7 @@
       background: linear-gradient(135deg, #5d4037 0%, #6d5047 50%, #5d4037 100%);
     }
     .customiser-accordion-header.cc-accordion-teal {
-      background: linear-gradient(135deg, #14545c 0%, #1a6a75 50%, #14545c 100%);
-    }
-    .customiser-accordion-header.cc-accordion-purple {
-      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
     }
     .customiser-accordion-header.cc-accordion-green {
       background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
@@ -2097,9 +2094,6 @@
     .cc-add-pill-green {
       background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
     }
-    .cc-add-pill-purple {
-      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
-    }
 
     /* Customiser footer — brown bar with Back button */
     .customiser-footer {
@@ -2110,7 +2104,7 @@
       align-items: center;
     }
 
-    /* Inner product accordions — teal for products, green for packs, purple for wholesale */
+    /* Inner product accordions */
     .cc-inner-product {
       margin: 0.35rem 0;
       border: 2px solid #5d4037;
@@ -2118,37 +2112,27 @@
       overflow: hidden;
       background: #fff;
     }
-    .cc-inner-product .customiser-inner-prod-header {
+    .customiser-inner-prod-header {
       width: 100%;
       padding: 0.6rem 0.75rem;
       font-family: 'The Wanters DEMO', serif;
       font-size: clamp(0.9rem,2.2vw,1rem);
       font-weight: 600;
-      color: #F6F6DE;
-      background: linear-gradient(135deg, #14545c 0%, #1a6a75 50%, #14545c 100%);
+      color: #3e2723;
+      background: #ede0d4;
       border: none;
       cursor: pointer;
       text-align: left;
       transition: background 0.2s;
     }
-    .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #1a6a75 0%, #20808e 50%, #1a6a75 100%); }
-    .cc-inner-product .customiser-inner-prod-header::after {
+    .customiser-inner-prod-header:hover { background: #d7ccc8; }
+    .customiser-inner-prod-header::after {
       content: '▼';
       float: right;
       font-size: 0.75em;
       transition: transform 0.2s;
     }
-    .cc-inner-product .customiser-inner-prod-header[aria-expanded="true"]::after { transform: rotate(180deg); }
-    /* Pack inner accordions — green header */
-    #cc-packs-container .cc-inner-product .customiser-inner-prod-header {
-      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
-    }
-    #cc-packs-container .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%); }
-    /* Wholesale inner accordions — purple header */
-    #cc-wholesale-container .cc-inner-product .customiser-inner-prod-header {
-      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
-    }
-    #cc-wholesale-container .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #5c347a 0%, #6e3e90 50%, #5c347a 100%); }
+    .customiser-inner-prod-header[aria-expanded="true"]::after { transform: rotate(180deg); }
     .customiser-inner-prod-body {
       max-height: 0;
       overflow: hidden;
@@ -2174,6 +2158,13 @@
       -webkit-paint-order: stroke fill;
     }
     .cc-ip-save-btn:hover { transform: translateY(-1px); }
+    .cc-ip-save-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      background: linear-gradient(135deg,#9e9e9e 0%,#bdbdbd 50%,#9e9e9e 100%);
+      border-color: #757575;
+    }
 
     .cc-ip-remove-btn {
       display: block;
@@ -2424,27 +2415,27 @@
         <div class="customiser-accordion-body">
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 1 (main headers)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
+            <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c">
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 2 (footers, borders)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
+            <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Accent Colour 3 (packs, save header)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-accent3" value="#1b5e20" data-cssvar="--cc-accent3">
+            <label class="customiser-label">Accent Colour 3 (packs &amp; save headers)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent3" value="#1b5e20">
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 4 (share header)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-accent4" value="#b8860b" data-cssvar="--cc-accent4">
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent4" value="#b8860b">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Background</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
+            <label class="customiser-label">Background (card panels)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Title Colour 1 (title text)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#f6f6de" data-cssvar="--cc-title">
+            <label class="customiser-label">Title Colour 1 (header title text)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#f6f6de">
           </div>
         </div>
         </div>
@@ -2470,18 +2461,6 @@
             <!-- Inner pack accordions go here -->
           </div>
           <button type="button" class="cc-add-pill cc-add-pill-green" id="cc-add-pack">+ Add Pack</button>
-        </div>
-        </div>
-
-        <!-- Accordion: Wholesale (3-page tier only) -->
-        <div class="customiser-accordion-wrapper">
-        <button type="button" class="customiser-accordion-header cc-accordion-purple" aria-expanded="false" id="cc-wholesale-header">Wholesale</button>
-        <div class="customiser-accordion-body" id="cc-wholesale-body">
-          <p class="cc-accordion-desc">Create wholesale packs with custom products, quantities and prices. These show in the Wholesale modal flip alongside Packs.</p>
-          <div id="cc-wholesale-container">
-            <!-- Inner wholesale accordions go here -->
-          </div>
-          <button type="button" class="cc-add-pill cc-add-pill-purple" id="cc-add-wholesale">+ Add Wholesale Pack</button>
         </div>
         </div>
         <div class="customiser-actions">
@@ -3455,8 +3434,9 @@
 
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
-        tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
-        accent3: '#1b5e20', accent4: '#b8860b', title: '#f6f6de',
+        tier: '2', primary: '#14545c', secondary: '#5d4037',
+        accent3: '#1b5e20', accent4: '#b8860b',
+        background: '#f6f6de', title: '#f6f6de',
         titleFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
@@ -3478,11 +3458,8 @@
         var prodBody = document.getElementById('cc-products-body');
         var packsHeader = document.getElementById('cc-packs-header');
         var packsBody = document.getElementById('cc-packs-body');
-        var wholesaleHeader = document.getElementById('cc-wholesale-header');
-        var wholesaleBody = document.getElementById('cc-wholesale-body');
         var prodWrapper = prodHeader ? prodHeader.closest('.customiser-accordion-wrapper') : null;
         var packsWrapper = packsHeader ? packsHeader.closest('.customiser-accordion-wrapper') : null;
-        var wholesaleWrapper = wholesaleHeader ? wholesaleHeader.closest('.customiser-accordion-wrapper') : null;
         if (!prodHeader || !prodBody) return;
         if (tier === '3') {
           if (prodWrapper) prodWrapper.style.display = '';
@@ -3491,9 +3468,6 @@
           if (packsWrapper) packsWrapper.style.display = '';
           if (packsHeader) packsHeader.style.display = '';
           if (packsBody) packsBody.style.display = '';
-          if (wholesaleWrapper) wholesaleWrapper.style.display = '';
-          if (wholesaleHeader) wholesaleHeader.style.display = '';
-          if (wholesaleBody) wholesaleBody.style.display = '';
         } else {
           if (prodWrapper) prodWrapper.style.display = 'none';
           prodHeader.style.display = 'none';
@@ -3501,9 +3475,6 @@
           if (packsWrapper) packsWrapper.style.display = 'none';
           if (packsHeader) packsHeader.style.display = 'none';
           if (packsBody) packsBody.style.display = 'none';
-          if (wholesaleWrapper) wholesaleWrapper.style.display = 'none';
-          if (wholesaleHeader) wholesaleHeader.style.display = 'none';
-          if (wholesaleBody) wholesaleBody.style.display = 'none';
         }
         /* Remove bottom margin from last visible accordion wrapper, reset others */
         var lastVisible = null;
@@ -3568,11 +3539,11 @@
         var header = document.createElement('button');
         header.type = 'button';
         header.className = 'customiser-inner-prod-header';
-        header.setAttribute('aria-expanded', 'false');
+        header.setAttribute("aria-expanded", "true");
         header.textContent = 'Product ' + (index + 1);
 
         var body = document.createElement('div');
-        body.className = 'customiser-inner-prod-body';
+        body.className = 'customiser-inner-prod-body open';
 
         var nameLabel = document.createElement('label');
         nameLabel.className = 'customiser-label';
@@ -3580,7 +3551,7 @@
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'customiser-text cc-ip-name';
-        nameInput.placeholder = 'e.g. Barbecue';
+        nameInput.placeholder = '';
         nameInput.value = name || '';
 
         var descLabel = document.createElement('label');
@@ -3588,7 +3559,8 @@
         descLabel.textContent = 'Description';
         var descInput = document.createElement('textarea');
         descInput.className = 'customiser-textarea cc-ip-desc';
-        descInput.placeholder = 'Describe this product...';
+        descInput.maxLength = 50;
+        descInput.placeholder = '';
         descInput.rows = 2;
         descInput.value = desc || '';
 
@@ -3624,13 +3596,14 @@
             hapticBuzz();
             row.parentNode.removeChild(row);
             saveCustomiserState();
+            if (typeof validateProductForm === 'function') validateProductForm();
           });
           row.appendChild(nInp);
           row.appendChild(pInp);
           row.appendChild(rmBtn);
           [nInp, pInp].forEach(function (el) {
-            el.addEventListener('input', saveCustomiserState);
-            el.addEventListener('change', saveCustomiserState);
+            el.addEventListener('input', function () { if (typeof validateProductForm === 'function') validateProductForm(); saveCustomiserState(); });
+            el.addEventListener('change', function () { if (typeof validateProductForm === 'function') validateProductForm(); saveCustomiserState(); });
           });
           sizesContainer.appendChild(row);
         }
@@ -3657,8 +3630,28 @@
         saveBtn.type = 'button';
         saveBtn.className = 'cc-ip-save-btn';
         saveBtn.textContent = 'Save';
+        saveBtn.disabled = true;
+
+        function validateProductForm() {
+          var n = nameInput.value.trim();
+          var d = descInput.value.trim();
+          var sizeRows = wrapper.querySelectorAll('.cc-ip-size-row');
+          var hasCompleteSize = false;
+          sizeRows.forEach(function (row) {
+            var sName = (row.querySelector('.cc-ip-size-name') || {}).value || '';
+            var sPrice = (row.querySelector('.cc-ip-size-price') || {}).value || '';
+            if (sName.trim() && sPrice.trim()) {
+              hasCompleteSize = true;
+            }
+          });
+          var valid = n.length > 0 && d.length > 0 && hasCompleteSize;
+          saveBtn.disabled = !valid;
+          return valid;
+        }
+
         saveBtn.addEventListener('click', function () {
           hapticBuzz();
+          if (!validateProductForm()) return;
           var n = nameInput.value.trim();
           if (n) {
             header.textContent = n;
@@ -3673,7 +3666,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove product';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -3710,11 +3703,20 @@
         wrapper.appendChild(body);
         container.appendChild(wrapper);
 
-        /* Auto-save on input */
+        /* Auto-save on input + form validation */
         [nameInput, descInput].forEach(function (el) {
-          el.addEventListener('input', saveCustomiserState);
-          el.addEventListener('change', saveCustomiserState);
+          el.addEventListener('input', function () { validateProductForm(); saveCustomiserState(); });
+          el.addEventListener('change', function () { validateProductForm(); saveCustomiserState(); });
         });
+        /* Size inputs also trigger validation */
+        wrapper.addEventListener('input', function (e) {
+          if (e.target.classList.contains('cc-ip-size-name') || e.target.classList.contains('cc-ip-size-price')) {
+            validateProductForm();
+          }
+        });
+
+        /* Run initial validation to set correct button state (e.g. when loading saved data) */
+        validateProductForm();
 
         return wrapper;
       }
@@ -3743,6 +3745,7 @@
       /* Add product button */
       document.getElementById('cc-add-product').addEventListener('click', function () {
         hapticBuzz();
+        if (ccProductCounter >= 30) { showTooltip(this, 'Max 30 products'); return; }
         createProductAccordion(ccProductCounter, '', '', '');
         ccProductCounter++;
         /* The main Products accordion might need to expand to show new product */
@@ -3769,11 +3772,11 @@
         var header = document.createElement('button');
         header.type = 'button';
         header.className = 'customiser-inner-prod-header';
-        header.setAttribute('aria-expanded', 'false');
+        header.setAttribute("aria-expanded", "true");
         header.textContent = name || 'Pack ' + (index + 1);
 
         var body = document.createElement('div');
-        body.className = 'customiser-inner-prod-body';
+        body.className = 'customiser-inner-prod-body open';
 
         var nameLabel = document.createElement('label');
         nameLabel.className = 'customiser-label';
@@ -3808,27 +3811,57 @@
             prodList.innerHTML = '<p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;">Add products first.</p>';
             return;
           }
+          var rowIdx = 0;
           prods.forEach(function (p, pi) {
-            var row = document.createElement('div');
-            row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
-            var cb = document.createElement('input');
-            cb.type = 'checkbox';
-            cb.className = 'cc-pack-prod-cb';
-            cb.dataset.prodIdx = pi;
-            /* Check if this product was previously in the pack */
-            if (items && items[pi]) cb.checked = true;
-            var qty = document.createElement('input');
-            qty.type = 'number';
-            qty.min = 1;
-            qty.value = (items && items[pi] && items[pi].qty) ? items[pi].qty : 1;
-            qty.style.width = '3rem';
-            qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
-            var nameSpan = document.createElement('span');
-            nameSpan.textContent = p.name;
-            row.appendChild(cb);
-            row.appendChild(qty);
-            row.appendChild(nameSpan);
-            prodList.appendChild(row);
+            if (!p.sizes || !p.sizes.length) {
+              var row = document.createElement('div');
+              row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+              var cb = document.createElement('input');
+              cb.type = 'checkbox';
+              cb.className = 'cc-pack-prod-cb';
+              cb.dataset.prodIdx = pi;
+              cb.dataset.sizeIdx = '-1';
+              if (items && items[rowIdx]) cb.checked = true;
+              var qty = document.createElement('input');
+              qty.type = 'number';
+              qty.min = 1;
+              qty.value = (items && items[rowIdx] && items[rowIdx].qty) ? items[rowIdx].qty : 1;
+              qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
+              var nameSpan = document.createElement('span');
+              nameSpan.textContent = p.name;
+              row.appendChild(cb);
+              row.appendChild(qty);
+              row.appendChild(nameSpan);
+              prodList.appendChild(row);
+              rowIdx++;
+            } else {
+              p.sizes.forEach(function (sz, si) {
+                if (!sz.name && !sz.price) return;
+                var row = document.createElement('div');
+                row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+                var cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.className = 'cc-pack-prod-cb';
+                cb.dataset.prodIdx = pi;
+                cb.dataset.sizeIdx = si;
+                if (items && items[rowIdx]) cb.checked = true;
+                var qty = document.createElement('input');
+                qty.type = 'number';
+                qty.min = 1;
+                qty.value = (items && items[rowIdx] && items[rowIdx].qty) ? items[rowIdx].qty : 1;
+                qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
+                var nameSpan = document.createElement('span');
+                var label = p.name;
+                if (sz.name) label += ' - ' + sz.name;
+                if (sz.price) label += ' - ' + sz.price;
+                nameSpan.textContent = label;
+                row.appendChild(cb);
+                row.appendChild(qty);
+                row.appendChild(nameSpan);
+                prodList.appendChild(row);
+                rowIdx++;
+              });
+            }
           });
         }
         refreshProductCheckboxes();
@@ -3849,7 +3882,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove pack';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -3902,198 +3935,10 @@
         ccPackCounter = wrappers.length;
       }
 
-      /* Wholesale counter */
-      var ccWholesaleCounter = 0;
-
-      /* Create an inner wholesale accordion */
-      function createWholesaleAccordion(index, name, price, items) {
-        var container = document.getElementById('cc-wholesale-container');
-        var wrapper = document.createElement('div');
-        wrapper.className = 'cc-inner-product';
-        wrapper.dataset.index = index;
-
-        var header = document.createElement('button');
-        header.type = 'button';
-        header.className = 'customiser-inner-prod-header';
-        header.setAttribute('aria-expanded', 'false');
-        header.textContent = name || 'Wholesale ' + (index + 1);
-
-        var body = document.createElement('div');
-        body.className = 'customiser-inner-prod-body';
-
-        var nameLabel = document.createElement('label');
-        nameLabel.className = 'customiser-label';
-        nameLabel.textContent = 'Wholesale Pack Name';
-        var nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.className = 'customiser-text cc-wholesale-name';
-        nameInput.placeholder = 'e.g. Wholesale Case';
-        nameInput.value = name || '';
-
-        var priceLabel = document.createElement('label');
-        priceLabel.className = 'customiser-label';
-        priceLabel.textContent = 'Wholesale Price';
-        var priceInput = document.createElement('input');
-        priceInput.type = 'text';
-        priceInput.className = 'customiser-text cc-wholesale-price';
-        priceInput.placeholder = 'e.g. $250';
-        priceInput.value = price || '';
-
-        /* Products in wholesale pack */
-        var prodListLabel = document.createElement('label');
-        prodListLabel.className = 'customiser-label';
-        prodListLabel.textContent = 'Products in this wholesale pack';
-        var prodList = document.createElement('div');
-        prodList.className = 'cc-wholesale-product-list';
-        prodList.id = 'cc-wholesale-prods-' + index;
-
-        function refreshWholesaleCheckboxes() {
-          var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
-          prodList.innerHTML = '';
-          if (!prods.length) {
-            prodList.innerHTML = '<p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;">Add products first.</p>';
-            return;
-          }
-          prods.forEach(function (p, pi) {
-            var row = document.createElement('div');
-            row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
-            var cb = document.createElement('input');
-            cb.type = 'checkbox';
-            cb.className = 'cc-wholesale-prod-cb';
-            cb.dataset.prodIdx = pi;
-            if (items && items[pi]) cb.checked = true;
-            var qty = document.createElement('input');
-            qty.type = 'number';
-            qty.min = 1;
-            qty.value = (items && items[pi] && items[pi].qty) ? items[pi].qty : 1;
-            qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
-            var nameSpan = document.createElement('span');
-            nameSpan.textContent = p.name;
-            row.appendChild(cb);
-            row.appendChild(qty);
-            row.appendChild(nameSpan);
-            prodList.appendChild(row);
-          });
-        }
-        refreshWholesaleCheckboxes();
-
-        var saveBtn = document.createElement('button');
-        saveBtn.type = 'button';
-        saveBtn.className = 'cc-ip-save-btn';
-        saveBtn.textContent = 'Save';
-        saveBtn.addEventListener('click', function () {
-          hapticBuzz();
-          var n = nameInput.value.trim();
-          header.textContent = n || 'Wholesale ' + (index + 1);
-          saveCustomiserState();
-          showTooltip(saveBtn, 'Saved!');
-        });
-
-        var removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove wholesale';
-        removeBtn.addEventListener('click', function () {
-          hapticBuzz();
-          wrapper.parentNode.removeChild(wrapper);
-          renumberWholesaleAccordions();
-          saveCustomiserState();
-        });
-
-        body.appendChild(nameLabel);
-        body.appendChild(nameInput);
-        body.appendChild(priceLabel);
-        body.appendChild(priceInput);
-        body.appendChild(prodListLabel);
-        body.appendChild(prodList);
-        var btnRow = document.createElement('div');
-        btnRow.style.cssText = 'display:flex;gap:0.5rem;margin-top:0.6rem;';
-        saveBtn.style.flex = '1';
-        removeBtn.style.flex = '1';
-        btnRow.appendChild(saveBtn);
-        btnRow.appendChild(removeBtn);
-        body.appendChild(btnRow);
-
-        header.addEventListener('click', function () {
-          var expanded = this.getAttribute('aria-expanded') === 'true';
-          this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          body.classList.toggle('open');
-        });
-
-        wrapper.appendChild(header);
-        wrapper.appendChild(body);
-        container.appendChild(wrapper);
-
-        [nameInput, priceInput].forEach(function (el) {
-          el.addEventListener('input', saveCustomiserState);
-          el.addEventListener('change', saveCustomiserState);
-        });
-
-        return wrapper;
-      }
-
-      function renumberWholesaleAccordions() {
-        var wrappers = document.querySelectorAll('#cc-wholesale-container .cc-inner-product');
-        wrappers.forEach(function (w, i) {
-          w.dataset.index = i;
-          var h = w.querySelector('.customiser-inner-prod-header');
-          var nameInp = w.querySelector('.cc-wholesale-name');
-          if (h) h.textContent = (nameInp && nameInp.value.trim()) ? nameInp.value.trim() : 'Wholesale ' + (i + 1);
-          var prodList = w.querySelector('.cc-wholesale-product-list');
-          if (prodList) prodList.id = 'cc-wholesale-prods-' + i;
-        });
-        ccWholesaleCounter = wrappers.length;
-      }
-
-      /* Add wholesale button */
-      document.getElementById('cc-add-wholesale').addEventListener('click', function () {
-        hapticBuzz();
-        createWholesaleAccordion(ccWholesaleCounter, '', '', null);
-        ccWholesaleCounter++;
-        var wholesaleBody = document.getElementById('cc-wholesale-body');
-        if (wholesaleBody && !wholesaleBody.classList.contains('open')) {
-          var wholesaleHeader = document.getElementById('cc-wholesale-header');
-          if (wholesaleHeader) {
-            wholesaleHeader.setAttribute('aria-expanded', 'true');
-            wholesaleBody.classList.add('open');
-          }
-        }
-      });
-
-      /* get/set wholesale for localStorage */
-      function getWholesaleArray() {
-        var wrappers = document.querySelectorAll('#cc-wholesale-container .cc-inner-product');
-        var wholesalePacks = [];
-        wrappers.forEach(function (w) {
-          var name = (w.querySelector('.cc-wholesale-name') || {}).value || '';
-          var price = (w.querySelector('.cc-wholesale-price') || {}).value || '';
-          var cbs = w.querySelectorAll('.cc-wholesale-prod-cb');
-          var qtys = w.querySelectorAll('.cc-wholesale-prod-cb + input[type="number"]');
-          var items = {};
-          cbs.forEach(function (cb, i) {
-            if (cb.checked) {
-              var qtyInput = qtys[i];
-              items[cb.dataset.prodIdx] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
-            }
-          });
-          wholesalePacks.push({ name: name, price: price, items: items });
-        });
-        return wholesalePacks;
-      }
-
-      function setWholesaleArray(wholesalePacks) {
-        if (!wholesalePacks || !wholesalePacks.length) return;
-        var container = document.getElementById('cc-wholesale-container');
-        container.innerHTML = '';
-        ccWholesaleCounter = wholesalePacks.length;
-        wholesalePacks.forEach(function (p, i) {
-          createWholesaleAccordion(i, p.name || '', p.price || '', p.items || null);
-        });
-      }
-
       /* Add pack button */
       document.getElementById('cc-add-pack').addEventListener('click', function () {
         hapticBuzz();
+        if (ccPackCounter >= 7) { showTooltip(this, 'Max 7 packs'); return; }
         createPackAccordion(ccPackCounter, '', '', null);
         ccPackCounter++;
         var packsBody = document.getElementById('cc-packs-body');
@@ -4114,12 +3959,14 @@
           var name = (w.querySelector('.cc-pack-name') || {}).value || '';
           var price = (w.querySelector('.cc-pack-price') || {}).value || '';
           var cbs = w.querySelectorAll('.cc-pack-prod-cb');
-          var qtys = w.querySelectorAll('.cc-pack-prod-cb + input[type="number"]');
           var items = {};
-          cbs.forEach(function (cb, i) {
+          cbs.forEach(function (cb) {
             if (cb.checked) {
-              var qtyInput = qtys[i];
-              items[cb.dataset.prodIdx] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
+              var qtyInput = cb.parentNode.querySelector('input[type="number"]');
+              var pi = cb.dataset.prodIdx;
+              var si = cb.dataset.sizeIdx;
+              var key = pi + ':' + si;
+              items[key] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
             }
           });
           packs.push({ name: name, price: price, items: items });
@@ -4183,6 +4030,7 @@
         document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
         document.getElementById('cc-accent3').value = state.accent3 || CUSTOMISER_DEFAULTS.accent3;
         document.getElementById('cc-accent4').value = state.accent4 || CUSTOMISER_DEFAULTS.accent4;
+        document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
         document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
         document.getElementById('cc-business').value = state.business || '';
@@ -4201,8 +4049,6 @@
         if (state.products) setProductsArray(state.products);
         /* Restore packs */
         if (state.packs) setPacksArray(state.packs);
-        /* Restore wholesale */
-        if (state.wholesale) setWholesaleArray(state.wholesale);
         updatePreviewDots();
       }
 
@@ -4211,9 +4057,9 @@
           tier: getSelectedTier(),
           primary: document.getElementById('cc-primary').value,
           secondary: document.getElementById('cc-secondary').value,
-          background: document.getElementById('cc-background').value,
           accent3: document.getElementById('cc-accent3').value,
           accent4: document.getElementById('cc-accent4').value,
+          background: document.getElementById('cc-background').value,
           title: document.getElementById('cc-title').value,
           titleFont: document.getElementById('cc-title-font').value,
           business: document.getElementById('cc-business').value,
@@ -4223,8 +4069,7 @@
           email: document.getElementById('cc-email').value,
           description: document.getElementById('cc-description').value,
           products: getProductsArray(),
-          packs: getPacksArray(),
-          wholesale: getWholesaleArray()
+          packs: getPacksArray()
         };
         try { localStorage.setItem('everdream-customiser', JSON.stringify(state)); } catch(e) {}
         updatePreviewDots();
@@ -4260,6 +4105,7 @@
         var s = document.getElementById('cc-secondary').value;
         var a3 = document.getElementById('cc-accent3').value;
         var a4 = document.getElementById('cc-accent4').value;
+        var bg = document.getElementById('cc-background').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
 
@@ -4284,18 +4130,8 @@
         document.querySelectorAll('.customiser-accordion-header').forEach(function (h) {
           if (h.classList.contains('cc-accordion-brown') ||
               h.classList.contains('cc-accordion-teal') ||
-              h.classList.contains('cc-accordion-green') ||
-              h.classList.contains('cc-accordion-purple')) return;
+              h.classList.contains('cc-accordion-green')) return;
           h.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
-        });
-
-        /* Update action buttons — preview gets primary, save kept green */
-        var modalBtns = document.querySelectorAll('.customiser-btn');
-        modalBtns.forEach(function (b) {
-          if (b.classList.contains('customiser-btn-preview')) {
-            b.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
-            b.style.color = '#F6F6DE';
-          }
         });
       }
 
@@ -4309,6 +4145,25 @@
         b = Math.min(255, b + 20);
         return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
       }
+      function darken(hex) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+        r = Math.max(0, r - 30);
+        g = Math.max(0, g - 30);
+        b = Math.max(0, b - 30);
+        return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
+      }
+      function hexToRgba(hex, alpha) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+      }
+
+      /* (Preset swatches removed — user picks colours individually) */
 
       /* Open customiser — delegated so it survives contact block rebuilds */
       document.addEventListener('click', function (e) {
@@ -4484,7 +4339,7 @@
       /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
-      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, desc, products, packs, wholesale) {
+      function previewBuildSection(sectionId, p, s, b, ti, tf, biz, nam, tag, ph, em, desc, products, a3, a4) {
         var existing = document.getElementById('preview-' + sectionId + '-section');
         if (existing) existing.parentNode.removeChild(existing);
 
@@ -4523,16 +4378,16 @@
                     'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:#3e2723;text-align:center;">' +
                     escapeHtml(desc) + '</p>' +
                     '<div style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;">' + escapeHtml(nam) + '</span></p>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;">' + escapeHtml(ph) + '</span></p>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;">' + escapeHtml(em) + '</span></p>' +
                     '<div class="preview-contact-actions" style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);display:flex;flex-direction:column;gap:0.35rem;">' +
                     '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
-                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
-                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
+                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:' + a3 + ';border-color:' + darken(a3) + ';box-shadow:0 4px 12px ' + hexToRgba(a3,0.35) + ';">Save</button>' +
+                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:' + a4 + ';border-color:' + darken(a4) + ';box-shadow:0 4px 12px ' + hexToRgba(a4,0.35) + ';">Share</button>' +
                     '</div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
                     'padding:clamp(0.6rem,1.8vw,0.9rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
@@ -4558,60 +4413,11 @@
                 '<p style="font-family:Verdana,Geneva,sans-serif;font-size:clamp(0.8rem,1.8vw,0.95rem);color:#f5f5dc;line-height:1.5;margin:0;">' +
                 escapeHtml(prod.desc) + sizesHtml + '</p></div></li>';
             });
-            /* Separator line then packs & wholesale flip container */
-            var hasPacks = packs && packs.length > 0;
-            var hasWholesale = wholesale && wholesale.length > 0;
-            var pwFlipList = '';
-            pwFlipList += '<div style="width:100%;perspective:1200px;position:relative;">' +
-              '<div class="preview-pw-flip-card" id="preview-pw-flip-card" style="width:100%;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);position:relative;">';
-            /* Packs face (front) */
-            pwFlipList += '<div class="preview-pw-face" style="backface-visibility:hidden;width:100%;">';
-            if (hasPacks) {
-              pwFlipList += '<ul style="width:100%;margin:0;padding:0;">';
-              packs.forEach(function (pack) {
-                pwFlipList += '<li style="border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;margin-bottom:0.3rem;">' +
-                  '<button type="button" class="preview-flavour-panel-header" style="width:100%;display:block;padding:0.5rem 1rem;' +
-                  'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
-                  'border:none;cursor:pointer;text-align:center;">' + escapeHtml(pack.name) + '</button>' +
-                  '<div style="padding:0.3rem 1rem 0.6rem;background:#5d4037;text-align:center;">' +
-                  '<span style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#f5f5dc;">' + escapeHtml(pack.price) + '</span></div></li>';
-              });
-              pwFlipList += '</ul>';
-            } else {
-              pwFlipList += '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;text-align:center;border:2px solid #3e2723;border-radius:10px;">Add packs in the customiser.</p>';
-            }
-            if (hasWholesale) {
-              pwFlipList += '<button type="button" class="preview-pw-link-btn" id="preview-pw-to-wholesale" style="display:block;margin:0.75rem auto 0;padding:0.5rem 1.2rem;' +
-                'font-family:\'The Wanters DEMO\',serif;font-size:clamp(0.9rem,2vw,1.1rem);font-weight:600;color:#f5f5dc;' +
-                'background:linear-gradient(135deg,#4a2864 0%,#5c347a 50%,#4a2864 100%);border:2px solid #3a1e50;border-radius:9999px;cursor:pointer;text-align:center;' +
-                'box-shadow:0 4px 12px rgba(74,40,100,0.35);">Bigger?</button>';
-            }
-            pwFlipList += '</div>';
-            /* Wholesale face (back) */
-            pwFlipList += '<div class="preview-pw-face" style="backface-visibility:hidden;width:100%;position:absolute;top:0;left:0;transform:rotateY(180deg);">';
-            if (hasWholesale) {
-              pwFlipList += '<ul style="width:100%;margin:0;padding:0;">';
-              wholesale.forEach(function (wp) {
-                pwFlipList += '<li style="border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;margin-bottom:0.3rem;">' +
-                  '<button type="button" class="preview-flavour-panel-header" style="width:100%;display:block;padding:0.5rem 1rem;' +
-                  'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
-                  'border:none;cursor:pointer;text-align:center;">' + escapeHtml(wp.name) + '</button>' +
-                  '<div style="padding:0.3rem 1rem 0.6rem;background:#5d4037;text-align:center;">' +
-                  '<span style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#f5f5dc;">' + escapeHtml(wp.price) + '</span></div></li>';
-              });
-              pwFlipList += '</ul>';
-            } else {
-              pwFlipList += '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;text-align:center;border:2px solid #3e2723;border-radius:10px;">Add wholesale packs in the customiser.</p>';
-            }
-            if (hasPacks) {
-              pwFlipList += '<button type="button" class="preview-pw-link-btn" id="preview-pw-to-packs" style="display:block;margin:0.75rem auto 0;padding:0.5rem 1.2rem;' +
-                'font-family:\'The Wanters DEMO\',serif;font-size:clamp(0.9rem,2vw,1.1rem);font-weight:600;color:#f5f5dc;' +
-                'background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);border:2px solid #1b5e20;border-radius:9999px;cursor:pointer;text-align:center;' +
-                'box-shadow:0 4px 12px rgba(27,94,32,0.35);">Smaller?</button>';
-            }
-            pwFlipList += '</div></div>';
             itemsHtml += '<li style="width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:0.6rem 0;list-style:none;" aria-hidden="true"></li>' +
-              '<li style="width:100%;margin-bottom:0.4rem;list-style:none;">' + pwFlipList + '</li>';
+              '<li style="width:100%;margin-bottom:0.4rem;border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;">' +
+              '<button type="button" class="preview-flavour-panel-header" style="width:100%;display:block;padding:0.5rem 1rem;' +
+              'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
+              'border:none;cursor:pointer;text-align:center;">Packs</button></li>';
             productsHtml = '<ul style="width:100%;margin:0;padding:0;">' + itemsHtml + '</ul>';
           } else {
             productsHtml = '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;">Add your products in the customiser.</p>';
@@ -4636,10 +4442,10 @@
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
-        var a3 = document.getElementById('cc-accent3').value;
-        var a4 = document.getElementById('cc-accent4').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
         var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
         var tag = document.getElementById('cc-tagline').value.trim() || 'Business Card';
@@ -4647,8 +4453,6 @@
         var em = document.getElementById('cc-email').value.trim() || 'Email';
         var desc = document.getElementById('cc-description').value.trim() || 'Description text goes here';
         var products = getProductsArray().filter(function (p) { return p.name.trim(); });
-        var packs = getPacksArray().filter(function (p) { return p.name.trim(); });
-        var wholesale = getWholesaleArray().filter(function (w) { return w.name.trim(); });
 
         /* Reset state */
         previewCurrentIndex = 0;
@@ -4662,7 +4466,7 @@
         });
 
         sections.forEach(function (id) {
-          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, desc, products, packs, wholesale);
+          var el = previewBuildSection(id, p, s, b, ti, tf, biz, nam, tag, ph, em, desc, products, a3, a4);
           previewSectionsPool.appendChild(el);
         });
 
@@ -4752,22 +4556,6 @@
               document.getElementById('share-qr').src = 'SmoothQR.png';
               shareModal.classList.add('visible');
               shareModal.setAttribute('aria-hidden', 'false');
-            });
-          }
-          /* Attach packs/wholesale flip buttons in the preview products section */
-          var previewPwToWholesale = document.getElementById('preview-pw-to-wholesale');
-          var previewPwToPacks = document.getElementById('preview-pw-to-packs');
-          var previewPwFlipCard = document.getElementById('preview-pw-flip-card');
-          if (previewPwToWholesale && previewPwFlipCard) {
-            previewPwToWholesale.addEventListener('click', function () {
-              hapticBuzz();
-              previewPwFlipCard.style.transform = 'rotateY(-180deg)';
-            });
-          }
-          if (previewPwToPacks && previewPwFlipCard) {
-            previewPwToPacks.addEventListener('click', function () {
-              hapticBuzz();
-              previewPwFlipCard.style.transform = 'rotateY(0deg)';
             });
           }
           /* Attach preview wholesale modal close */
@@ -4920,11 +4708,10 @@
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
-        var a3 = document.getElementById('cc-accent3').value;
-        var a4 = document.getElementById('cc-accent4').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
-        var wholesale = getWholesaleArray().filter(function (w) { return w.name.trim(); });
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
 
         var body = 'Digicard Design\n\n';
         if (refCode) body += 'Reference: ' + refCode + ' — use this when paying\n\n';
@@ -4953,31 +4740,31 @@
           packs.forEach(function (pack) {
             body += '  - ' + pack.name + ' (' + pack.price + ')\n';
             var allProds = getProductsArray();
-            Object.keys(pack.items).forEach(function (idx) {
-              var prod = allProds[parseInt(idx)];
-              if (prod) body += '      x' + pack.items[idx].qty + ' ' + prod.name + '\n';
-            });
-          });
-        }
-        /* Add wholesale packs to email */
-        if (wholesale.length) {
-          body += '\nWholesale Packs:\n';
-          wholesale.forEach(function (wp) {
-            body += '  - ' + wp.name + ' (' + wp.price + ')\n';
-            var allProds = getProductsArray();
-            Object.keys(wp.items).forEach(function (idx) {
-              var prod = allProds[parseInt(idx)];
-              if (prod) body += '      x' + wp.items[idx].qty + ' ' + prod.name + '\n';
+            Object.keys(pack.items).forEach(function (key) {
+              var parts = key.split(':');
+              var pi = parseInt(parts[0]);
+              var si = parseInt(parts[1]);
+              var prod = allProds[pi];
+              if (prod) {
+                var label = prod.name;
+                if (!isNaN(si) && si >= 0 && prod.sizes && prod.sizes[si]) {
+                  var sz = prod.sizes[si];
+                  if (sz.name) label += ' - ' + sz.name;
+                  if (sz.price) label += ' - ' + sz.price;
+                }
+                body += '      x' + pack.items[key].qty + ' ' + label + '\n';
+              }
             });
           });
         }
         body += '\nColours:\n';
-        body += '  Accent 1 (headers): ' + p + '\n';
-        body += '  Accent 2 (footers, borders): ' + s + '\n';
-        body += '  Accent 3 (packs, save): ' + a3 + '\n';
-        body += '  Accent 4 (share): ' + a4 + '\n';
+        body += '  Primary: ' + p + '\n';
+        body += '  Secondary: ' + s + '\n';
         body += '  Background: ' + b + '\n';
-        body += '  Title Colour: ' + ti + '\n\n';
+        body += '  Text: ' + t + '\n';
+        body += '  Title: ' + ti + '\n';
+        body += '  Button: ' + btn + '\n';
+        body += '  Button Text: ' + btnText + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
         body += '  Body Font: The Wanters DEMO (fixed)\n\n';
@@ -4985,8 +4772,8 @@
         body += JSON.stringify({
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
-          description: desc, products: products, packs: packs, wholesale: wholesale,
-          palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, background: b, titleColour: ti },
+          description: desc, products: products, packs: packs,
+          palette: { primary: p, secondary: s, accent3: a3, accent4: a4, background: b, title: ti },
           fonts: { title: tf },
           reference: refCode || null
         }, null, 2);
