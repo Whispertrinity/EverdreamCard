@@ -2413,39 +2413,29 @@
         <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Colours</button>
         <div class="customiser-accordion-body">
-          <div class="customiser-preset-row">
-            <button type="button" class="cc-preset-swatch" data-palette="teal" style="background:#14545c;" title="Teal (Everdream)"></button>
-            <button type="button" class="cc-preset-swatch" data-palette="brown" style="background:#5d4037;" title="Brown (Everdream)"></button>
-            <button type="button" class="cc-preset-swatch" data-palette="cream" style="background:#f6f6de;border-color:#5d4037;" title="Cream (Everdream)"></button>
-            <button type="button" class="cc-preset-swatch" data-palette="green" style="background:#2e7d32;" title="Green (buttons)"></button>
+          <div class="customiser-field">
+            <label class="customiser-label">Accent Colour 1 (main headers)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Primary (headers, buttons)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
+            <label class="customiser-label">Accent Colour 2 (footers, borders)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Secondary (footers, borders)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
+            <label class="customiser-label">Accent Colour 3 (packs &amp; save headers)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent3" value="#1b5e20">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Accent Colour 4 (share header)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent4" value="#b8860b">
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Background (card panels)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
+            <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Text Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-text" value="#3e2723" data-cssvar="--cc-text">
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Title Colour (headings)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Button Colour (Payment, Wholesale, Save, Share)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-button" value="#14545c" data-cssvar="--cc-button">
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Button Text Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-button-text" value="#f5f5dc" data-cssvar="--cc-button-text">
+            <label class="customiser-label">Title Colour 1 (header title text)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#f6f6de">
           </div>
         </div>
         </div>
@@ -3444,8 +3434,9 @@
 
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
-        tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
-        text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc',
+        tier: '2', primary: '#14545c', secondary: '#5d4037',
+        accent3: '#1b5e20', accent4: '#b8860b',
+        background: '#f6f6de', title: '#f6f6de',
         titleFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
@@ -4037,10 +4028,10 @@
         document.getElementById('cc-primary').value = state.primary || CUSTOMISER_DEFAULTS.primary;
         document.getElementById('cc-secondary').value = state.secondary || CUSTOMISER_DEFAULTS.secondary;
         document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
-        document.getElementById('cc-text').value = state.text || CUSTOMISER_DEFAULTS.text;
+        document.getElementById('cc-accent3').value = state.accent3 || CUSTOMISER_DEFAULTS.accent3;
+        document.getElementById('cc-accent4').value = state.accent4 || CUSTOMISER_DEFAULTS.accent4;
+        document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
         document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
-        document.getElementById('cc-button').value = state.button || CUSTOMISER_DEFAULTS.button;
-        document.getElementById('cc-button-text').value = state.buttonText || CUSTOMISER_DEFAULTS.buttonText;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
         document.getElementById('cc-business').value = state.business || '';
         document.getElementById('cc-name').value = state.name || '';
@@ -4066,11 +4057,10 @@
           tier: getSelectedTier(),
           primary: document.getElementById('cc-primary').value,
           secondary: document.getElementById('cc-secondary').value,
+          accent3: document.getElementById('cc-accent3').value,
+          accent4: document.getElementById('cc-accent4').value,
           background: document.getElementById('cc-background').value,
-          text: document.getElementById('cc-text').value,
           title: document.getElementById('cc-title').value,
-          button: document.getElementById('cc-button').value,
-          buttonText: document.getElementById('cc-button-text').value,
           titleFont: document.getElementById('cc-title-font').value,
           business: document.getElementById('cc-business').value,
           name: document.getElementById('cc-name').value,
@@ -4113,10 +4103,10 @@
         var title = document.getElementById('cc-modal-title');
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
-        var t = document.getElementById('cc-text').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
+        var bg = document.getElementById('cc-background').value;
         var ti = document.getElementById('cc-title').value;
-        var btn = document.getElementById('cc-button').value;
-        var btnText = document.getElementById('cc-button-text').value;
         var tf = document.getElementById('cc-title-font').value;
 
         /* Customiser header is always teal — never overridden by colour picker */
@@ -4143,15 +4133,6 @@
               h.classList.contains('cc-accordion-green')) return;
           h.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
         });
-
-        /* Update action buttons — skip save/confirm (always green) */
-        var modalBtns = document.querySelectorAll('.customiser-btn');
-        modalBtns.forEach(function (b) {
-          if (b.classList.contains('customiser-btn-preview')) {
-            b.style.background = 'linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%)';
-            b.style.color = btnText;
-          }
-        });
       }
 
       function lighten(hex) {
@@ -4164,30 +4145,25 @@
         b = Math.min(255, b + 20);
         return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
       }
+      function darken(hex) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+        r = Math.max(0, r - 30);
+        g = Math.max(0, g - 30);
+        b = Math.max(0, b - 30);
+        return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
+      }
+      function hexToRgba(hex, alpha) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+      }
 
-      /* Preset colour swatches */
-      var PALETTES = {
-        teal: { primary: '#14545c', secondary: '#5d4037', background: '#f6f6de', text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc' },
-        brown: { primary: '#5d4037', secondary: '#3e2723', background: '#f5f5dc', text: '#3e2723', title: '#5d4037', button: '#5d4037', buttonText: '#f5f5dc' },
-        cream: { primary: '#f6f6de', secondary: '#5d4037', background: '#ffffff', text: '#3e2723', title: '#3e2723', button: '#14545c', buttonText: '#f5f5dc' },
-        green: { primary: '#2e7d32', secondary: '#1b5e20', background: '#e8f5e9', text: '#1b5e20', title: '#2e7d32', button: '#2e7d32', buttonText: '#ffffff' }
-      };
-      document.querySelectorAll('.cc-preset-swatch').forEach(function (swatch) {
-        swatch.addEventListener('click', function () {
-          var palette = PALETTES[this.dataset.palette];
-          if (!palette) return;
-          document.getElementById('cc-primary').value = palette.primary;
-          document.getElementById('cc-secondary').value = palette.secondary;
-          document.getElementById('cc-background').value = palette.background;
-          document.getElementById('cc-text').value = palette.text;
-          document.getElementById('cc-title').value = palette.title;
-          document.getElementById('cc-button').value = palette.button;
-          document.getElementById('cc-button-text').value = palette.buttonText;
-          saveCustomiserState();
-          applyLiveModalColours();
-          hapticBuzz();
-        });
-      });
+      /* (Preset swatches removed — user picks colours individually) */
 
       /* Open customiser — delegated so it survives contact block rebuilds */
       document.addEventListener('click', function (e) {
@@ -4363,7 +4339,7 @@
       /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
-      function previewBuildSection(sectionId, p, s, b, t, ti, tf, biz, nam, tag, ph, em, desc, products) {
+      function previewBuildSection(sectionId, p, s, b, ti, tf, biz, nam, tag, ph, em, desc, products, a3, a4) {
         var existing = document.getElementById('preview-' + sectionId + '-section');
         if (existing) existing.parentNode.removeChild(existing);
 
@@ -4399,19 +4375,19 @@
                     '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(0.6rem,1.5vw,1rem) clamp(1.2rem,3vw,2rem);text-align:center;overflow-y:auto;">' +
                     '<div class="preview-contact-block">' +
                     '<p class="preview-about-text" style="margin:0.3rem 0 0.6rem;padding:0;font-family:Verdana,Geneva,sans-serif;' +
-                    'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:' + t + ';text-align:center;">' +
+                    'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:#3e2723;text-align:center;">' +
                     escapeHtml(desc) + '</p>' +
                     '<div style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
-                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;">' + escapeHtml(nam) + '</span></p>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;">' + escapeHtml(ph) + '</span></p>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
+                    '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;">' + escapeHtml(em) + '</span></p>' +
                     '<div class="preview-contact-actions" style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);display:flex;flex-direction:column;gap:0.35rem;">' +
                     '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
-                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
-                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
+                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:' + a3 + ';border-color:' + darken(a3) + ';box-shadow:0 4px 12px ' + hexToRgba(a3,0.35) + ';">Save</button>' +
+                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:' + a4 + ';border-color:' + darken(a4) + ';box-shadow:0 4px 12px ' + hexToRgba(a4,0.35) + ';">Share</button>' +
                     '</div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
                     'padding:clamp(0.6rem,1.8vw,0.9rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
@@ -4466,9 +4442,10 @@
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
-        var t = document.getElementById('cc-text').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
         var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
         var tag = document.getElementById('cc-tagline').value.trim() || 'Business Card';
@@ -4489,7 +4466,7 @@
         });
 
         sections.forEach(function (id) {
-          var el = previewBuildSection(id, p, s, b, t, ti, tf, biz, nam, tag, ph, em, desc, products);
+          var el = previewBuildSection(id, p, s, b, ti, tf, biz, nam, tag, ph, em, desc, products, a3, a4);
           previewSectionsPool.appendChild(el);
         });
 
@@ -4731,11 +4708,10 @@
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
-        var t = document.getElementById('cc-text').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
-        var btn = document.getElementById('cc-button').value;
-        var btnText = document.getElementById('cc-button-text').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
 
         var body = 'Digicard Design\n\n';
         if (refCode) body += 'Reference: ' + refCode + ' — use this when paying\n\n';
@@ -4797,7 +4773,7 @@
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
           description: desc, products: products, packs: packs,
-          palette: { primary: p, secondary: s, background: b, text: t, title: ti, button: btn, buttonText: btnText },
+          palette: { primary: p, secondary: s, accent3: a3, accent4: a4, background: b, title: ti },
           fonts: { title: tf },
           reference: refCode || null
         }, null, 2);
