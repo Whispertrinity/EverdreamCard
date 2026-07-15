@@ -1888,7 +1888,10 @@
       background: linear-gradient(135deg, #5d4037 0%, #6d5047 50%, #5d4037 100%);
     }
     .customiser-accordion-header.cc-accordion-teal {
-      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+      background: linear-gradient(135deg, #14545c 0%, #1a6a75 50%, #14545c 100%);
+    }
+    .customiser-accordion-header.cc-accordion-purple {
+      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
     }
     .customiser-accordion-header.cc-accordion-green {
       background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
@@ -2094,6 +2097,9 @@
     .cc-add-pill-green {
       background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
     }
+    .cc-add-pill-purple {
+      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
+    }
 
     /* Customiser footer — brown bar with Back button */
     .customiser-footer {
@@ -2104,7 +2110,7 @@
       align-items: center;
     }
 
-    /* Inner product accordions */
+    /* Inner product accordions — teal for products, green for packs, purple for wholesale */
     .cc-inner-product {
       margin: 0.35rem 0;
       border: 2px solid #5d4037;
@@ -2112,27 +2118,37 @@
       overflow: hidden;
       background: #fff;
     }
-    .customiser-inner-prod-header {
+    .cc-inner-product .customiser-inner-prod-header {
       width: 100%;
       padding: 0.6rem 0.75rem;
       font-family: 'The Wanters DEMO', serif;
       font-size: clamp(0.9rem,2.2vw,1rem);
       font-weight: 600;
-      color: #3e2723;
-      background: #ede0d4;
+      color: #F6F6DE;
+      background: linear-gradient(135deg, #14545c 0%, #1a6a75 50%, #14545c 100%);
       border: none;
       cursor: pointer;
       text-align: left;
       transition: background 0.2s;
     }
-    .customiser-inner-prod-header:hover { background: #d7ccc8; }
-    .customiser-inner-prod-header::after {
+    .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #1a6a75 0%, #20808e 50%, #1a6a75 100%); }
+    .cc-inner-product .customiser-inner-prod-header::after {
       content: '▼';
       float: right;
       font-size: 0.75em;
       transition: transform 0.2s;
     }
-    .customiser-inner-prod-header[aria-expanded="true"]::after { transform: rotate(180deg); }
+    .cc-inner-product .customiser-inner-prod-header[aria-expanded="true"]::after { transform: rotate(180deg); }
+    /* Pack inner accordions — green header */
+    #cc-packs-container .cc-inner-product .customiser-inner-prod-header {
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
+    }
+    #cc-packs-container .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #2e7d32 0%, #388e3c 50%, #2e7d32 100%); }
+    /* Wholesale inner accordions — purple header */
+    #cc-wholesale-container .cc-inner-product .customiser-inner-prod-header {
+      background: linear-gradient(135deg, #4a2864 0%, #5c347a 50%, #4a2864 100%);
+    }
+    #cc-wholesale-container .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #5c347a 0%, #6e3e90 50%, #5c347a 100%); }
     .customiser-inner-prod-body {
       max-height: 0;
       overflow: hidden;
@@ -2406,39 +2422,29 @@
         <div class="customiser-accordion-wrapper">
         <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Colours</button>
         <div class="customiser-accordion-body">
-          <div class="customiser-preset-row">
-            <button type="button" class="cc-preset-swatch" data-palette="teal" style="background:#14545c;" title="Teal (Everdream)"></button>
-            <button type="button" class="cc-preset-swatch" data-palette="brown" style="background:#5d4037;" title="Brown (Everdream)"></button>
-            <button type="button" class="cc-preset-swatch" data-palette="cream" style="background:#f6f6de;border-color:#5d4037;" title="Cream (Everdream)"></button>
-            <button type="button" class="cc-preset-swatch" data-palette="green" style="background:#2e7d32;" title="Green (buttons)"></button>
-          </div>
           <div class="customiser-field">
-            <label class="customiser-label">Primary (headers, buttons)</label>
+            <label class="customiser-label">Accent Colour 1 (main headers)</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Secondary (footers, borders)</label>
+            <label class="customiser-label">Accent Colour 2 (footers, borders)</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Background (card panels)</label>
+            <label class="customiser-label">Accent Colour 3 (packs, save header)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent3" value="#1b5e20" data-cssvar="--cc-accent3">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Accent Colour 4 (share header)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent4" value="#b8860b" data-cssvar="--cc-accent4">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Background</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Text Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-text" value="#3e2723" data-cssvar="--cc-text">
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Title Colour (headings)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Button Colour (Payment, Wholesale, Save, Share)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-button" value="#14545c" data-cssvar="--cc-button">
-          </div>
-          <div class="customiser-field">
-            <label class="customiser-label">Button Text Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-button-text" value="#f5f5dc" data-cssvar="--cc-button-text">
+            <label class="customiser-label">Title Colour 1 (title text)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#f6f6de" data-cssvar="--cc-title">
           </div>
         </div>
         </div>
@@ -2464,6 +2470,18 @@
             <!-- Inner pack accordions go here -->
           </div>
           <button type="button" class="cc-add-pill cc-add-pill-green" id="cc-add-pack">+ Add Pack</button>
+        </div>
+        </div>
+
+        <!-- Accordion: Wholesale (3-page tier only) -->
+        <div class="customiser-accordion-wrapper">
+        <button type="button" class="customiser-accordion-header cc-accordion-purple" aria-expanded="false" id="cc-wholesale-header">Wholesale</button>
+        <div class="customiser-accordion-body" id="cc-wholesale-body">
+          <p class="cc-accordion-desc">Create wholesale packs with custom products, quantities and prices. These show in the Wholesale modal flip alongside Packs.</p>
+          <div id="cc-wholesale-container">
+            <!-- Inner wholesale accordions go here -->
+          </div>
+          <button type="button" class="cc-add-pill cc-add-pill-purple" id="cc-add-wholesale">+ Add Wholesale Pack</button>
         </div>
         </div>
         <div class="customiser-actions">
@@ -3438,7 +3456,7 @@
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
         tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
-        text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc',
+        accent3: '#1b5e20', accent4: '#b8860b', title: '#f6f6de',
         titleFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
@@ -3460,8 +3478,11 @@
         var prodBody = document.getElementById('cc-products-body');
         var packsHeader = document.getElementById('cc-packs-header');
         var packsBody = document.getElementById('cc-packs-body');
+        var wholesaleHeader = document.getElementById('cc-wholesale-header');
+        var wholesaleBody = document.getElementById('cc-wholesale-body');
         var prodWrapper = prodHeader ? prodHeader.closest('.customiser-accordion-wrapper') : null;
         var packsWrapper = packsHeader ? packsHeader.closest('.customiser-accordion-wrapper') : null;
+        var wholesaleWrapper = wholesaleHeader ? wholesaleHeader.closest('.customiser-accordion-wrapper') : null;
         if (!prodHeader || !prodBody) return;
         if (tier === '3') {
           if (prodWrapper) prodWrapper.style.display = '';
@@ -3470,6 +3491,9 @@
           if (packsWrapper) packsWrapper.style.display = '';
           if (packsHeader) packsHeader.style.display = '';
           if (packsBody) packsBody.style.display = '';
+          if (wholesaleWrapper) wholesaleWrapper.style.display = '';
+          if (wholesaleHeader) wholesaleHeader.style.display = '';
+          if (wholesaleBody) wholesaleBody.style.display = '';
         } else {
           if (prodWrapper) prodWrapper.style.display = 'none';
           prodHeader.style.display = 'none';
@@ -3477,6 +3501,9 @@
           if (packsWrapper) packsWrapper.style.display = 'none';
           if (packsHeader) packsHeader.style.display = 'none';
           if (packsBody) packsBody.style.display = 'none';
+          if (wholesaleWrapper) wholesaleWrapper.style.display = 'none';
+          if (wholesaleHeader) wholesaleHeader.style.display = 'none';
+          if (wholesaleBody) wholesaleBody.style.display = 'none';
         }
         /* Remove bottom margin from last visible accordion wrapper, reset others */
         var lastVisible = null;
@@ -3875,6 +3902,195 @@
         ccPackCounter = wrappers.length;
       }
 
+      /* Wholesale counter */
+      var ccWholesaleCounter = 0;
+
+      /* Create an inner wholesale accordion */
+      function createWholesaleAccordion(index, name, price, items) {
+        var container = document.getElementById('cc-wholesale-container');
+        var wrapper = document.createElement('div');
+        wrapper.className = 'cc-inner-product';
+        wrapper.dataset.index = index;
+
+        var header = document.createElement('button');
+        header.type = 'button';
+        header.className = 'customiser-inner-prod-header';
+        header.setAttribute('aria-expanded', 'false');
+        header.textContent = name || 'Wholesale ' + (index + 1);
+
+        var body = document.createElement('div');
+        body.className = 'customiser-inner-prod-body';
+
+        var nameLabel = document.createElement('label');
+        nameLabel.className = 'customiser-label';
+        nameLabel.textContent = 'Wholesale Pack Name';
+        var nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.className = 'customiser-text cc-wholesale-name';
+        nameInput.placeholder = 'e.g. Wholesale Case';
+        nameInput.value = name || '';
+
+        var priceLabel = document.createElement('label');
+        priceLabel.className = 'customiser-label';
+        priceLabel.textContent = 'Wholesale Price';
+        var priceInput = document.createElement('input');
+        priceInput.type = 'text';
+        priceInput.className = 'customiser-text cc-wholesale-price';
+        priceInput.placeholder = 'e.g. $250';
+        priceInput.value = price || '';
+
+        /* Products in wholesale pack */
+        var prodListLabel = document.createElement('label');
+        prodListLabel.className = 'customiser-label';
+        prodListLabel.textContent = 'Products in this wholesale pack';
+        var prodList = document.createElement('div');
+        prodList.className = 'cc-wholesale-product-list';
+        prodList.id = 'cc-wholesale-prods-' + index;
+
+        function refreshWholesaleCheckboxes() {
+          var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
+          prodList.innerHTML = '';
+          if (!prods.length) {
+            prodList.innerHTML = '<p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;">Add products first.</p>';
+            return;
+          }
+          prods.forEach(function (p, pi) {
+            var row = document.createElement('div');
+            row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.className = 'cc-wholesale-prod-cb';
+            cb.dataset.prodIdx = pi;
+            if (items && items[pi]) cb.checked = true;
+            var qty = document.createElement('input');
+            qty.type = 'number';
+            qty.min = 1;
+            qty.value = (items && items[pi] && items[pi].qty) ? items[pi].qty : 1;
+            qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
+            var nameSpan = document.createElement('span');
+            nameSpan.textContent = p.name;
+            row.appendChild(cb);
+            row.appendChild(qty);
+            row.appendChild(nameSpan);
+            prodList.appendChild(row);
+          });
+        }
+        refreshWholesaleCheckboxes();
+
+        var saveBtn = document.createElement('button');
+        saveBtn.type = 'button';
+        saveBtn.className = 'cc-ip-save-btn';
+        saveBtn.textContent = 'Save';
+        saveBtn.addEventListener('click', function () {
+          hapticBuzz();
+          var n = nameInput.value.trim();
+          header.textContent = n || 'Wholesale ' + (index + 1);
+          saveCustomiserState();
+          showTooltip(saveBtn, 'Saved!');
+        });
+
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'cc-ip-remove-btn';
+        removeBtn.textContent = 'Remove wholesale';
+        removeBtn.addEventListener('click', function () {
+          hapticBuzz();
+          wrapper.parentNode.removeChild(wrapper);
+          renumberWholesaleAccordions();
+          saveCustomiserState();
+        });
+
+        body.appendChild(nameLabel);
+        body.appendChild(nameInput);
+        body.appendChild(priceLabel);
+        body.appendChild(priceInput);
+        body.appendChild(prodListLabel);
+        body.appendChild(prodList);
+        var btnRow = document.createElement('div');
+        btnRow.style.cssText = 'display:flex;gap:0.5rem;margin-top:0.6rem;';
+        saveBtn.style.flex = '1';
+        removeBtn.style.flex = '1';
+        btnRow.appendChild(saveBtn);
+        btnRow.appendChild(removeBtn);
+        body.appendChild(btnRow);
+
+        header.addEventListener('click', function () {
+          var expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          body.classList.toggle('open');
+        });
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(body);
+        container.appendChild(wrapper);
+
+        [nameInput, priceInput].forEach(function (el) {
+          el.addEventListener('input', saveCustomiserState);
+          el.addEventListener('change', saveCustomiserState);
+        });
+
+        return wrapper;
+      }
+
+      function renumberWholesaleAccordions() {
+        var wrappers = document.querySelectorAll('#cc-wholesale-container .cc-inner-product');
+        wrappers.forEach(function (w, i) {
+          w.dataset.index = i;
+          var h = w.querySelector('.customiser-inner-prod-header');
+          var nameInp = w.querySelector('.cc-wholesale-name');
+          if (h) h.textContent = (nameInp && nameInp.value.trim()) ? nameInp.value.trim() : 'Wholesale ' + (i + 1);
+          var prodList = w.querySelector('.cc-wholesale-product-list');
+          if (prodList) prodList.id = 'cc-wholesale-prods-' + i;
+        });
+        ccWholesaleCounter = wrappers.length;
+      }
+
+      /* Add wholesale button */
+      document.getElementById('cc-add-wholesale').addEventListener('click', function () {
+        hapticBuzz();
+        createWholesaleAccordion(ccWholesaleCounter, '', '', null);
+        ccWholesaleCounter++;
+        var wholesaleBody = document.getElementById('cc-wholesale-body');
+        if (wholesaleBody && !wholesaleBody.classList.contains('open')) {
+          var wholesaleHeader = document.getElementById('cc-wholesale-header');
+          if (wholesaleHeader) {
+            wholesaleHeader.setAttribute('aria-expanded', 'true');
+            wholesaleBody.classList.add('open');
+          }
+        }
+      });
+
+      /* get/set wholesale for localStorage */
+      function getWholesaleArray() {
+        var wrappers = document.querySelectorAll('#cc-wholesale-container .cc-inner-product');
+        var wholesalePacks = [];
+        wrappers.forEach(function (w) {
+          var name = (w.querySelector('.cc-wholesale-name') || {}).value || '';
+          var price = (w.querySelector('.cc-wholesale-price') || {}).value || '';
+          var cbs = w.querySelectorAll('.cc-wholesale-prod-cb');
+          var qtys = w.querySelectorAll('.cc-wholesale-prod-cb + input[type="number"]');
+          var items = {};
+          cbs.forEach(function (cb, i) {
+            if (cb.checked) {
+              var qtyInput = qtys[i];
+              items[cb.dataset.prodIdx] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
+            }
+          });
+          wholesalePacks.push({ name: name, price: price, items: items });
+        });
+        return wholesalePacks;
+      }
+
+      function setWholesaleArray(wholesalePacks) {
+        if (!wholesalePacks || !wholesalePacks.length) return;
+        var container = document.getElementById('cc-wholesale-container');
+        container.innerHTML = '';
+        ccWholesaleCounter = wholesalePacks.length;
+        wholesalePacks.forEach(function (p, i) {
+          createWholesaleAccordion(i, p.name || '', p.price || '', p.items || null);
+        });
+      }
+
       /* Add pack button */
       document.getElementById('cc-add-pack').addEventListener('click', function () {
         hapticBuzz();
@@ -3965,10 +4181,9 @@
         document.getElementById('cc-primary').value = state.primary || CUSTOMISER_DEFAULTS.primary;
         document.getElementById('cc-secondary').value = state.secondary || CUSTOMISER_DEFAULTS.secondary;
         document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
-        document.getElementById('cc-text').value = state.text || CUSTOMISER_DEFAULTS.text;
+        document.getElementById('cc-accent3').value = state.accent3 || CUSTOMISER_DEFAULTS.accent3;
+        document.getElementById('cc-accent4').value = state.accent4 || CUSTOMISER_DEFAULTS.accent4;
         document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
-        document.getElementById('cc-button').value = state.button || CUSTOMISER_DEFAULTS.button;
-        document.getElementById('cc-button-text').value = state.buttonText || CUSTOMISER_DEFAULTS.buttonText;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
         document.getElementById('cc-business').value = state.business || '';
         document.getElementById('cc-name').value = state.name || '';
@@ -3986,6 +4201,8 @@
         if (state.products) setProductsArray(state.products);
         /* Restore packs */
         if (state.packs) setPacksArray(state.packs);
+        /* Restore wholesale */
+        if (state.wholesale) setWholesaleArray(state.wholesale);
         updatePreviewDots();
       }
 
@@ -3995,10 +4212,9 @@
           primary: document.getElementById('cc-primary').value,
           secondary: document.getElementById('cc-secondary').value,
           background: document.getElementById('cc-background').value,
-          text: document.getElementById('cc-text').value,
+          accent3: document.getElementById('cc-accent3').value,
+          accent4: document.getElementById('cc-accent4').value,
           title: document.getElementById('cc-title').value,
-          button: document.getElementById('cc-button').value,
-          buttonText: document.getElementById('cc-button-text').value,
           titleFont: document.getElementById('cc-title-font').value,
           business: document.getElementById('cc-business').value,
           name: document.getElementById('cc-name').value,
@@ -4007,7 +4223,8 @@
           email: document.getElementById('cc-email').value,
           description: document.getElementById('cc-description').value,
           products: getProductsArray(),
-          packs: getPacksArray()
+          packs: getPacksArray(),
+          wholesale: getWholesaleArray()
         };
         try { localStorage.setItem('everdream-customiser', JSON.stringify(state)); } catch(e) {}
         updatePreviewDots();
@@ -4041,10 +4258,9 @@
         var title = document.getElementById('cc-modal-title');
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
-        var t = document.getElementById('cc-text').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
         var ti = document.getElementById('cc-title').value;
-        var btn = document.getElementById('cc-button').value;
-        var btnText = document.getElementById('cc-button-text').value;
         var tf = document.getElementById('cc-title-font').value;
 
         /* Customiser header is always teal — never overridden by colour picker */
@@ -4068,16 +4284,17 @@
         document.querySelectorAll('.customiser-accordion-header').forEach(function (h) {
           if (h.classList.contains('cc-accordion-brown') ||
               h.classList.contains('cc-accordion-teal') ||
-              h.classList.contains('cc-accordion-green')) return;
+              h.classList.contains('cc-accordion-green') ||
+              h.classList.contains('cc-accordion-purple')) return;
           h.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
         });
 
-        /* Update action buttons — skip save/confirm (always green) */
+        /* Update action buttons — preview gets primary, save kept green */
         var modalBtns = document.querySelectorAll('.customiser-btn');
         modalBtns.forEach(function (b) {
           if (b.classList.contains('customiser-btn-preview')) {
-            b.style.background = 'linear-gradient(135deg,' + btn + ' 0%,' + lighten(btn) + ' 50%,' + btn + ' 100%)';
-            b.style.color = btnText;
+            b.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
+            b.style.color = '#F6F6DE';
           }
         });
       }
@@ -4092,30 +4309,6 @@
         b = Math.min(255, b + 20);
         return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
       }
-
-      /* Preset colour swatches */
-      var PALETTES = {
-        teal: { primary: '#14545c', secondary: '#5d4037', background: '#f6f6de', text: '#3e2723', title: '#14545c', button: '#14545c', buttonText: '#f5f5dc' },
-        brown: { primary: '#5d4037', secondary: '#3e2723', background: '#f5f5dc', text: '#3e2723', title: '#5d4037', button: '#5d4037', buttonText: '#f5f5dc' },
-        cream: { primary: '#f6f6de', secondary: '#5d4037', background: '#ffffff', text: '#3e2723', title: '#3e2723', button: '#14545c', buttonText: '#f5f5dc' },
-        green: { primary: '#2e7d32', secondary: '#1b5e20', background: '#e8f5e9', text: '#1b5e20', title: '#2e7d32', button: '#2e7d32', buttonText: '#ffffff' }
-      };
-      document.querySelectorAll('.cc-preset-swatch').forEach(function (swatch) {
-        swatch.addEventListener('click', function () {
-          var palette = PALETTES[this.dataset.palette];
-          if (!palette) return;
-          document.getElementById('cc-primary').value = palette.primary;
-          document.getElementById('cc-secondary').value = palette.secondary;
-          document.getElementById('cc-background').value = palette.background;
-          document.getElementById('cc-text').value = palette.text;
-          document.getElementById('cc-title').value = palette.title;
-          document.getElementById('cc-button').value = palette.button;
-          document.getElementById('cc-button-text').value = palette.buttonText;
-          saveCustomiserState();
-          applyLiveModalColours();
-          hapticBuzz();
-        });
-      });
 
       /* Open customiser — delegated so it survives contact block rebuilds */
       document.addEventListener('click', function (e) {
@@ -4291,7 +4484,7 @@
       /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
-      function previewBuildSection(sectionId, p, s, b, t, ti, tf, biz, nam, tag, ph, em, desc, products) {
+      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, desc, products, packs, wholesale) {
         var existing = document.getElementById('preview-' + sectionId + '-section');
         if (existing) existing.parentNode.removeChild(existing);
 
@@ -4327,7 +4520,7 @@
                     '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(0.6rem,1.5vw,1rem) clamp(1.2rem,3vw,2rem);text-align:center;overflow-y:auto;">' +
                     '<div class="preview-contact-block">' +
                     '<p class="preview-about-text" style="margin:0.3rem 0 0.6rem;padding:0;font-family:Verdana,Geneva,sans-serif;' +
-                    'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:' + t + ';text-align:center;">' +
+                    'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:#3e2723;text-align:center;">' +
                     escapeHtml(desc) + '</p>' +
                     '<div style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
                     '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
@@ -4365,11 +4558,60 @@
                 '<p style="font-family:Verdana,Geneva,sans-serif;font-size:clamp(0.8rem,1.8vw,0.95rem);color:#f5f5dc;line-height:1.5;margin:0;">' +
                 escapeHtml(prod.desc) + sizesHtml + '</p></div></li>';
             });
+            /* Separator line then packs & wholesale flip container */
+            var hasPacks = packs && packs.length > 0;
+            var hasWholesale = wholesale && wholesale.length > 0;
+            var pwFlipList = '';
+            pwFlipList += '<div style="width:100%;perspective:1200px;position:relative;">' +
+              '<div class="preview-pw-flip-card" id="preview-pw-flip-card" style="width:100%;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);position:relative;">';
+            /* Packs face (front) */
+            pwFlipList += '<div class="preview-pw-face" style="backface-visibility:hidden;width:100%;">';
+            if (hasPacks) {
+              pwFlipList += '<ul style="width:100%;margin:0;padding:0;">';
+              packs.forEach(function (pack) {
+                pwFlipList += '<li style="border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;margin-bottom:0.3rem;">' +
+                  '<button type="button" class="preview-flavour-panel-header" style="width:100%;display:block;padding:0.5rem 1rem;' +
+                  'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
+                  'border:none;cursor:pointer;text-align:center;">' + escapeHtml(pack.name) + '</button>' +
+                  '<div style="padding:0.3rem 1rem 0.6rem;background:#5d4037;text-align:center;">' +
+                  '<span style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#f5f5dc;">' + escapeHtml(pack.price) + '</span></div></li>';
+              });
+              pwFlipList += '</ul>';
+            } else {
+              pwFlipList += '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;text-align:center;border:2px solid #3e2723;border-radius:10px;">Add packs in the customiser.</p>';
+            }
+            if (hasWholesale) {
+              pwFlipList += '<button type="button" class="preview-pw-link-btn" id="preview-pw-to-wholesale" style="display:block;margin:0.75rem auto 0;padding:0.5rem 1.2rem;' +
+                'font-family:\'The Wanters DEMO\',serif;font-size:clamp(0.9rem,2vw,1.1rem);font-weight:600;color:#f5f5dc;' +
+                'background:linear-gradient(135deg,#4a2864 0%,#5c347a 50%,#4a2864 100%);border:2px solid #3a1e50;border-radius:9999px;cursor:pointer;text-align:center;' +
+                'box-shadow:0 4px 12px rgba(74,40,100,0.35);">Bigger?</button>';
+            }
+            pwFlipList += '</div>';
+            /* Wholesale face (back) */
+            pwFlipList += '<div class="preview-pw-face" style="backface-visibility:hidden;width:100%;position:absolute;top:0;left:0;transform:rotateY(180deg);">';
+            if (hasWholesale) {
+              pwFlipList += '<ul style="width:100%;margin:0;padding:0;">';
+              wholesale.forEach(function (wp) {
+                pwFlipList += '<li style="border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;margin-bottom:0.3rem;">' +
+                  '<button type="button" class="preview-flavour-panel-header" style="width:100%;display:block;padding:0.5rem 1rem;' +
+                  'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
+                  'border:none;cursor:pointer;text-align:center;">' + escapeHtml(wp.name) + '</button>' +
+                  '<div style="padding:0.3rem 1rem 0.6rem;background:#5d4037;text-align:center;">' +
+                  '<span style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#f5f5dc;">' + escapeHtml(wp.price) + '</span></div></li>';
+              });
+              pwFlipList += '</ul>';
+            } else {
+              pwFlipList += '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;text-align:center;border:2px solid #3e2723;border-radius:10px;">Add wholesale packs in the customiser.</p>';
+            }
+            if (hasPacks) {
+              pwFlipList += '<button type="button" class="preview-pw-link-btn" id="preview-pw-to-packs" style="display:block;margin:0.75rem auto 0;padding:0.5rem 1.2rem;' +
+                'font-family:\'The Wanters DEMO\',serif;font-size:clamp(0.9rem,2vw,1.1rem);font-weight:600;color:#f5f5dc;' +
+                'background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);border:2px solid #1b5e20;border-radius:9999px;cursor:pointer;text-align:center;' +
+                'box-shadow:0 4px 12px rgba(27,94,32,0.35);">Smaller?</button>';
+            }
+            pwFlipList += '</div></div>';
             itemsHtml += '<li style="width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:0.6rem 0;list-style:none;" aria-hidden="true"></li>' +
-              '<li style="width:100%;margin-bottom:0.4rem;border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;">' +
-              '<button type="button" class="preview-flavour-panel-header" style="width:100%;display:block;padding:0.5rem 1rem;' +
-              'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
-              'border:none;cursor:pointer;text-align:center;">Packs</button></li>';
+              '<li style="width:100%;margin-bottom:0.4rem;list-style:none;">' + pwFlipList + '</li>';
             productsHtml = '<ul style="width:100%;margin:0;padding:0;">' + itemsHtml + '</ul>';
           } else {
             productsHtml = '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;">Add your products in the customiser.</p>';
@@ -4394,7 +4636,8 @@
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
-        var t = document.getElementById('cc-text').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
@@ -4404,6 +4647,8 @@
         var em = document.getElementById('cc-email').value.trim() || 'Email';
         var desc = document.getElementById('cc-description').value.trim() || 'Description text goes here';
         var products = getProductsArray().filter(function (p) { return p.name.trim(); });
+        var packs = getPacksArray().filter(function (p) { return p.name.trim(); });
+        var wholesale = getWholesaleArray().filter(function (w) { return w.name.trim(); });
 
         /* Reset state */
         previewCurrentIndex = 0;
@@ -4417,7 +4662,7 @@
         });
 
         sections.forEach(function (id) {
-          var el = previewBuildSection(id, p, s, b, t, ti, tf, biz, nam, tag, ph, em, desc, products);
+          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, desc, products, packs, wholesale);
           previewSectionsPool.appendChild(el);
         });
 
@@ -4507,6 +4752,22 @@
               document.getElementById('share-qr').src = 'SmoothQR.png';
               shareModal.classList.add('visible');
               shareModal.setAttribute('aria-hidden', 'false');
+            });
+          }
+          /* Attach packs/wholesale flip buttons in the preview products section */
+          var previewPwToWholesale = document.getElementById('preview-pw-to-wholesale');
+          var previewPwToPacks = document.getElementById('preview-pw-to-packs');
+          var previewPwFlipCard = document.getElementById('preview-pw-flip-card');
+          if (previewPwToWholesale && previewPwFlipCard) {
+            previewPwToWholesale.addEventListener('click', function () {
+              hapticBuzz();
+              previewPwFlipCard.style.transform = 'rotateY(-180deg)';
+            });
+          }
+          if (previewPwToPacks && previewPwFlipCard) {
+            previewPwToPacks.addEventListener('click', function () {
+              hapticBuzz();
+              previewPwFlipCard.style.transform = 'rotateY(0deg)';
             });
           }
           /* Attach preview wholesale modal close */
@@ -4659,11 +4920,11 @@
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
         var b = document.getElementById('cc-background').value;
-        var t = document.getElementById('cc-text').value;
+        var a3 = document.getElementById('cc-accent3').value;
+        var a4 = document.getElementById('cc-accent4').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
-        var btn = document.getElementById('cc-button').value;
-        var btnText = document.getElementById('cc-button-text').value;
+        var wholesale = getWholesaleArray().filter(function (w) { return w.name.trim(); });
 
         var body = 'Digicard Design\n\n';
         if (refCode) body += 'Reference: ' + refCode + ' — use this when paying\n\n';
@@ -4698,14 +4959,25 @@
             });
           });
         }
+        /* Add wholesale packs to email */
+        if (wholesale.length) {
+          body += '\nWholesale Packs:\n';
+          wholesale.forEach(function (wp) {
+            body += '  - ' + wp.name + ' (' + wp.price + ')\n';
+            var allProds = getProductsArray();
+            Object.keys(wp.items).forEach(function (idx) {
+              var prod = allProds[parseInt(idx)];
+              if (prod) body += '      x' + wp.items[idx].qty + ' ' + prod.name + '\n';
+            });
+          });
+        }
         body += '\nColours:\n';
-        body += '  Primary: ' + p + '\n';
-        body += '  Secondary: ' + s + '\n';
+        body += '  Accent 1 (headers): ' + p + '\n';
+        body += '  Accent 2 (footers, borders): ' + s + '\n';
+        body += '  Accent 3 (packs, save): ' + a3 + '\n';
+        body += '  Accent 4 (share): ' + a4 + '\n';
         body += '  Background: ' + b + '\n';
-        body += '  Text: ' + t + '\n';
-        body += '  Title: ' + ti + '\n';
-        body += '  Button: ' + btn + '\n';
-        body += '  Button Text: ' + btnText + '\n\n';
+        body += '  Title Colour: ' + ti + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
         body += '  Body Font: The Wanters DEMO (fixed)\n\n';
@@ -4713,8 +4985,8 @@
         body += JSON.stringify({
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
-          description: desc, products: products, packs: packs,
-          palette: { primary: p, secondary: s, background: b, text: t, title: ti, button: btn, buttonText: btnText },
+          description: desc, products: products, packs: packs, wholesale: wholesale,
+          palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, background: b, titleColour: ti },
           fonts: { title: tf },
           reference: refCode || null
         }, null, 2);
