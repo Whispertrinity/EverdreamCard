@@ -3781,7 +3781,7 @@
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'customiser-text cc-pack-name';
-        nameInput.placeholder = 'e.g. Wholesale Pack 1';
+        nameInput.placeholder = 'Enter pack name';
         nameInput.value = name || '';
 
         var priceLabel = document.createElement('label');
@@ -3792,6 +3792,7 @@
         priceInput.className = 'customiser-text cc-pack-price';
         priceInput.placeholder = 'e.g. $150';
         priceInput.value = price || '';
+        priceInput.style.width = '8rem';
 
         /* Products in pack */
         var prodListLabel = document.createElement('label');
@@ -3808,37 +3809,51 @@
             prodList.innerHTML = '<p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;">Add products first.</p>';
             return;
           }
+          /* Create a table for product rows */
+          var table = document.createElement('table');
+          table.style.cssText = 'width:100%;border-collapse:collapse;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
           prods.forEach(function (p, pi) {
             var sizes = p.sizes && p.sizes.length ? p.sizes : [{ name: '', price: '' }];
             sizes.forEach(function (sz, si) {
               var key = pi + ':' + si;
-              var row = document.createElement('div');
-              row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+              var tr = document.createElement('tr');
+              tr.style.cssText = 'border-bottom:1px solid #d7ccc8;';
+              /* Checkbox cell */
+              var tdCb = document.createElement('td');
+              tdCb.style.cssText = 'padding:0.25rem 0.15rem;width:2rem;text-align:center;vertical-align:middle;';
               var cb = document.createElement('input');
               cb.type = 'checkbox';
               cb.className = 'cc-pack-prod-cb';
               cb.dataset.key = key;
-              /* Check if this size was previously in the pack */
               if (items && items[key]) cb.checked = true;
+              tdCb.appendChild(cb);
+              /* Qty cell */
+              var tdQty = document.createElement('td');
+              tdQty.style.cssText = 'padding:0.25rem 0.15rem;width:3rem;text-align:center;vertical-align:middle;';
               var qty = document.createElement('input');
               qty.type = 'number';
+              qty.className = 'cc-pack-prod-qty';
               qty.min = 1;
               qty.value = (items && items[key] && items[key].qty) ? items[key].qty : 1;
-              qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
-              var nameSpan = document.createElement('span');
+              qty.style.cssText = 'width:2.5rem;padding:0.15rem 0.2rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;text-align:center;';
+              tdQty.appendChild(qty);
+              /* Label cell */
+              var tdLabel = document.createElement('td');
+              tdLabel.style.cssText = 'padding:0.25rem 0.3rem;vertical-align:middle;word-break:break-word;';
               var label = p.name;
               if (sz.name) label += ' - ' + sz.name;
-              if (sz.price) label += ' - ' + sz.price;
-              nameSpan.textContent = label;
-              row.appendChild(cb);
-              row.appendChild(qty);
-              row.appendChild(nameSpan);
+              if (sz.price) label += ' - $' + sz.price;
+              tdLabel.textContent = label;
+              tr.appendChild(tdCb);
+              tr.appendChild(tdQty);
+              tr.appendChild(tdLabel);
               /* Update total on checkbox/qty change */
               cb.addEventListener('change', function () { saveCustomiserState(); updatePackTotal(_idx); });
               qty.addEventListener('input', function () { saveCustomiserState(); updatePackTotal(_idx); });
-              prodList.appendChild(row);
+              table.appendChild(tr);
             });
           });
+          prodList.appendChild(table);
         }
         refreshProductCheckboxes();
         /* Calculate initial total */
@@ -3876,8 +3891,8 @@
         body.appendChild(prodList);
         /* Total value line */
         var totalDiv = document.createElement('div');
-        totalDiv.className = 'cc-wholesale-total';
-        totalDiv.id = 'cc-wholesale-total-' + index;
+        totalDiv.className = 'cc-pack-total';
+        totalDiv.id = 'cc-pack-total-' + index;
         totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:center;';
         totalDiv.textContent = 'Total contents value: —';
         body.appendChild(totalDiv);
@@ -3956,6 +3971,7 @@
         priceInput.className = 'customiser-text cc-wholesale-price';
         priceInput.placeholder = 'e.g. $250';
         priceInput.value = price || '';
+        priceInput.style.width = '8rem';
 
         /* Products in wholesale pack */
         var prodListLabel = document.createElement('label');
@@ -3974,36 +3990,51 @@
             prodList.innerHTML = '<p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;">Add products first.</p>';
             return;
           }
+          /* Create a table for product rows */
+          var table = document.createElement('table');
+          table.style.cssText = 'width:100%;border-collapse:collapse;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
           prods.forEach(function (p, pi) {
             var sizes = p.sizes && p.sizes.length ? p.sizes : [{ name: '', price: '' }];
             sizes.forEach(function (sz, si) {
               var key = pi + ':' + si;
-              var row = document.createElement('div');
-              row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+              var tr = document.createElement('tr');
+              tr.style.cssText = 'border-bottom:1px solid #d7ccc8;';
+              /* Checkbox cell */
+              var tdCb = document.createElement('td');
+              tdCb.style.cssText = 'padding:0.25rem 0.15rem;width:2rem;text-align:center;vertical-align:middle;';
               var cb = document.createElement('input');
               cb.type = 'checkbox';
               cb.className = 'cc-wholesale-prod-cb';
               cb.dataset.key = key;
               if (items && items[key]) cb.checked = true;
+              tdCb.appendChild(cb);
+              /* Qty cell */
+              var tdQty = document.createElement('td');
+              tdQty.style.cssText = 'padding:0.25rem 0.15rem;width:3rem;text-align:center;vertical-align:middle;';
               var qty = document.createElement('input');
               qty.type = 'number';
+              qty.className = 'cc-wholesale-prod-qty';
               qty.min = 1;
               qty.value = (items && items[key] && items[key].qty) ? items[key].qty : 1;
-              qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
-              var nameSpan = document.createElement('span');
+              qty.style.cssText = 'width:2.5rem;padding:0.15rem 0.2rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;text-align:center;';
+              tdQty.appendChild(qty);
+              /* Label cell */
+              var tdLabel = document.createElement('td');
+              tdLabel.style.cssText = 'padding:0.25rem 0.3rem;vertical-align:middle;word-break:break-word;';
               var label = p.name;
               if (sz.name) label += ' - ' + sz.name;
-              if (sz.price) label += ' - ' + sz.price;
-              nameSpan.textContent = label;
-              row.appendChild(cb);
-              row.appendChild(qty);
-              row.appendChild(nameSpan);
+              if (sz.price) label += ' - $' + sz.price;
+              tdLabel.textContent = label;
+              tr.appendChild(tdCb);
+              tr.appendChild(tdQty);
+              tr.appendChild(tdLabel);
               /* Update total on checkbox/qty change */
               cb.addEventListener('change', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
               qty.addEventListener('input', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
-              prodList.appendChild(row);
+              table.appendChild(tr);
             });
           });
+          prodList.appendChild(table);
         }
         refreshWholesaleCheckboxes();
         /* Calculate initial total */
@@ -4107,7 +4138,7 @@
           var name = (w.querySelector('.cc-wholesale-name') || {}).value || '';
           var price = (w.querySelector('.cc-wholesale-price') || {}).value || '';
           var cbs = w.querySelectorAll('.cc-wholesale-prod-cb');
-          var qtys = w.querySelectorAll('.cc-wholesale-prod-cb + input[type="number"]');
+          var qtys = w.querySelectorAll('.cc-wholesale-prod-qty');
           var items = {};
           cbs.forEach(function (cb, i) {
             if (cb.checked) {
@@ -4135,7 +4166,7 @@
                 var container = containers[index];
                 if (!container) return;
                 var cbs = container.querySelectorAll('.cc-pack-prod-cb');
-                var qtys = container.querySelectorAll('.cc-pack-prod-cb + input[type="number"]');
+                var qtys = container.querySelectorAll('.cc-pack-prod-qty');
                 var priceInput = container.querySelector('.cc-pack-price');
                 var totalDiv = container.querySelector('.cc-pack-total');
                 if (!totalDiv) return;
@@ -4178,7 +4209,7 @@
                 var container = containers[index];
                 if (!container) return;
                 var cbs = container.querySelectorAll('.cc-wholesale-prod-cb');
-                var qtys = container.querySelectorAll('.cc-wholesale-prod-cb + input[type="number"]');
+                var qtys = container.querySelectorAll('.cc-wholesale-prod-qty');
                 var priceInput = container.querySelector('.cc-wholesale-price');
                 var totalDiv = container.querySelector('.cc-wholesale-total');
                 if (!totalDiv) return;
@@ -4247,7 +4278,7 @@
           var name = (w.querySelector('.cc-pack-name') || {}).value || '';
           var price = (w.querySelector('.cc-pack-price') || {}).value || '';
           var cbs = w.querySelectorAll('.cc-pack-prod-cb');
-          var qtys = w.querySelectorAll('.cc-pack-prod-cb + input[type="number"]');
+          var qtys = w.querySelectorAll('.cc-pack-prod-qty');
           var items = {};
           cbs.forEach(function (cb, i) {
             if (cb.checked) {
