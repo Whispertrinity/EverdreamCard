@@ -2164,8 +2164,8 @@
       font-size: 0.85rem;
       font-weight: 600;
       color: #f5f5dc;
-      background: linear-gradient(135deg,#14545c 0%,#1a6b75 50%,#14545c 100%);
-      border: 2px solid #0a1a1d;
+      background: linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);
+      border: 2px solid #0d3b0f;
       border-radius: 9999px;
       cursor: pointer;
       -webkit-text-stroke: 0.6px #000;
@@ -3673,7 +3673,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove product';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -3828,10 +3828,15 @@
             row.appendChild(cb);
             row.appendChild(qty);
             row.appendChild(nameSpan);
+            /* Update total on checkbox/qty change */
+            cb.addEventListener('change', function () { saveCustomiserState(); updatePackTotal(_idx); });
+            qty.addEventListener('input', function () { saveCustomiserState(); updatePackTotal(_idx); });
             prodList.appendChild(row);
           });
         }
         refreshProductCheckboxes();
+        /* Calculate initial total */
+        setTimeout(function() { updatePackTotal(_idx); }, 10);
 
         /* Save button */
         var saveBtn = document.createElement('button');
@@ -3849,7 +3854,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove pack';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -3863,6 +3868,13 @@
         body.appendChild(priceInput);
         body.appendChild(prodListLabel);
         body.appendChild(prodList);
+        /* Total value line */
+        var totalDiv = document.createElement('div');
+        totalDiv.className = 'cc-wholesale-total';
+        totalDiv.id = 'cc-wholesale-total-' + index;
+        totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:center;';
+        totalDiv.textContent = 'Total contents value: —';
+        body.appendChild(totalDiv);
         var btnRow = document.createElement('div');
         btnRow.style.cssText = 'display:flex;gap:0.5rem;margin-top:0.6rem;';
         saveBtn.style.flex = '1';
@@ -3882,8 +3894,8 @@
         container.appendChild(wrapper);
 
         [nameInput, priceInput].forEach(function (el) {
-          el.addEventListener('input', saveCustomiserState);
-          el.addEventListener('change', saveCustomiserState);
+          el.addEventListener('input', function() { saveCustomiserState(); updatePackTotal(index); });
+          el.addEventListener('change', function() { saveCustomiserState(); updatePackTotal(index); });
         });
 
         return wrapper;
@@ -3948,6 +3960,8 @@
         prodList.id = 'cc-wholesale-prods-' + index;
 
         function refreshWholesaleCheckboxes() {
+          /* Update total when checkboxes are re-rendered */
+          var _idx = index;
           var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
           prodList.innerHTML = '';
           if (!prods.length) {
@@ -3972,10 +3986,15 @@
             row.appendChild(cb);
             row.appendChild(qty);
             row.appendChild(nameSpan);
+            /* Update total on checkbox/qty change */
+            cb.addEventListener('change', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
+            qty.addEventListener('input', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
             prodList.appendChild(row);
           });
         }
         refreshWholesaleCheckboxes();
+        /* Calculate initial total */
+        setTimeout(function() { updateWholesaleTotal(_idx); }, 10);
 
         var saveBtn = document.createElement('button');
         saveBtn.type = 'button';
@@ -3992,7 +4011,7 @@
         var removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'cc-ip-remove-btn';
-        removeBtn.textContent = 'Remove wholesale';
+        removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', function () {
           hapticBuzz();
           wrapper.parentNode.removeChild(wrapper);
@@ -4006,6 +4025,13 @@
         body.appendChild(priceInput);
         body.appendChild(prodListLabel);
         body.appendChild(prodList);
+        /* Total value line */
+        var totalDiv = document.createElement('div');
+        totalDiv.className = 'cc-wholesale-total';
+        totalDiv.id = 'cc-wholesale-total-' + index;
+        totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:center;';
+        totalDiv.textContent = 'Total contents value: —';
+        body.appendChild(totalDiv);
         var btnRow = document.createElement('div');
         btnRow.style.cssText = 'display:flex;gap:0.5rem;margin-top:0.6rem;';
         saveBtn.style.flex = '1';
@@ -4025,8 +4051,8 @@
         container.appendChild(wrapper);
 
         [nameInput, priceInput].forEach(function (el) {
-          el.addEventListener('input', saveCustomiserState);
-          el.addEventListener('change', saveCustomiserState);
+          el.addEventListener('input', function() { saveCustomiserState(); updateWholesaleTotal(index); });
+          el.addEventListener('change', function() { saveCustomiserState(); updateWholesaleTotal(index); });
         });
 
         return wrapper;
@@ -4079,9 +4105,91 @@
           wholesalePacks.push({ name: name, price: price, items: items });
         });
         return wholesalePacks;
-      }
+              }
 
-      function setWholesaleArray(wholesalePacks) {
+              /* Parse a price string like "$5" or "10" or "$150" to a number */
+              function parsePrice(priceStr) {
+                if (!priceStr) return 0;
+                var cleaned = priceStr.replace(/[^\\d.]/g, '');
+                var val = parseFloat(cleaned);
+                return isNaN(val) ? 0 : val;
+              }
+
+              /* Update the total contents value for a pack accordion */
+              function updatePackTotal(index) {
+                var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
+                var containers = document.querySelectorAll('#cc-packs-container .cc-inner-product');
+                var container = containers[index];
+                if (!container) return;
+                var cbs = container.querySelectorAll('.cc-pack-prod-cb');
+                var qtys = container.querySelectorAll('.cc-pack-prod-cb + input[type="number"]');
+                var priceInput = container.querySelector('.cc-pack-price');
+                var totalDiv = container.querySelector('.cc-pack-total');
+                if (!totalDiv) return;
+
+                var totalContents = 0;
+                cbs.forEach(function (cb, i) {
+                  if (cb.checked) {
+                    var pi = parseInt(cb.dataset.prodIdx);
+                    var prod = prods[pi];
+                    var qty = parseInt(qtys[i] ? qtys[i].value : 1) || 1;
+                    if (prod && prod.sizes && prod.sizes.length) {
+                      var price = parsePrice(prod.sizes[0].price);
+                      totalContents += price * qty;
+                    }
+                  }
+                });
+
+                var packPrice = parsePrice(priceInput ? priceInput.value : '');
+                if (totalContents > 0) {
+                  var diff = totalContents - packPrice;
+                  var pct = ((diff / totalContents) * 100).toFixed(1);
+                  var sign = diff >= 0 ? '-' : '+';
+                  totalDiv.textContent = 'Total value: $' + totalContents.toFixed(2) + '  |  Pack price: $' + (packPrice > 0 ? packPrice.toFixed(2) : '—') +
+                    (packPrice > 0 ? '  |  ' + sign + pct + '% ($' + Math.abs(diff).toFixed(2) + ')' : '');
+                } else {
+                  totalDiv.textContent = 'Total contents value: —';
+                }
+              }
+
+              /* Update the total contents value for a wholesale accordion */
+              function updateWholesaleTotal(index) {
+                var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
+                var containers = document.querySelectorAll('#cc-wholesale-container .cc-inner-product');
+                var container = containers[index];
+                if (!container) return;
+                var cbs = container.querySelectorAll('.cc-wholesale-prod-cb');
+                var qtys = container.querySelectorAll('.cc-wholesale-prod-cb + input[type="number"]');
+                var priceInput = container.querySelector('.cc-wholesale-price');
+                var totalDiv = container.querySelector('.cc-wholesale-total');
+                if (!totalDiv) return;
+
+                var totalContents = 0;
+                cbs.forEach(function (cb, i) {
+                  if (cb.checked) {
+                    var pi = parseInt(cb.dataset.prodIdx);
+                    var prod = prods[pi];
+                    var qty = parseInt(qtys[i] ? qtys[i].value : 1) || 1;
+                    if (prod && prod.sizes && prod.sizes.length) {
+                      var price = parsePrice(prod.sizes[0].price);
+                      totalContents += price * qty;
+                    }
+                  }
+                });
+
+                var packPrice = parsePrice(priceInput ? priceInput.value : '');
+                if (totalContents > 0) {
+                  var diff = totalContents - packPrice;
+                  var pct = ((diff / totalContents) * 100).toFixed(1);
+                  var sign = diff >= 0 ? '-' : '+';
+                  totalDiv.textContent = 'Total value: $' + totalContents.toFixed(2) + '  |  Pack price: $' + (packPrice > 0 ? packPrice.toFixed(2) : '—') +
+                    (packPrice > 0 ? '  |  ' + sign + pct + '% ($' + Math.abs(diff).toFixed(2) + ')' : '');
+                } else {
+                  totalDiv.textContent = 'Total contents value: —';
+                }
+              }
+
+              function setWholesaleArray(wholesalePacks) {
         if (!wholesalePacks || !wholesalePacks.length) return;
         var container = document.getElementById('cc-wholesale-container');
         container.innerHTML = '';
