@@ -4272,7 +4272,7 @@
 
       /* Collect products from inner accordions */
       function getProductsArray() {
-        var wrappers = document.querySelectorAll('.cc-inner-product');
+        var wrappers = document.querySelectorAll('#cc-products-container .cc-inner-product');
         var products = [];
         wrappers.forEach(function (w) {
           var name = (w.querySelector('.cc-ip-name') || {}).value || '';
