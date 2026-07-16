@@ -3809,29 +3809,35 @@
             return;
           }
           prods.forEach(function (p, pi) {
-            var row = document.createElement('div');
-            row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
-            var cb = document.createElement('input');
-            cb.type = 'checkbox';
-            cb.className = 'cc-pack-prod-cb';
-            cb.dataset.prodIdx = pi;
-            /* Check if this product was previously in the pack */
-            if (items && items[pi]) cb.checked = true;
-            var qty = document.createElement('input');
-            qty.type = 'number';
-            qty.min = 1;
-            qty.value = (items && items[pi] && items[pi].qty) ? items[pi].qty : 1;
-            qty.style.width = '3rem';
-            qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
-            var nameSpan = document.createElement('span');
-            nameSpan.textContent = p.name;
-            row.appendChild(cb);
-            row.appendChild(qty);
-            row.appendChild(nameSpan);
-            /* Update total on checkbox/qty change */
-            cb.addEventListener('change', function () { saveCustomiserState(); updatePackTotal(_idx); });
-            qty.addEventListener('input', function () { saveCustomiserState(); updatePackTotal(_idx); });
-            prodList.appendChild(row);
+            var sizes = p.sizes && p.sizes.length ? p.sizes : [{ name: '', price: '' }];
+            sizes.forEach(function (sz, si) {
+              var key = pi + ':' + si;
+              var row = document.createElement('div');
+              row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+              var cb = document.createElement('input');
+              cb.type = 'checkbox';
+              cb.className = 'cc-pack-prod-cb';
+              cb.dataset.key = key;
+              /* Check if this size was previously in the pack */
+              if (items && items[key]) cb.checked = true;
+              var qty = document.createElement('input');
+              qty.type = 'number';
+              qty.min = 1;
+              qty.value = (items && items[key] && items[key].qty) ? items[key].qty : 1;
+              qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
+              var nameSpan = document.createElement('span');
+              var label = p.name;
+              if (sz.name) label += ' - ' + sz.name;
+              if (sz.price) label += ' - ' + sz.price;
+              nameSpan.textContent = label;
+              row.appendChild(cb);
+              row.appendChild(qty);
+              row.appendChild(nameSpan);
+              /* Update total on checkbox/qty change */
+              cb.addEventListener('change', function () { saveCustomiserState(); updatePackTotal(_idx); });
+              qty.addEventListener('input', function () { saveCustomiserState(); updatePackTotal(_idx); });
+              prodList.appendChild(row);
+            });
           });
         }
         refreshProductCheckboxes();
@@ -3969,27 +3975,34 @@
             return;
           }
           prods.forEach(function (p, pi) {
-            var row = document.createElement('div');
-            row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
-            var cb = document.createElement('input');
-            cb.type = 'checkbox';
-            cb.className = 'cc-wholesale-prod-cb';
-            cb.dataset.prodIdx = pi;
-            if (items && items[pi]) cb.checked = true;
-            var qty = document.createElement('input');
-            qty.type = 'number';
-            qty.min = 1;
-            qty.value = (items && items[pi] && items[pi].qty) ? items[pi].qty : 1;
-            qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
-            var nameSpan = document.createElement('span');
-            nameSpan.textContent = p.name;
-            row.appendChild(cb);
-            row.appendChild(qty);
-            row.appendChild(nameSpan);
-            /* Update total on checkbox/qty change */
-            cb.addEventListener('change', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
-            qty.addEventListener('input', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
-            prodList.appendChild(row);
+            var sizes = p.sizes && p.sizes.length ? p.sizes : [{ name: '', price: '' }];
+            sizes.forEach(function (sz, si) {
+              var key = pi + ':' + si;
+              var row = document.createElement('div');
+              row.style.cssText = 'display:flex;align-items:center;gap:0.35rem;margin-bottom:0.25rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#3e2723;';
+              var cb = document.createElement('input');
+              cb.type = 'checkbox';
+              cb.className = 'cc-wholesale-prod-cb';
+              cb.dataset.key = key;
+              if (items && items[key]) cb.checked = true;
+              var qty = document.createElement('input');
+              qty.type = 'number';
+              qty.min = 1;
+              qty.value = (items && items[key] && items[key].qty) ? items[key].qty : 1;
+              qty.style.cssText = 'width:3rem;padding:0.2rem 0.3rem;border:1px solid #5d4037;border-radius:6px;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;';
+              var nameSpan = document.createElement('span');
+              var label = p.name;
+              if (sz.name) label += ' - ' + sz.name;
+              if (sz.price) label += ' - ' + sz.price;
+              nameSpan.textContent = label;
+              row.appendChild(cb);
+              row.appendChild(qty);
+              row.appendChild(nameSpan);
+              /* Update total on checkbox/qty change */
+              cb.addEventListener('change', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
+              qty.addEventListener('input', function () { saveCustomiserState(); updateWholesaleTotal(_idx); });
+              prodList.appendChild(row);
+            });
           });
         }
         refreshWholesaleCheckboxes();
@@ -4099,7 +4112,7 @@
           cbs.forEach(function (cb, i) {
             if (cb.checked) {
               var qtyInput = qtys[i];
-              items[cb.dataset.prodIdx] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
+              items[cb.dataset.key] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
             }
           });
           wholesalePacks.push({ name: name, price: price, items: items });
@@ -4130,10 +4143,16 @@
                 var totalContents = 0;
                 cbs.forEach(function (cb, i) {
                   if (cb.checked) {
-                    var pi = parseInt(cb.dataset.prodIdx);
+                    var key = cb.dataset.key;
+                    var parts = key.split(':');
+                    var pi = parseInt(parts[0]);
+                    var si = parseInt(parts[1] || 0);
                     var prod = prods[pi];
                     var qty = parseInt(qtys[i] ? qtys[i].value : 1) || 1;
-                    if (prod && prod.sizes && prod.sizes.length) {
+                    if (prod && prod.sizes && prod.sizes.length > si) {
+                      var price = parsePrice(prod.sizes[si].price);
+                      totalContents += price * qty;
+                    } else if (prod && prod.sizes && prod.sizes.length) {
                       var price = parsePrice(prod.sizes[0].price);
                       totalContents += price * qty;
                     }
@@ -4167,10 +4186,16 @@
                 var totalContents = 0;
                 cbs.forEach(function (cb, i) {
                   if (cb.checked) {
-                    var pi = parseInt(cb.dataset.prodIdx);
+                    var key = cb.dataset.key;
+                    var parts = key.split(':');
+                    var pi = parseInt(parts[0]);
+                    var si = parseInt(parts[1] || 0);
                     var prod = prods[pi];
                     var qty = parseInt(qtys[i] ? qtys[i].value : 1) || 1;
-                    if (prod && prod.sizes && prod.sizes.length) {
+                    if (prod && prod.sizes && prod.sizes.length > si) {
+                      var price = parsePrice(prod.sizes[si].price);
+                      totalContents += price * qty;
+                    } else if (prod && prod.sizes && prod.sizes.length) {
                       var price = parsePrice(prod.sizes[0].price);
                       totalContents += price * qty;
                     }
@@ -4227,7 +4252,7 @@
           cbs.forEach(function (cb, i) {
             if (cb.checked) {
               var qtyInput = qtys[i];
-              items[cb.dataset.prodIdx] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
+              items[cb.dataset.key] = { qty: parseInt(qtyInput ? qtyInput.value : 1) || 1 };
             }
           });
           packs.push({ name: name, price: price, items: items });
@@ -4631,11 +4656,11 @@
                     'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:#3e2723;text-align:center;">' +
                     escapeHtml(desc) + '</p>' +
                     '<div style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:' + t + ';"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
+                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p>' +
                     '<div class="preview-contact-actions" style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);display:flex;flex-direction:column;gap:0.35rem;">' +
                     '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
