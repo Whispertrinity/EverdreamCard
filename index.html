@@ -1789,6 +1789,13 @@
       border-bottom: 2px solid #b8a87e;
       padding-bottom: 0.75rem;
     }
+    /* Thin section divider between accordion groups */
+    .customiser-section-divider {
+      height: 0;
+      border: none;
+      border-top: 1px solid #b8a87e;
+      margin: 0.5rem 0.5rem 0.25rem;
+    }
     .customiser-tier-btn {
       flex: 1;
       padding: 0.75rem 0.5rem;
@@ -2014,6 +2021,7 @@
       padding: 0.75rem 0.5rem;
       margin-top: 0.25rem;
       background: transparent;
+      border-top: 2px solid #b8a87e;
     }
     .customiser-btn {
       flex: 1;
@@ -2355,6 +2363,20 @@
     </div>
   </div>
 
+  <!-- Reset Confirmation Modal — same style as WIP overlay -->
+  <div id="reset-confirm-overlay" class="wip-overlay" aria-hidden="true">
+    <div class="wip-modal">
+      <div class="modal-header"><h2 style="font-family:'The Wanters DEMO',serif;">Reset</h2></div>
+      <div class="wip-body">
+        <p>Reset all your changes?</p>
+        <div style="display:flex;gap:0.75rem;justify-content:center;">
+          <button type="button" class="wip-ok-btn" id="reset-confirm-yes" style="background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);border-color:#0d3b0f;">Yes</button>
+          <button type="button" class="wip-ok-btn" id="reset-confirm-no" style="background:linear-gradient(135deg,#c62828 0%,#b71c1c 50%,#c62828 100%);border-color:#8b0000;">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="customiser-overlay" class="customiser-overlay" aria-hidden="true">
     <div class="customiser-modal">
       <div class="modal-header" id="cc-modal-header"><h2 id="cc-modal-title" style="font-family:'The Wanters DEMO',serif;">Design Your Own</h2></div>
@@ -2441,6 +2463,9 @@
           </div>
         </div>
         </div>
+
+        <!-- Thin divider between basic options and products/packs/wholesale -->
+        <div class="customiser-section-divider" aria-hidden="true"></div>
 
         <!-- Accordion: Products (3-page tier only) -->
         <div class="customiser-accordion-wrapper">
@@ -5181,13 +5206,36 @@
       /* Reset button */
       document.getElementById('cc-reset').addEventListener('click', function () {
         hapticBuzz();
+        var resetOverlay = document.getElementById('reset-confirm-overlay');
+        if (resetOverlay) {
+          resetOverlay.classList.add('visible');
+          resetOverlay.setAttribute('aria-hidden', 'false');
+        }
+      });
+
+      /* Reset Yes — reset data, stay in customiser */
+      document.getElementById('reset-confirm-yes').addEventListener('click', function () {
+        hapticBuzz();
+        var resetOverlay = document.getElementById('reset-confirm-overlay');
+        if (resetOverlay) {
+          resetOverlay.classList.remove('visible');
+          resetOverlay.setAttribute('aria-hidden', 'true');
+        }
         try { localStorage.removeItem('everdream-customiser'); } catch(e) {}
         loadCustomiserState();
         /* Remove override style */
         var existing = document.getElementById('cc-style-override');
         if (existing) existing.parentNode.removeChild(existing);
-        /* Reload page to restore original content */
-        location.reload();
+      });
+
+      /* Reset No — just close the modal, no data change */
+      document.getElementById('reset-confirm-no').addEventListener('click', function () {
+        hapticBuzz();
+        var resetOverlay = document.getElementById('reset-confirm-overlay');
+        if (resetOverlay) {
+          resetOverlay.classList.remove('visible');
+          resetOverlay.setAttribute('aria-hidden', 'true');
+        }
       });
 
       /* Save button → confirm modal */
