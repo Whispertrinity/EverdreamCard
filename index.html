@@ -1075,70 +1075,6 @@
       background: #6d5047;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    .preview-flavour-panel-header {
-      width: 100%;
-      display: block;
-      padding: 0.5rem 1rem;
-      font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      font-weight: 700;
-      color: #f5f5dc;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      -webkit-text-stroke: 0.8px #000;
-      text-stroke: 0.8px #000;
-      paint-order: stroke fill;
-      -webkit-paint-order: stroke fill;
-    }
-    .preview-flavour-panel-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      background: #fff;
-    }
-    .preview-flavour-panel.preview-expanded .preview-flavour-panel-body {
-      max-height: 300px;
-    }
-    .preview-flavour-panel-desc {
-      padding: 0.6rem 0.75rem 0.6rem;
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: clamp(0.75rem, 1.8vw, 0.88rem);
-      line-height: 1.4;
-      color: #f5f5dc;
-      text-align: center;
-      border-top: 1px solid rgba(245, 245, 220, 0.25);
-    }
-    .preview-size-row {
-      display: block;
-      font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      font-weight: bold;
-      margin-top: 0.3rem;
-      line-height: 1.5;
-    }
-    .preview-size-row span {
-      display: block;
-      padding: 0.05rem 0;
-    }
-    .preview-flavour-divider {
-      list-style: none;
-      margin: 0.5rem 0;
-      padding: 0;
-      border: none;
-      border-top: 2px solid rgba(93, 64, 55, 0.4);
-      height: 0;
-    }
-    /* Preview packs button — matches master card packs-trigger style */
-    .preview-packs-panel .packs-trigger {
-      cursor: pointer;
-      transition: box-shadow 0.2s ease;
-    }
-    .preview-packs-panel .packs-trigger:hover {
-      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.45);
-    }
-
     /* Page dots indicator */
     .preview-page-dots {
       display: flex;
@@ -4761,30 +4697,24 @@
             products.forEach(function (prod) {
               var sizesHtml = '';
               if (prod.sizes && prod.sizes.length) {
-                sizesHtml = '<br><span style="display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center;">' +
-                  prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
-                    return '<span style="font-family:Verdana,Geneva,sans-serif;font-size:0.8em;color:#f5f5dc;">' +
-                      escapeHtml(s.name || '') + (s.price ? ' — ' + escapeHtml(s.price) : '') + '</span>';
-                  }).join('') +
-                  '</span>';
+                sizesHtml = prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
+                  return '<span>' + escapeHtml(s.name || '') + (s.price ? ' — $' + escapeHtml(s.price) : '') + '</span>';
+                }).join('');
+                if (sizesHtml) sizesHtml = '<br><span class="size-row">' + sizesHtml + '</span>';
               }
-              itemsHtml += '<li style="width:100%;margin-bottom:0.4rem;border:2px solid #3e2723;border-radius:10px;overflow:hidden;background:#6d5047;list-style:none;">' +
-                '<button type="button" class="preview-flavour-panel-header" aria-expanded="false" style="width:100%;display:block;padding:0.5rem 1rem;' +
-                'font-family:\'The Wanters DEMO\',serif;font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;background:transparent;' +
-                'border:none;cursor:pointer;text-align:left;">' + escapeHtml(prod.name) + '</button>' +
-                '<div class="preview-flavour-panel-body" style="display:none;padding:0.6rem 1rem 0.8rem;background:#5d4037;">' +
-                '<p style="font-family:Verdana,Geneva,sans-serif;font-size:clamp(0.8rem,1.8vw,0.95rem);color:#f5f5dc;line-height:1.5;margin:0;">' +
-                escapeHtml(prod.desc) + sizesHtml + '</p></div></li>';
+              itemsHtml += '<li class="flavour-panel">' +
+                '<button type="button" class="flavour-panel-header" aria-expanded="false">' +
+                escapeHtml(prod.name) + '</button>' +
+                '<div class="flavour-panel-body">' +
+                '<p class="flavour-panel-desc">' +
+                escapeHtml(prod.desc || '') + sizesHtml + '</p></div></li>';
             });
             /* Separator line then packs button (opens the wholesale/packs modal to packs side) */
-            itemsHtml += '<li style="width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);margin:0.6rem 0;list-style:none;" aria-hidden="true"></li>' +
-              '<li class="flavour-panel preview-packs-panel" style="width:100%;margin-bottom:0.4rem;list-style:none;border:2px solid #1b5e20;border-radius:12px;overflow:hidden;">' +
-              '<button type="button" class="flavour-panel-header packs-trigger" id="preview-packs-btn" aria-label="Open packs" ' +
-              'style="width:100%;display:block;padding:0.5rem 1rem;font-family:\'The Wanters DEMO\',serif;' +
-              'font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#f5f5dc;text-align:center;' +
-              'background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);border:2px solid #0d3b0f;border-radius:12px;' +
-              'cursor:pointer;">Packs (Wholesale)</button></li>';
-            productsHtml = '<ul style="width:100%;margin:0;padding:0;">' + itemsHtml + '</ul>';
+            itemsHtml += '<li class="flavour-list-divider" aria-hidden="true"></li>' +
+              '<li class="flavour-panel flavour-panel-packs">' +
+              '<button type="button" class="flavour-panel-header packs-trigger" id="preview-packs-btn" ' +
+              'aria-label="Open packs" style="border:2px solid #1b5e20;">Packs</button></li>';
+            productsHtml = '<ul class="flavour-accordions">' + itemsHtml + '</ul>';
           } else {
             productsHtml = '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;">Add your products in the customiser.</p>';
           }
@@ -4838,21 +4768,30 @@
           previewSectionsPool.appendChild(el);
         });
 
-        /* Attach accordion click handlers for products */
-        setTimeout(function () {
-          document.querySelectorAll('#preview-products-section .preview-flavour-panel-header').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-              e.stopPropagation();
-              var panel = this.closest('li');
-              if (!panel) return;
-              var body = panel.querySelector('.preview-flavour-panel-body');
-              if (body) {
-                var expanded = body.style.display !== 'none';
-                body.style.display = expanded ? 'none' : 'block';
-                this.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-              }
-            });
+        /* Attach accordion click handlers for products — matches master card behaviour */
+        document.querySelectorAll('#preview-products-section .flavour-panel-header').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            /* If this is the packs button, let the dedicated handler deal with it */
+            if (this.id === 'preview-packs-btn') return;
+            hapticBuzz();
+            var panel = this.closest('.flavour-panel');
+            if (!panel) return;
+            /* Collapse all other panels in the same accordion list */
+            var ul = panel.closest('.flavour-accordions');
+            if (ul) {
+              ul.querySelectorAll('.flavour-panel').forEach(function (p) {
+                if (p !== panel) {
+                  p.classList.remove('expanded');
+                  var h = p.querySelector('.flavour-panel-header');
+                  if (h) h.setAttribute('aria-expanded', 'false');
+                }
+              });
+            }
+            var isExpanded = panel.classList.toggle('expanded');
+            this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
           });
+        });
           /* Attach close button handlers */
           document.querySelectorAll('#preview-overlay .preview-close-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
