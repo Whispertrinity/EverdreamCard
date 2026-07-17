@@ -817,10 +817,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: clamp(1.5rem, 5vw, 3rem);
     }
     .preview-overlay.visible {
       display: flex;
+    }
+    /* Ensure the live card inside preview is vertically centred with proper breathing room */
+    .preview-overlay > .card {
+      margin: auto;
     }
     /* The preview reuses the live card's .card / .card-face / .content-panel classes */
     /* so it gets the same sizing, borders, and styling automatically */
