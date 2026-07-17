@@ -1777,6 +1777,62 @@
       padding: 1rem;
     }
     .customiser-overlay.visible { display: flex; }
+    /* WIP interstitial — work-in-progress message before opening customiser */
+    .wip-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 350;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .wip-overlay.visible { display: flex; }
+    .wip-modal {
+      background: #F6F6DE;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .wip-body {
+      padding: 2rem 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .wip-body p {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 1rem;
+      color: #3e2723;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .wip-ok-btn {
+      display: block;
+      padding: 0.6rem 2.5rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);
+      border: 2px solid #0d3b0f;
+      border-radius: 9999px;
+      cursor: pointer;
+      -webkit-text-stroke: 0.6px #000;
+      text-stroke: 0.6px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+      transition: transform 0.15s;
+    }
+    .wip-ok-btn:hover { transform: translateY(-1px); }
     .customiser-modal {
       background: #F6F6DE;
       border: 4px solid #3e2723;
@@ -2362,6 +2418,17 @@
   <div id="copy-tooltip" class="copy-tooltip" aria-live="polite">Copied!</div>
 
   <!-- Customiser Modal -->
+  <!-- WIP interstitial — shown before opening the full customiser -->
+  <div id="wip-overlay" class="wip-overlay" aria-hidden="true">
+    <div class="wip-modal">
+      <div class="modal-header"><h2 style="font-family:'The Wanters DEMO',serif;">Design Your Own</h2></div>
+      <div class="wip-body">
+        <p>The design your own feature is a work in progress, please check back for full functionality.</p>
+        <button type="button" class="wip-ok-btn" id="wip-ok-btn">Okay</button>
+      </div>
+    </div>
+  </div>
+
   <div id="customiser-overlay" class="customiser-overlay" aria-hidden="true">
     <div class="customiser-modal">
       <div class="modal-header" id="cc-modal-header"><h2 id="cc-modal-title" style="font-family:'The Wanters DEMO',serif;">Design Your Own</h2></div>
@@ -4474,16 +4541,26 @@
         return '#' + r.toString(16).padStart(2,'0') + g.toString(16).padStart(2,'0') + b.toString(16).padStart(2,'0');
       }
 
-      /* Open customiser — delegated so it survives contact block rebuilds */
+      /* Open customiser — show WIP interstitial first */
       document.addEventListener('click', function (e) {
         var btn = e.target.closest('#design-yours-btn');
         if (btn) {
           hapticBuzz();
-          loadCustomiserState();
-          applyLiveModalColours();
-          customiserOverlay.classList.add('visible');
-          customiserOverlay.setAttribute('aria-hidden', 'false');
+          var wipOverlay = document.getElementById('wip-overlay');
+          wipOverlay.classList.add('visible');
+          wipOverlay.setAttribute('aria-hidden', 'false');
         }
+      });
+
+      /* WIP Okay button — close interstitial, open customiser */
+      document.getElementById('wip-ok-btn').addEventListener('click', function () {
+        var wipOverlay = document.getElementById('wip-overlay');
+        wipOverlay.classList.remove('visible');
+        wipOverlay.setAttribute('aria-hidden', 'true');
+        loadCustomiserState();
+        applyLiveModalColours();
+        customiserOverlay.classList.add('visible');
+        customiserOverlay.setAttribute('aria-hidden', 'false');
       });
 
       /* Close customiser on overlay click */
