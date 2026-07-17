@@ -974,17 +974,17 @@
     }
     .preview-contact-body {
       background-color: #F6F6DE;
-      padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.2rem, 3vw, 2rem);
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(2rem, 4vw, 3rem);
       text-align: center;
     }
     .preview-contact-block p {
-      margin-bottom: 0.5rem;
-      font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+      margin-bottom: 0.6rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
       font-weight: 600;
       color: #3e2723;
     }
     .preview-contact-block .preview-name-line {
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.75rem;
     }
     .preview-contact-label {
       font-family: 'The Wanters DEMO', serif;
@@ -997,25 +997,43 @@
       color: #14545c;
     }
     .preview-about-text {
-      margin: 0.5rem 0 1rem;
+      margin: 1.25rem 0;
       padding: 0;
       font-family: Verdana, Geneva, sans-serif;
-      font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+      font-size: clamp(1.15rem, 2.6vw, 1.45rem);
       font-weight: 600;
-      line-height: 1.55;
+      line-height: 1.65;
       color: #3e2723;
       text-align: center;
+      width: 100%;
+      max-width: 100%;
+    }
+    /* Preview contact actions — 2×2 grid matching master card */
+    .preview-contact-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 0.85rem;
+      margin: 2.35rem auto 0;
+      padding-top: 1.75rem;
+      border-top: 2px solid rgba(93, 64, 55, 0.3);
+      width: 100%;
+      max-width: min(100%, 22rem);
+      align-items: stretch;
+    }
+    .preview-contact-actions .share-btn {
+      width: 100%;
+      box-sizing: border-box;
     }
     .preview-contact-divider {
-      margin-top: 0.75rem;
+      margin-top: 1rem;
       margin-bottom: 0;
-      padding-top: 0.5rem;
+      padding-top: 0.75rem;
       border-top: 2px solid rgba(93, 64, 55, 0.3);
     }
     .preview-contact-footer {
       background-color: #4F362F;
       border-radius: 0 0 16px 16px;
-      padding: clamp(0.8rem, 2.5vw, 1.5rem) clamp(1.5rem, 4vw, 2.5rem);
+      padding: clamp(1.5rem, 4vw, 2.75rem) clamp(2rem, 4vw, 3rem);
       text-align: center;
       border-top: 2px solid #3e2723;
     }
@@ -4647,28 +4665,29 @@
                   section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
                   section.innerHTML =
                     '<div class="preview-contact-header" style="background-color:' + p + ';' +
-                    'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
-                    '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
-                    '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
-                    '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(0.6rem,1.5vw,1rem) clamp(1.2rem,3vw,2rem);text-align:center;overflow-y:auto;">' +
+                    'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;">' +
+                    '<h1 style="font-size:clamp(2.8rem,6.2vw,4.2rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
+                    '-webkit-text-stroke:1.5px #000;text-stroke:1.5px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
+                    '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(1.5rem,4vw,2.5rem) clamp(2rem,4vw,3rem);text-align:center;overflow-y:auto;">' +
                     '<div class="preview-contact-block">' +
-                    '<p class="preview-about-text" style="margin:0.3rem 0 0.6rem;padding:0;font-family:Verdana,Geneva,sans-serif;' +
-                    'font-size:clamp(0.8rem,1.8vw,1rem);font-weight:400;line-height:1.5;color:#3e2723;text-align:center;">' +
+                    '<p class="preview-about-text" style="margin:1.25rem 0;padding:0;font-family:Verdana,Geneva,sans-serif;' +
+                    'font-size:clamp(1.15rem,2.6vw,1.45rem);font-weight:600;line-height:1.65;color:#3e2723;text-align:center;width:100%;max-width:100%;">' +
                     escapeHtml(desc) + '</p>' +
-                    '<div style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
+                    '<div class="preview-contact-divider" style="margin-top:1rem;margin-bottom:0;padding-top:0.75rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(nam) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(ph) + '</span></p>' +
-                    '<p style="margin-bottom:0.4rem;font-size:clamp(0.85rem,1.8vw,1.05rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
                     '<span class="preview-contact-value" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';">' + escapeHtml(em) + '</span></p>' +
-                    '<div class="preview-contact-actions" style="margin-top:0.5rem;padding-top:0.4rem;border-top:2px solid rgba(93,64,55,0.3);display:flex;flex-direction:column;gap:0.35rem;">' +
+                    '<div class="preview-contact-actions" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem 0.85rem;margin:2.35rem auto 0;padding-top:1.75rem;border-top:2px solid rgba(93,64,55,0.3);width:100%;max-width:min(100%,22rem);align-items:stretch;">' +
+                    '<button type="button" class="share-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);">Payment</button>' +
                     '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
                     '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
                     '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
                     '</div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
-                    'padding:clamp(0.6rem,1.8vw,0.9rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
+                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         } else if (sectionId === 'products') {
           var productsHtml = '';
           if (products.length > 0) {
@@ -4932,6 +4951,26 @@
               document.getElementById('share-qr').src = 'SmoothQR.png';
               shareModal.classList.add('visible');
               shareModal.setAttribute('aria-hidden', 'false');
+            });
+          }
+          /* Attach preview payment button — opens the existing payments modal */
+          var previewPaymentBtn = document.getElementById('preview-payment-btn');
+          var paymentsModal = document.getElementById('payments-modal-overlay');
+          var paymentsMessage = document.getElementById('payments-message');
+          var paymentsRefValue = document.getElementById('payments-ref-value');
+          if (previewPaymentBtn && paymentsModal) {
+            previewPaymentBtn.addEventListener('click', function () {
+              hapticBuzz();
+              if (paymentsMessage) paymentsMessage.textContent = 'Please enter your name as the reference for sales.';
+              if (paymentsRefValue) {
+                paymentsRefValue.textContent = 'Your name';
+                paymentsRefValue.setAttribute('data-copy', '');
+                paymentsRefValue.style.opacity = '0.6';
+                paymentsRefValue.style.fontStyle = 'italic';
+              }
+              paymentsModal.dataset.pendingRef = '';
+              paymentsModal.classList.add('visible');
+              paymentsModal.setAttribute('aria-hidden', 'false');
             });
           }
           /* Attach preview packs button — opens the wholesale/packs modal to the packs side */
