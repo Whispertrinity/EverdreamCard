@@ -2713,7 +2713,6 @@
 
   <script>
     (function () {
-      try {
       var SHARE_URL = 'https://everdreamcard.vercel.app';
 
       function hideAppSplash() {
@@ -5374,10 +5373,6 @@
 
       /* Load customiser state on page load if exists */
       loadCustomiserState();
-    } catch(e) {
-      document.body.insertAdjacentHTML('afterbegin', '<div style="position:fixed;top:0;left:0;right:0;background:red;color:white;z-index:99999;padding:1rem;font-size:1.2rem;white-space:pre-wrap;">JS Error: ' + e.message + '\\n' + (e.stack || '') + '</div>');
-      throw e;
-    }
     })();
   </script>
 </body>
