@@ -4571,7 +4571,7 @@
           if (nextEl.parentNode !== previewBackPanel) previewBackPanel.appendChild(nextEl);
         }
         /* Move anything else to pool */
-        if (prevEl) {
+        if (prevEl && prevEl !== currentEl && prevEl !== nextEl) {
           if (prevEl.parentNode !== previewSectionsPool) previewSectionsPool.appendChild(prevEl);
         }
         /* Ensure currentIndex stays in range for the current tier */
