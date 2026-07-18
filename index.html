@@ -1898,6 +1898,9 @@
     .customiser-accordion-header.cc-accordion-green {
       background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
     }
+    .customiser-accordion-header.cc-accordion-red {
+      background: linear-gradient(135deg, #7a0000 0%, #8a1a1a 50%, #7a0000 100%);
+    }
     .customiser-accordion-header::after {
       content: '▼';
       float: right;
@@ -2527,9 +2530,38 @@
             <!-- Inner wholesale accordions go here -->
           </div>
           <button type="button" class="cc-add-pill cc-add-pill-purple" id="cc-add-wholesale">+ Add Wholesale Pack</button>
-        </div>
-        </div>
-        <div class="customiser-actions">
+          </div>
+          </div>
+
+          <!-- Accordion: Payments -->
+          <div class="customiser-accordion-wrapper">
+          <button type="button" class="customiser-accordion-header cc-accordion-red" aria-expanded="false">Payments</button>
+          <div class="customiser-accordion-body cc-body-centre">
+            <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#7a0000;margin-bottom:0.8rem;line-height:1.4;font-weight:bold;">Only add payment information to the card if you know who will be seeing it and you are comfortable with it being in the card. A seperate account for this purpose is recommended.</p>
+            <div class="customiser-field">
+              <label class="customiser-label">Account Name</label>
+              <input type="text" class="customiser-text" id="cc-account-name" placeholder="e.g. J Smith">
+            </div>
+            <div class="customiser-field">
+              <label class="customiser-label">BSB</label>
+              <input type="text" class="customiser-text" id="cc-bsb" placeholder="e.g. 105025" maxlength="6">
+            </div>
+            <div class="customiser-field">
+              <label class="customiser-label">Account Number</label>
+              <input type="text" class="customiser-text" id="cc-account-number" placeholder="e.g. 073907940">
+            </div>
+            <div class="customiser-field">
+              <label class="customiser-label">Reference</label>
+              <input type="text" class="customiser-text" id="cc-account-ref" placeholder="e.g. Digicard Payment">
+            </div>
+            <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+              <button type="button" class="cc-ip-save-btn" id="cc-payments-save" style="flex:1;">Save</button>
+              <button type="button" class="cc-ip-remove-btn" id="cc-payments-remove" style="flex:1;">Remove</button>
+            </div>
+          </div>
+          </div>
+
+          <div class="customiser-actions">
           <button type="button" class="customiser-btn customiser-btn-preview" id="cc-preview">Preview</button>
           <button type="button" class="customiser-btn customiser-btn-save" id="cc-save">Save</button>
           <button type="button" class="customiser-btn customiser-btn-reset" id="cc-reset">Reset</button>
@@ -3494,7 +3526,8 @@
         titleFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
-        description: '', website: '', products: []
+        description: '', website: '', products: [],
+        accountName: '', bsb: '', accountNumber: '', accountRef: ''
       };
 
       var customiserOverlay = document.getElementById('customiser-overlay');
@@ -4416,6 +4449,10 @@
         document.getElementById('cc-email').value = state.email || '';
         document.getElementById('cc-website').value = state.website || '';
         document.getElementById('cc-description').value = state.description || '';
+        document.getElementById('cc-account-name').value = state.accountName || '';
+        document.getElementById('cc-bsb').value = state.bsb || '';
+        document.getElementById('cc-account-number').value = state.accountNumber || '';
+        document.getElementById('cc-account-ref').value = state.accountRef || '';
         /* Restore tier */
         var tier = state.tier || '2';
         document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
@@ -4450,7 +4487,11 @@
           description: document.getElementById('cc-description').value,
           products: getProductsArray(),
           packs: getPacksArray(),
-          wholesale: getWholesaleArray()
+          wholesale: getWholesaleArray(),
+          accountName: document.getElementById('cc-account-name').value,
+          bsb: document.getElementById('cc-bsb').value,
+          accountNumber: document.getElementById('cc-account-number').value,
+          accountRef: document.getElementById('cc-account-ref').value
         };
         try { localStorage.setItem('everdream-customiser', JSON.stringify(state)); } catch(e) {}
         updatePreviewDots();
@@ -4511,7 +4552,8 @@
           if (h.classList.contains('cc-accordion-brown') ||
               h.classList.contains('cc-accordion-teal') ||
               h.classList.contains('cc-accordion-green') ||
-              h.classList.contains('cc-accordion-purple')) return;
+              h.classList.contains('cc-accordion-purple') ||
+              h.classList.contains('cc-accordion-red')) return;
           h.style.background = 'linear-gradient(135deg,' + p + ' 0%,' + lighten(p) + ' 50%,' + p + ' 100%)';
         });
 
@@ -5376,6 +5418,24 @@
         confirmOverlay.setAttribute('aria-hidden', 'true');
       });
 
+      /* Payments accordion Save — persists to localStorage */
+      document.getElementById('cc-payments-save').addEventListener('click', function () {
+        hapticBuzz();
+        saveCustomiserState();
+        showTooltip(this, 'Saved!');
+      });
+
+      /* Payments accordion Remove — clears all fields and persists */
+      document.getElementById('cc-payments-remove').addEventListener('click', function () {
+        hapticBuzz();
+        document.getElementById('cc-account-name').value = '';
+        document.getElementById('cc-bsb').value = '';
+        document.getElementById('cc-account-number').value = '';
+        document.getElementById('cc-account-ref').value = '';
+        saveCustomiserState();
+        showTooltip(this, 'Cleared!');
+      });
+
       /* Generate a 7-char reference code: xxx + 4 random alphanumeric */
       function generateRefCode() {
         var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -5417,6 +5477,18 @@
         body += 'Email: ' + em + '\n';
         body += 'Website: ' + web + '\n';
         body += 'Description: ' + desc + '\n';
+        /* Payment info */
+        var accName = document.getElementById('cc-account-name').value.trim();
+        var accBsb = document.getElementById('cc-bsb').value.trim();
+        var accNum = document.getElementById('cc-account-number').value.trim();
+        var accRef = document.getElementById('cc-account-ref').value.trim();
+        if (accName || accBsb || accNum || accRef) {
+          body += 'Payment Info:\n';
+          if (accName) body += '  Account Name: ' + accName + '\n';
+          if (accBsb) body += '  BSB: ' + accBsb + '\n';
+          if (accNum) body += '  Account Number: ' + accNum + '\n';
+          if (accRef) body += '  Ref: ' + accRef + '\n';
+        }
         if (products.length) {
           body += 'Products/Services:\n';
           products.forEach(function (prod) {
@@ -5470,7 +5542,13 @@
           description: desc, products: products, packs: packs, wholesale: wholesale,
           palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, background: b, titleColour: ti },
           fonts: { title: tf },
-          reference: refCode || null
+          reference: refCode || null,
+          payment: {
+            accountName: accName || '',
+            bsb: accBsb || '',
+            accountNumber: accNum || '',
+            ref: accRef || ''
+          }
         }, null, 2);
 
         var subject = 'Digicard Design - ' + biz + (refCode ? ' [' + refCode + ']' : '');
