@@ -2660,10 +2660,16 @@
     <div class="payments-modal">
       <div class="modal-header"><h2>Payments</h2></div>
       <div class="payments-modal-body">
-        <p class="payments-row"><span class="payments-label">Name</span><br><button type="button" class="payments-value copy-contact" data-copy="Brett Hurst" aria-label="Copy name">Brett Hurst</button></p>
-        <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" data-copy="105025" aria-label="Copy BSB">105 025</button></p>
-        <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" data-copy="073907940" aria-label="Copy account number">073907940</button></p>
-        <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
+        <div id="payments-customer-details" style="display:none;">
+          <p class="payments-row"><span class="payments-label">Name</span><br><button type="button" class="payments-value copy-contact" id="payments-cust-name" data-copy="" aria-label="Copy name">—</button></p>
+          <p class="payments-row"><span class="payments-label">BSB</span><br><button type="button" class="payments-value copy-contact" id="payments-cust-bsb" data-copy="" aria-label="Copy BSB">—</button></p>
+          <p class="payments-row"><span class="payments-label">Acc</span><br><button type="button" class="payments-value copy-contact" id="payments-cust-acc" data-copy="" aria-label="Copy account number">—</button></p>
+          <p class="payments-row payments-reference-row"><span class="payments-label">Reference</span><br><button type="button" class="payments-value copy-contact" id="payments-ref-value" data-copy="" aria-label="Copy reference code">—</button></p>
+        </div>
+        <div id="payments-fallback" style="display:none;">
+          <p style="font-family:Verdana,Geneva,sans-serif;font-size:1.05rem;color:#3e2723;margin-bottom:0.75rem;line-height:1.5;">Contact the business owner to arrange for payments.</p>
+        </div>
+        <div id="payments-msg-area" style="margin-top:0.75rem;font-family:Verdana,Geneva,sans-serif;font-size:0.85rem;color:#5d4037;"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="wholesale-modal-close" id="payments-modal-close" aria-label="Close">Close</button>
@@ -3246,17 +3252,42 @@
       var paymentsModal = document.getElementById('payments-modal-overlay');
       var paymentBtn = document.getElementById('payment-btn');
       var paymentsModalClose = document.getElementById('payments-modal-close');
-      var paymentsMessage = document.getElementById('payments-message');
+      var paymentsMessage = document.getElementById('payments-msg-area');
       var paymentsRefValue = document.getElementById('payments-ref-value');
       if (paymentBtn && paymentsModal) paymentBtn.addEventListener('click', function () {
         hapticBuzz();
-        /* Jerky purchase — suggest using name, show reference row with placeholder */
-        if (paymentsMessage) paymentsMessage.textContent = 'Please enter your name as the reference for sales.';
-        if (paymentsRefValue) {
-          paymentsRefValue.textContent = 'Your name';
-          paymentsRefValue.setAttribute('data-copy', '');
-          paymentsRefValue.style.opacity = '0.6';
-          paymentsRefValue.style.fontStyle = 'italic';
+        /* Check if customer has added payment info in the customiser */
+        var saved;
+        try { saved = JSON.parse(localStorage.getItem('everdream-customiser')); } catch(e) {}
+        var accName = saved && saved.accountName ? saved.accountName.trim() : '';
+        var accBsb = saved && saved.bsb ? saved.bsb.trim() : '';
+        var accNum = saved && saved.accountNumber ? saved.accountNumber.trim() : '';
+        var accRef = saved && saved.accountRef ? saved.accountRef.trim() : '';
+        var hasPaymentInfo = accName || accBsb || accNum || accRef;
+
+        var custDetails = document.getElementById('payments-customer-details');
+        var fallbackDiv = document.getElementById('payments-fallback');
+        var nameEl = document.getElementById('payments-cust-name');
+        var bsbEl = document.getElementById('payments-cust-bsb');
+        var accEl = document.getElementById('payments-cust-acc');
+
+        if (hasPaymentInfo) {
+          if (custDetails) custDetails.style.display = '';
+          if (fallbackDiv) fallbackDiv.style.display = 'none';
+          if (nameEl) { nameEl.textContent = accName; nameEl.setAttribute('data-copy', accName); }
+          if (bsbEl) { bsbEl.textContent = accBsb; bsbEl.setAttribute('data-copy', accBsb); }
+          if (accEl) { accEl.textContent = accNum; accEl.setAttribute('data-copy', accNum); }
+          if (paymentsRefValue) {
+            paymentsRefValue.textContent = accRef || '—';
+            paymentsRefValue.setAttribute('data-copy', accRef || '');
+            paymentsRefValue.style.opacity = '1';
+            paymentsRefValue.style.fontStyle = 'normal';
+          }
+          if (paymentsMessage) paymentsMessage.textContent = 'Transfer the amount above, using your reference code as needed.';
+        } else {
+          if (custDetails) custDetails.style.display = 'none';
+          if (fallbackDiv) fallbackDiv.style.display = '';
+          if (paymentsMessage) paymentsMessage.textContent = '';
         }
         paymentsModal.dataset.pendingRef = '';
         paymentsModal.classList.add('visible');
@@ -4847,6 +4878,7 @@
                     '<div class="preview-contact-actions">' +
                     '<div class="preview-contact-actions-bottom-row" style="display:flex;flex-direction:column;align-items:center;gap:0.85rem;max-width:28rem;width:100%;margin:0 auto;">' +
                     '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);max-width:85%;">Wholesale</button>' +
+                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);max-width:85%;">Payment</button>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
                     '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
                     '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
@@ -5164,6 +5196,51 @@
               document.getElementById('share-qr').src = 'SmoothQR.png';
               shareModal.classList.add('visible');
               shareModal.setAttribute('aria-hidden', 'false');
+            });
+          }
+          /* Attach preview payment button — opens the same payments modal with customer's details */
+          var previewPaymentBtn = document.getElementById('preview-payment-btn');
+          if (previewPaymentBtn && paymentsModal) {
+            previewPaymentBtn.addEventListener('click', function () {
+              hapticBuzz();
+              /* Read payment details from localStorage customiser state */
+              var saved;
+              try { saved = JSON.parse(localStorage.getItem('everdream-customiser')); } catch(e) {}
+              var accName = saved && saved.accountName ? saved.accountName.trim() : '';
+              var accBsb = saved && saved.bsb ? saved.bsb.trim() : '';
+              var accNum = saved && saved.accountNumber ? saved.accountNumber.trim() : '';
+              var accRef = saved && saved.accountRef ? saved.accountRef.trim() : '';
+              var hasPaymentInfo = accName || accBsb || accNum || accRef;
+
+              var custDetails = document.getElementById('payments-customer-details');
+              var fallbackDiv = document.getElementById('payments-fallback');
+              var nameEl = document.getElementById('payments-cust-name');
+              var bsbEl = document.getElementById('payments-cust-bsb');
+              var accEl = document.getElementById('payments-cust-acc');
+              var refEl = document.getElementById('payments-ref-value');
+              var msgEl = document.getElementById('payments-msg-area');
+
+              if (hasPaymentInfo) {
+                if (custDetails) custDetails.style.display = '';
+                if (fallbackDiv) fallbackDiv.style.display = 'none';
+                if (nameEl) { nameEl.textContent = accName; nameEl.setAttribute('data-copy', accName); }
+                if (bsbEl) { bsbEl.textContent = accBsb; bsbEl.setAttribute('data-copy', accBsb); }
+                if (accEl) { accEl.textContent = accNum; accEl.setAttribute('data-copy', accNum); }
+                if (refEl) {
+                  refEl.textContent = accRef || '—';
+                  refEl.setAttribute('data-copy', accRef || '');
+                  refEl.style.opacity = '1';
+                  refEl.style.fontStyle = 'normal';
+                }
+                if (msgEl) msgEl.textContent = 'Transfer the amount above, using your reference code as needed.';
+              } else {
+                if (custDetails) custDetails.style.display = 'none';
+                if (fallbackDiv) fallbackDiv.style.display = '';
+                if (msgEl) msgEl.textContent = '';
+              }
+              paymentsModal.dataset.pendingRef = '';
+              paymentsModal.classList.add('visible');
+              paymentsModal.setAttribute('aria-hidden', 'false');
             });
           }
           /* Attach preview packs button — opens the wholesale/packs modal to the packs side */
@@ -5610,6 +5687,28 @@
         hapticBuzz();
         var refCode = generateRefCode();
         if (refCode.length !== 7) refCode = generateRefCode(); /* safety retry */
+        /* Show customer details if saved, show customer payment info and set reference */
+        var saved;
+        try { saved = JSON.parse(localStorage.getItem('everdream-customiser')); } catch(e) {}
+        var accName = saved && saved.accountName ? saved.accountName.trim() : '';
+        var accBsb = saved && saved.bsb ? saved.bsb.trim() : '';
+        var accNum = saved && saved.accountNumber ? saved.accountNumber.trim() : '';
+        var hasPaymentInfo = accName || accBsb || accNum;
+        var custDetails = document.getElementById('payments-customer-details');
+        var fallbackDiv = document.getElementById('payments-fallback');
+        var nameEl = document.getElementById('payments-cust-name');
+        var bsbEl = document.getElementById('payments-cust-bsb');
+        var accEl = document.getElementById('payments-cust-acc');
+        if (hasPaymentInfo) {
+          if (custDetails) custDetails.style.display = '';
+          if (fallbackDiv) fallbackDiv.style.display = 'none';
+          if (nameEl) { nameEl.textContent = accName; nameEl.setAttribute('data-copy', accName); }
+          if (bsbEl) { bsbEl.textContent = accBsb; bsbEl.setAttribute('data-copy', accBsb); }
+          if (accEl) { accEl.textContent = accNum; accEl.setAttribute('data-copy', accNum); }
+        } else {
+          if (custDetails) custDetails.style.display = 'none';
+          if (fallbackDiv) fallbackDiv.style.display = '';
+        }
         var refEl = document.getElementById('payments-ref-value');
         if (refEl) {
           refEl.textContent = refCode;
@@ -5617,11 +5716,12 @@
           refEl.style.opacity = '1';
           refEl.style.fontStyle = 'normal';
         }
-        /* Digicard purchase — show unique code message and reference row */
-        var pm = document.getElementById('payments-message');
-        if (pm) pm.textContent = 'Transfer the amount above to my account, using your unique reference code.';
+        /* Show reference row always */
         var prr = document.querySelector('.payments-reference-row');
         if (prr) prr.style.display = '';
+        /* Digicard purchase — show unique code message */
+        var pm = document.getElementById('payments-msg-area');
+        if (pm) pm.textContent = 'Transfer the amount above to my account, using your unique reference code.';
         /* Store the ref code on the overlay */
         paymentsModal.dataset.pendingRef = refCode;
         paymentsModal.classList.add('visible');
