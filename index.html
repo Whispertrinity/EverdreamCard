@@ -2224,18 +2224,24 @@
     }
     .cc-ip-size-remove:hover { background: #b71c1c; }
     .cc-ip-add-size {
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: 0.8rem;
-      color: #14545c;
-      background: none;
-      border: 1px dashed #14545c;
-      border-radius: 8px;
-      padding: 0.35rem 0.7rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #b8860b 0%, #d4a017 50%, #b8860b 100%);
+      border: none;
+      border-radius: 9999px;
+      padding: 0.4rem 1rem;
       cursor: pointer;
       width: 100%;
       margin-top: 0.2rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+      -webkit-text-stroke: 0.8px #000;
+      text-stroke: 0.8px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
     }
-    .cc-ip-add-size:hover { background: rgba(20,84,92,0.05); }
+    .cc-ip-add-size:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   </style>
 </head>
 <body>
@@ -3810,21 +3816,24 @@
         var nameLabel = document.createElement('label');
         nameLabel.className = 'customiser-label';
         nameLabel.textContent = 'Pack Name';
+        nameLabel.style.cssText = 'display:block;text-align:center;width:100%;';
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'customiser-text cc-pack-name';
         nameInput.placeholder = 'Enter pack name';
         nameInput.value = name || '';
+        nameInput.style.cssText = 'display:block;margin:0 auto;text-align:center;';
 
         var priceLabel = document.createElement('label');
         priceLabel.className = 'customiser-label';
         priceLabel.textContent = 'Pack Price';
+        priceLabel.style.cssText = 'display:block;text-align:center;width:100%;';
         var priceInput = document.createElement('input');
         priceInput.type = 'text';
         priceInput.className = 'customiser-text cc-pack-price';
         priceInput.placeholder = 'e.g. $150';
         priceInput.value = price || '';
-        priceInput.style.width = '8rem';
+        priceInput.style.cssText = 'display:block;margin:0 auto;text-align:center;width:8rem;';
 
         /* Products in pack */
         var prodListLabel = document.createElement('label');
@@ -3991,21 +4000,24 @@
         var nameLabel = document.createElement('label');
         nameLabel.className = 'customiser-label';
         nameLabel.textContent = 'Wholesale Pack Name';
+        nameLabel.style.cssText = 'display:block;text-align:center;width:100%;';
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'customiser-text cc-wholesale-name';
         nameInput.placeholder = 'e.g. Wholesale Case';
         nameInput.value = name || '';
+        nameInput.style.cssText = 'display:block;margin:0 auto;text-align:center;';
 
         var priceLabel = document.createElement('label');
         priceLabel.className = 'customiser-label';
         priceLabel.textContent = 'Wholesale Price';
+        priceLabel.style.cssText = 'display:block;text-align:center;width:100%;';
         var priceInput = document.createElement('input');
         priceInput.type = 'text';
         priceInput.className = 'customiser-text cc-wholesale-price';
         priceInput.placeholder = 'e.g. $250';
         priceInput.value = price || '';
-        priceInput.style.width = '8rem';
+        priceInput.style.cssText = 'display:block;margin:0 auto;text-align:center;width:8rem;';
 
         /* Products in wholesale pack */
         var prodListLabel = document.createElement('label');
