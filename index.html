@@ -4186,7 +4186,7 @@
               /* Parse a price string like "$5" or "10" or "$150" to a number */
               function parsePrice(priceStr) {
                 if (!priceStr) return 0;
-                var cleaned = priceStr.replace(/[^\\d.]/g, '');
+                var cleaned = priceStr.replace(/[^\d.]/g, '');
                 var val = parseFloat(cleaned);
                 return isNaN(val) ? 0 : val;
               }
