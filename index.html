@@ -2123,7 +2123,7 @@
     }
     .cc-inner-product .customiser-inner-prod-header {
       width: 100%;
-      padding: 0.6rem 0.75rem;
+      padding: 0.6rem 2rem 0.6rem 0.75rem;
       font-family: 'The Wanters DEMO', serif;
       font-size: clamp(0.9rem,2.2vw,1rem);
       font-weight: 600;
@@ -2131,17 +2131,21 @@
       background: linear-gradient(135deg, #14545c 0%, #1a6a75 50%, #14545c 100%);
       border: none;
       cursor: pointer;
-      text-align: left;
+      text-align: center;
+      position: relative;
       transition: background 0.2s;
     }
     .cc-inner-product .customiser-inner-prod-header:hover { background: linear-gradient(135deg, #1a6a75 0%, #20808e 50%, #1a6a75 100%); }
     .cc-inner-product .customiser-inner-prod-header::after {
       content: '▼';
-      float: right;
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 0.75em;
       transition: transform 0.2s;
     }
-    .cc-inner-product .customiser-inner-prod-header[aria-expanded="true"]::after { transform: rotate(180deg); }
+    .cc-inner-product .customiser-inner-prod-header[aria-expanded="true"]::after { transform: translateY(-50%) rotate(180deg); }
     /* Pack inner accordions — green header */
     #cc-packs-container .cc-inner-product .customiser-inner-prod-header {
       background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%);
@@ -3788,6 +3792,7 @@
 
       /* Create an inner pack accordion */
       function createPackAccordion(index, name, price, items) {
+        var _idx = index;
         var container = document.getElementById('cc-packs-container');
         var wrapper = document.createElement('div');
         wrapper.className = 'cc-inner-product';
@@ -3967,6 +3972,7 @@
 
       /* Create an inner wholesale accordion */
       function createWholesaleAccordion(index, name, price, items) {
+        var _idx = index;
         var container = document.getElementById('cc-wholesale-container');
         var wrapper = document.createElement('div');
         wrapper.className = 'cc-inner-product';
@@ -4010,7 +4016,6 @@
 
         function refreshWholesaleCheckboxes() {
           /* Update total when checkboxes are re-rendered */
-          var _idx = index;
           var prods = getProductsArray().filter(function (p) { return p.name.trim(); });
           prodList.innerHTML = '';
           if (!prods.length) {
@@ -4221,9 +4226,9 @@
                 if (totalContents > 0) {
                   var diff = totalContents - packPrice;
                   var pct = ((diff / totalContents) * 100).toFixed(1);
-                  var sign = diff >= 0 ? '-' : '+';
+                  var label = diff >= 0 ? 'Save' : 'Extra';
                   totalDiv.textContent = 'Total value: $' + totalContents.toFixed(2) + '  |  Pack price: $' + (packPrice > 0 ? packPrice.toFixed(2) : '—') +
-                    (packPrice > 0 ? '  |  ' + sign + pct + '% ($' + Math.abs(diff).toFixed(2) + ')' : '');
+                    (packPrice > 0 ? '  |  ' + label + ' $' + Math.abs(diff).toFixed(2) + ' (' + Math.abs(pct) + '%)' : '');
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
                 }
@@ -4264,9 +4269,9 @@
                 if (totalContents > 0) {
                   var diff = totalContents - packPrice;
                   var pct = ((diff / totalContents) * 100).toFixed(1);
-                  var sign = diff >= 0 ? '-' : '+';
+                  var label = diff >= 0 ? 'Save' : 'Extra';
                   totalDiv.textContent = 'Total value: $' + totalContents.toFixed(2) + '  |  Pack price: $' + (packPrice > 0 ? packPrice.toFixed(2) : '—') +
-                    (packPrice > 0 ? '  |  ' + sign + pct + '% ($' + Math.abs(diff).toFixed(2) + ')' : '');
+                    (packPrice > 0 ? '  |  ' + label + ' $' + Math.abs(diff).toFixed(2) + ' (' + Math.abs(pct) + '%)' : '');
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
                 }
