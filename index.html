@@ -880,9 +880,6 @@
 
     /* ===== Shared card panel styles ===== */
     .preview-content-panel {
-      background-color: #F6F6DE;
-      border: 4px solid #5d4037;
-      border-radius: 20px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -4711,7 +4708,7 @@
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">' +
             escapeHtml(tag) + '</p><br><button type="button" class="preview-close-btn" style="margin-top:0.3rem;">Close Preview</button></div>';
         } else if (sectionId === 'contact') {
-                  section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;min-height:0;';
+                  section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
                   section.innerHTML =
                     '<div class="preview-contact-header" style="background-color:' + p + ';' +
                     'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;">' +
@@ -4732,18 +4729,13 @@
                     '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">App:</span><br>' +
                     '<a href="#" class="copy-soon" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;cursor:pointer;">Coming Soon</a></p>' +
                     '<div class="preview-contact-actions">' +
-                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);margin-bottom:0.75rem;">Wholesale</button>' +
-                    '<div class="preview-contact-actions-bottom-row" style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;">' +
+                    '<div class="preview-contact-actions-bottom-row" style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;max-width:22rem;margin:0 auto;">' +
+                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
                     '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
                     '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
-                    '</div></div>' +
-                    '<div class="contact-actions-divider" aria-hidden="true"></div>' +
-                    '<p class="design-prompt">Like this business card?</p>' +
-                    '<div class="contact-actions-bottom">' +
-                    '<button type="button" class="share-btn design-yours-btn">Design Your Own</button>' +
-                    '</div></div>' +
+                    '</div></div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
-                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div></div>';
+                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         } else if (sectionId === 'products') {
           var productsHtml = '';
           if (products.length > 0) {
