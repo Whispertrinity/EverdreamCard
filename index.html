@@ -3925,7 +3925,7 @@
         var totalDiv = document.createElement('div');
         totalDiv.className = 'cc-pack-total';
         totalDiv.id = 'cc-pack-total-' + index;
-        totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:center;';
+        totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:left;line-height:1.7;';
         totalDiv.textContent = 'Total contents value: —';
         body.appendChild(totalDiv);
         var btnRow = document.createElement('div');
@@ -4105,7 +4105,7 @@
         var totalDiv = document.createElement('div');
         totalDiv.className = 'cc-wholesale-total';
         totalDiv.id = 'cc-wholesale-total-' + index;
-        totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:center;';
+        totalDiv.style.cssText = 'margin-top:0.5rem;padding:0.4rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:left;line-height:1.7;';
         totalDiv.textContent = 'Total contents value: —';
         body.appendChild(totalDiv);
         var btnRow = document.createElement('div');
@@ -4225,10 +4225,18 @@
                 var packPrice = parsePrice(priceInput ? priceInput.value : '');
                 if (totalContents > 0) {
                   var diff = totalContents - packPrice;
-                  var pct = ((diff / totalContents) * 100).toFixed(1);
-                  var label = diff >= 0 ? 'Save' : 'Extra';
-                  totalDiv.textContent = 'Total value: $' + totalContents.toFixed(2) + '  |  Pack price: $' + (packPrice > 0 ? packPrice.toFixed(2) : '—') +
-                    (packPrice > 0 ? '  |  ' + label + ' $' + Math.abs(diff).toFixed(2) + ' (' + Math.abs(pct) + '%)' : '');
+                  var pct = ((diff / totalContents) * 100);
+                  var pctAbs = Math.abs(pct).toFixed(1);
+                  var diffAbs = Math.abs(diff).toFixed(2);
+                  var isExtra = diff < 0;
+                  var diffColor = isExtra ? '#c62828' : '#1b5e20';
+                  var diffSign = isExtra ? '+' : '';
+                  var diffLabel = isExtra ? '(extra cost)' : '(savings)';
+                  totalDiv.innerHTML = '<div style="line-height:1.7">' +
+                    '<div><strong>Total Value</strong> — $' + totalContents.toFixed(2) + '</div>' +
+                    '<div><strong>Pack Price</strong> — ' + (packPrice > 0 ? '$' + packPrice.toFixed(2) : '—') + '</div>' +
+                    '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span> <span style="color:' + diffColor + '">' + diffLabel + '</span></div>' +
+                    '</div>';
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
                 }
@@ -4268,10 +4276,18 @@
                 var packPrice = parsePrice(priceInput ? priceInput.value : '');
                 if (totalContents > 0) {
                   var diff = totalContents - packPrice;
-                  var pct = ((diff / totalContents) * 100).toFixed(1);
-                  var label = diff >= 0 ? 'Save' : 'Extra';
-                  totalDiv.textContent = 'Total value: $' + totalContents.toFixed(2) + '  |  Pack price: $' + (packPrice > 0 ? packPrice.toFixed(2) : '—') +
-                    (packPrice > 0 ? '  |  ' + label + ' $' + Math.abs(diff).toFixed(2) + ' (' + Math.abs(pct) + '%)' : '');
+                  var pct = ((diff / totalContents) * 100);
+                  var pctAbs = Math.abs(pct).toFixed(1);
+                  var diffAbs = Math.abs(diff).toFixed(2);
+                  var isExtra = diff < 0;
+                  var diffColor = isExtra ? '#c62828' : '#1b5e20';
+                  var diffSign = isExtra ? '+' : '';
+                  var diffLabel = isExtra ? '(extra cost)' : '(savings)';
+                  totalDiv.innerHTML = '<div style="line-height:1.7">' +
+                    '<div><strong>Total Value</strong> — $' + totalContents.toFixed(2) + '</div>' +
+                    '<div><strong>Pack Price</strong> — ' + (packPrice > 0 ? '$' + packPrice.toFixed(2) : '—') + '</div>' +
+                    '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span> <span style="color:' + diffColor + '">' + diffLabel + '</span></div>' +
+                    '</div>';
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
                 }
