@@ -3871,7 +3871,7 @@
               tdQty.appendChild(qty);
               /* Label cell */
               var tdLabel = document.createElement('td');
-              tdLabel.style.cssText = 'padding:0.25rem 0.3rem;vertical-align:middle;word-break:break-word;';
+              tdLabel.style.cssText = 'padding:0.25rem 0.3rem;vertical-align:middle;word-break:break-word;font-weight:700;';
               var label = p.name;
               if (sz.name) label += ' - ' + sz.name;
               if (sz.price) label += ' - $' + sz.price;
@@ -3920,6 +3920,7 @@
         body.appendChild(priceLabel);
         body.appendChild(priceInput);
         body.appendChild(prodListLabel);
+        prodListLabel.style.marginTop = '0.6rem';
         body.appendChild(prodList);
         /* Total value line */
         var totalDiv = document.createElement('div');
@@ -4052,7 +4053,7 @@
               tdQty.appendChild(qty);
               /* Label cell */
               var tdLabel = document.createElement('td');
-              tdLabel.style.cssText = 'padding:0.25rem 0.3rem;vertical-align:middle;word-break:break-word;';
+              tdLabel.style.cssText = 'padding:0.25rem 0.3rem;vertical-align:middle;word-break:break-word;font-weight:700;';
               var label = p.name;
               if (sz.name) label += ' - ' + sz.name;
               if (sz.price) label += ' - $' + sz.price;
@@ -4100,6 +4101,7 @@
         body.appendChild(priceLabel);
         body.appendChild(priceInput);
         body.appendChild(prodListLabel);
+        prodListLabel.style.marginTop = '0.6rem';
         body.appendChild(prodList);
         /* Total value line */
         var totalDiv = document.createElement('div');
@@ -4231,11 +4233,10 @@
                   var isExtra = diff < 0;
                   var diffColor = isExtra ? '#c62828' : '#1b5e20';
                   var diffSign = isExtra ? '+' : '';
-                  var diffLabel = isExtra ? '(extra cost)' : '(savings)';
                   totalDiv.innerHTML = '<div style="line-height:1.7">' +
                     '<div><strong>Total Value</strong> — $' + totalContents.toFixed(2) + '</div>' +
                     '<div><strong>Pack Price</strong> — ' + (packPrice > 0 ? '$' + packPrice.toFixed(2) : '—') + '</div>' +
-                    '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span> <span style="color:' + diffColor + '">' + diffLabel + '</span></div>' +
+                    '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span></div>' +
                     '</div>';
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
@@ -4282,11 +4283,10 @@
                   var isExtra = diff < 0;
                   var diffColor = isExtra ? '#c62828' : '#1b5e20';
                   var diffSign = isExtra ? '+' : '';
-                  var diffLabel = isExtra ? '(extra cost)' : '(savings)';
                   totalDiv.innerHTML = '<div style="line-height:1.7">' +
                     '<div><strong>Total Value</strong> — $' + totalContents.toFixed(2) + '</div>' +
                     '<div><strong>Pack Price</strong> — ' + (packPrice > 0 ? '$' + packPrice.toFixed(2) : '—') + '</div>' +
-                    '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span> <span style="color:' + diffColor + '">' + diffLabel + '</span></div>' +
+                    '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span></div>' +
                     '</div>';
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
