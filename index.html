@@ -4607,19 +4607,36 @@
         if (nextEl) previewBackPanel.appendChild(nextEl);
         previewFlipCard.classList.remove('flip-prev');
         previewFlipCard.classList.add('flip-next');
-        previewFlipCard.addEventListener('transitionend', function onEnd(e) {
-          if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
-          previewFlipCard.removeEventListener('transitionend', onEnd);
+        var flipTimer = null;
+        var flipComplete = false;
+        function previewFinishFlip(dir) {
+          if (flipComplete) return;
+          flipComplete = true;
+          if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
           var count = getPreviewVisibleCount();
           var order = getPreviewSectionOrder();
-          if (previewCurrentIndex + 1 >= order.length) {
-            previewCurrentIndex = 0;
+          if (dir === 'next') {
+            if (previewCurrentIndex + 1 >= order.length) {
+              previewCurrentIndex = 0;
+            } else {
+              previewCurrentIndex = (previewCurrentIndex + 1) % order.length;
+            }
           } else {
-            previewCurrentIndex = (previewCurrentIndex + 1) % order.length;
+            if (previewCurrentIndex - 1 < 0) {
+              previewCurrentIndex = order.length - 1;
+            } else {
+              previewCurrentIndex = (previewCurrentIndex - 1 + order.length) % order.length;
+            }
           }
           previewResetRotation();
           previewIsFlipping = false;
+        }
+        previewFlipCard.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
+          previewFlipCard.removeEventListener('transitionend', onEnd);
+          previewFinishFlip('next');
         }, { once: false });
+        flipTimer = setTimeout(function () { previewFinishFlip('next'); }, 700);
       }
 
       function previewGoPrev() {
@@ -4636,19 +4653,36 @@
         if (prevEl) previewBackPanel.appendChild(prevEl);
         previewFlipCard.classList.remove('flip-next');
         previewFlipCard.classList.add('flip-prev');
-        previewFlipCard.addEventListener('transitionend', function onEnd(e) {
-          if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
-          previewFlipCard.removeEventListener('transitionend', onEnd);
+        var flipTimer = null;
+        var flipComplete = false;
+        function previewFinishFlipPrev(dir) {
+          if (flipComplete) return;
+          flipComplete = true;
+          if (flipTimer) { clearTimeout(flipTimer); flipTimer = null; }
           var count = getPreviewVisibleCount();
           var order = getPreviewSectionOrder();
-          if (previewCurrentIndex - 1 < 0) {
-            previewCurrentIndex = order.length - 1;
+          if (dir === 'prev') {
+            if (previewCurrentIndex - 1 < 0) {
+              previewCurrentIndex = order.length - 1;
+            } else {
+              previewCurrentIndex = (previewCurrentIndex - 1 + order.length) % order.length;
+            }
           } else {
-            previewCurrentIndex = (previewCurrentIndex - 1 + order.length) % order.length;
+            if (previewCurrentIndex + 1 >= order.length) {
+              previewCurrentIndex = 0;
+            } else {
+              previewCurrentIndex = (previewCurrentIndex + 1) % order.length;
+            }
           }
           previewResetRotation();
           previewIsFlipping = false;
+        }
+        previewFlipCard.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
+          previewFlipCard.removeEventListener('transitionend', onEnd);
+          previewFinishFlipPrev('prev');
         }, { once: false });
+        flipTimer = setTimeout(function () { previewFinishFlipPrev('prev'); }, 700);
       }
 
       function previewUpdateDots() {
