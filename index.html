@@ -2525,12 +2525,12 @@
       <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;">
         <div class="flip-card" id="preview-flip-card" style="width:100%;position:relative;transform-style:preserve-3d;transform:rotateY(0deg);transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);">
           <!-- Front face — current section (identical to .card-face) -->
-          <div id="preview-face-front" class="flip-front card-face" style="position:relative;transform:rotateY(0deg);z-index:2;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow-y:auto;">
-            <div class="content-panel" id="preview-content-panel-front" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:400px;text-align:center;position:relative;overflow:visible;display:flex;flex-direction:column;flex:1;margin:0;"></div>
+          <div id="preview-face-front" class="flip-front card-face" style="position:relative;transform:rotateY(0deg);z-index:2;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow:hidden;">
+            <div class="content-panel" id="preview-content-panel-front" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:400px;text-align:center;position:relative;overflow:hidden;display:flex;flex-direction:column;flex:1;margin:0;"></div>
           </div>
           <!-- Back face — next section (identical to .card-face) -->
-          <div id="preview-face-back" class="flip-back card-face" style="position:absolute;top:0;left:0;right:0;bottom:0;transform:rotateY(180deg);z-index:1;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow-y:auto;">
-            <div class="content-panel" id="preview-content-panel-back" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:400px;text-align:center;position:relative;overflow:visible;display:flex;flex-direction:column;flex:1;margin:0;"></div>
+          <div id="preview-face-back" class="flip-back card-face" style="position:absolute;top:0;left:0;right:0;bottom:0;transform:rotateY(180deg);z-index:1;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow:hidden;">
+            <div class="content-panel" id="preview-content-panel-back" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:400px;text-align:center;position:relative;overflow:hidden;display:flex;flex-direction:column;flex:1;margin:0;"></div>
           </div>
         </div>
       </div>
@@ -4675,26 +4675,26 @@
         if (sectionId === 'intro') {
           section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
           section.innerHTML =
-            '<div class="preview-intro-header" style="background-color:' + p + ';' +
-            'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;border-radius:16px 16px 0 0;">' +
-            '<h1 style="font-size:clamp(3.1rem,6.8vw,4.6rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;' +
+            '<div class="preview-intro-header" style="background-color:' + p + ';padding:' +
+            'clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
+            '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;' +
             'line-height:1.2;-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;' +
             'font-family:' + tf + ';">' + escapeHtml(biz) + '</h1></div>' +
             '<div class="preview-intro-body" style="background-color:' + b + ';display:flex;flex:1;align-items:center;justify-content:center;' +
-            'padding:clamp(1rem,2.5vw,1.5rem) clamp(2rem,4vw,3rem);min-height:80px;">' +
+            'padding:clamp(0.8rem,2vw,1.5rem) clamp(1.5rem,4vw,2.5rem);min-height:80px;">' +
             '<div class="preview-intro-body-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">' +
             '<img src="Everdream-Logo-Circle.png" alt="Logo" style="display:block;margin:0 auto;width:100px;height:100px;object-fit:contain;" />' +
             '<p style="font-family:\'The Wanters DEMO\',serif;font-size:clamp(0.7rem,1.8vw,0.85rem);color:#3e2723;margin-top:0.3rem;" aria-hidden="true">Swipe</p></div></div>' +
             '<div class="preview-intro-footer" style="flex-shrink:0;background-color:' + s + ';' +
-            'padding:clamp(0.6rem,1.8vw,1rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;border-radius:0 0 16px 16px;">' +
-            '<p style="font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:700;color:#F6F6DE;line-height:1.5;text-align:center;' +
+            'padding:clamp(0.6rem,1.8vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;">' +
+            '<p style="font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;color:#F6F6DE;line-height:1.5;text-align:center;' +
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">' +
-            escapeHtml(tag) + '</p><br><button type="button" class="preview-close-btn">Close Preview</button></div>';
+            escapeHtml(tag) + '</p><br><button type="button" class="preview-close-btn" style="margin-top:0.3rem;">Close Preview</button></div>';
         } else if (sectionId === 'contact') {
                   section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
                   section.innerHTML =
                     '<div class="preview-contact-header" style="background-color:' + p + ';' +
-                    'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;border-radius:16px 16px 0 0;">' +
+                    'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;">' +
                     '<h1 style="font-size:clamp(2.8rem,6.2vw,4.2rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
                     '-webkit-text-stroke:1.5px #000;text-stroke:1.5px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
                     '<div class="preview-contact-body" style="background-color:' + b + ';flex:1;padding:clamp(1.5rem,4vw,2.5rem) clamp(2rem,4vw,3rem);text-align:center;overflow-y:auto;">' +
@@ -4723,7 +4723,7 @@
                     '<button type="button" class="share-btn design-yours-btn">Design Your Own</button>' +
                     '</div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
-                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;border-radius:0 0 16px 16px;"><button type="button" class="preview-close-btn">Close Preview</button></div>' +
+                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         } else if (sectionId === 'products') {
           var productsHtml = '';
           if (products.length > 0) {
@@ -4755,13 +4755,13 @@
           section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
           section.innerHTML =
             '<div class="preview-products-header" style="background-color:' + p + ';' +
-            'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;border-radius:16px 16px 0 0;">' +
+            'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
             '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Products</h1></div>' +
             '<div class="preview-products-body" style="background-color:' + b + ';flex:1;padding:clamp(0.5rem,1.5vw,0.75rem) 0.75rem;text-align:center;' +
             'overflow-y:auto;">' + productsHtml + '</div>' +
             '<div class="preview-products-footer" style="flex-shrink:0;background-color:' + s + ';' +
-            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;border-radius:0 0 16px 16px;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
+            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
         }
 
         return section;
