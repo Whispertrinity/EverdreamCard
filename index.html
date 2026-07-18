@@ -1842,15 +1842,17 @@
     }
     .customiser-tier-btn:hover { transform: scale(1.03); }
 
-    /* Price inside tier buttons — Wanters DEMO, larger */
+    /* Price inside tier buttons — match heading text-stroke */
     .tier-price {
       display: block;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1.2rem, 3.2vw, 1.5rem);
+      font-size: clamp(1.6rem, 4vw, 2rem);
       font-weight: 700;
-      margin-top: 0.25rem;
-      -webkit-text-stroke: 0;
-      text-stroke: 0;
+      margin-top: 0.2rem;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
       opacity: 0.95;
     }
 
@@ -3489,8 +3491,10 @@
         var prodWrapper = prodHeader ? prodHeader.closest('.customiser-accordion-wrapper') : null;
         var packsWrapper = packsHeader ? packsHeader.closest('.customiser-accordion-wrapper') : null;
         var wholesaleWrapper = wholesaleHeader ? wholesaleHeader.closest('.customiser-accordion-wrapper') : null;
+        var sectionDivider = document.querySelector('.customiser-section-divider');
         if (!prodHeader || !prodBody) return;
         if (tier === '3') {
+          if (sectionDivider) sectionDivider.style.display = '';
           if (prodWrapper) prodWrapper.style.display = '';
           prodHeader.style.display = '';
           prodBody.style.display = '';
@@ -3501,6 +3505,7 @@
           if (wholesaleHeader) wholesaleHeader.style.display = '';
           if (wholesaleBody) wholesaleBody.style.display = '';
         } else {
+          if (sectionDivider) sectionDivider.style.display = 'none';
           if (prodWrapper) prodWrapper.style.display = 'none';
           prodHeader.style.display = 'none';
           prodBody.style.display = 'none';
