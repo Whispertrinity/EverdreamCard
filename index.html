@@ -825,7 +825,6 @@
     /* Ensure the live card inside preview is vertically centred with proper breathing room */
     .preview-overlay > .card {
       margin: auto;
-      max-height: 100%;
     }
     /* The preview reuses the live card's .card / .card-face / .content-panel classes */
     /* so it gets the same sizing, borders, and styling automatically */
@@ -2522,16 +2521,16 @@
   <!-- Preview Modal — exact replica of the live card, same structure and sizes -->
   <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
     <!-- Same .card wrapper as live card -->
-    <div class="card" style="z-index:410;max-width:960px;position:relative;perspective:2200px;perspective-origin:center center;display:flex;flex-direction:column;">
-      <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;flex-shrink:1;min-height:0;">
-        <div class="flip-card" id="preview-flip-card" style="width:100%;position:relative;transform-style:preserve-3d;transform:rotateY(0deg);transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);flex-shrink:1;min-height:0;">
+    <div class="card" style="z-index:410;max-width:960px;position:relative;perspective:2200px;perspective-origin:center center;flex-shrink:0;">
+      <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;">
+        <div class="flip-card" id="preview-flip-card" style="width:100%;position:relative;transform-style:preserve-3d;transform:rotateY(0deg);transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);">
           <!-- Front face — current section (identical to .card-face) -->
           <div id="preview-face-front" class="flip-front card-face" style="position:relative;transform:rotateY(0deg);z-index:2;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow-y:auto;">
-            <div class="content-panel" id="preview-content-panel-front" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:250px;text-align:center;position:relative;overflow:visible;display:flex;flex-direction:column;flex:1;margin:0;"></div>
+            <div class="content-panel" id="preview-content-panel-front" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:400px;text-align:center;position:relative;overflow:visible;display:flex;flex-direction:column;flex:1;margin:0;"></div>
           </div>
           <!-- Back face — next section (identical to .card-face) -->
           <div id="preview-face-back" class="flip-back card-face" style="position:absolute;top:0;left:0;right:0;bottom:0;transform:rotateY(180deg);z-index:1;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow-y:auto;">
-            <div class="content-panel" id="preview-content-panel-back" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:250px;text-align:center;position:relative;overflow:visible;display:flex;flex-direction:column;flex:1;margin:0;"></div>
+            <div class="content-panel" id="preview-content-panel-back" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:0;padding:0;min-height:400px;text-align:center;position:relative;overflow:visible;display:flex;flex-direction:column;flex:1;margin:0;"></div>
           </div>
         </div>
       </div>
