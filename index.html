@@ -5132,13 +5132,16 @@
       document.getElementById('cc-preview').addEventListener('click', function () {
         hapticBuzz();
         populatePreview();
-        document.getElementById('preview-overlay').classList.add('visible');
-        document.getElementById('preview-overlay').setAttribute('aria-hidden', 'false');
+        var po = document.getElementById('preview-overlay');
+        po.style.display = '';
+        po.classList.add('visible');
+        po.setAttribute('aria-hidden', 'false');
       });
       /* Close preview overlay on background click */
       document.getElementById('preview-overlay').addEventListener('click', function (e) {
         if (e.target === this) {
           hapticBuzz();
+          this.style.display = '';
           this.classList.remove('visible');
           this.setAttribute('aria-hidden', 'true');
         }
