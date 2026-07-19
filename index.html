@@ -1800,6 +1800,44 @@
       border-bottom: 2px solid #b8a87e;
       padding-bottom: 0.75rem;
     }
+    /* Logo picker button in customiser */
+    .customiser-logo-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      background: linear-gradient(135deg, #5d4037, #795548);
+      border: 2px solid #3e2723;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin: 0.5rem 0;
+      color: #f5f5dc;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      font-weight: 600;
+      text-align: left;
+    }
+    .customiser-logo-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .customiser-logo-btn img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .customiser-logo-btn .logo-btn-label {
+      flex: 1;
+    }
+    .customiser-logo-btn .logo-btn-arrow {
+      font-size: 1.2rem;
+      opacity: 0.6;
+    }
     /* Thin section divider between accordion groups */
     .customiser-section-divider {
       height: 0;
@@ -2419,6 +2457,13 @@
         <button type="button" class="customiser-accordion-header cc-accordion-brown" aria-expanded="false">Details</button>
         <div class="customiser-accordion-body cc-body-centre">
           <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin-bottom:0.8rem;line-height:1.5;">The same card you see for Everdream Jerky will be created but with your information. Minimal, essential-only changes can be made after creation. The card will get its own URL that you can share as much as you like for free forever, or you'll get your money back.</p>
+          <!-- Logo picker button -->
+          <button type="button" class="customiser-logo-btn" id="cc-logo-btn">
+            <img id="cc-logo-preview" src="Everdream-Logo-Circle.png" alt="Current logo">
+            <span class="logo-btn-label">Logo</span>
+            <span class="logo-btn-arrow">›</span>
+          </button>
+          <div style="border-top:1px solid #b8a87e;margin:0.5rem 0;width:100%;" aria-hidden="true"></div>
           <div class="customiser-field">
             <label class="customiser-label">Business Name</label>
             <input type="text" class="customiser-text" id="cc-business" placeholder="Everdream Jerky">
@@ -2566,6 +2611,34 @@
       </div>
       <div class="modal-footer customiser-footer">
         <button type="button" class="wholesale-modal-close" id="cc-back" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo Picker Modal -->
+  <div id="logo-picker-overlay" class="logo-picker-overlay" aria-hidden="true">
+    <div class="logo-picker-modal">
+      <div class="modal-header" style="background:linear-gradient(135deg,#5d4037,#795548);"><h2 style="font-family:'The Wanters DEMO',serif;">Your Logo</h2></div>
+      <div class="logo-picker-body">
+        <div class="logo-picker-current">
+          <img id="lp-current-preview" src="Everdream-Logo-Circle.png" alt="Current logo">
+          <p class="logo-picker-current-label">Current logo</p>
+        </div>
+        <div class="logo-picker-upload-area" id="lp-upload-area">
+          <input type="file" id="lp-file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
+          <div class="logo-picker-upload-icon">📁</div>
+          <p class="logo-picker-upload-text">Tap to upload your own image</p>
+          <p class="logo-picker-upload-hint">PNG, JPG, WebP, GIF or SVG — square/circular works best</p>
+        </div>
+        <p class="logo-picker-presets-title">Or pick a style</p>
+        <div class="logo-picker-presets" id="lp-presets">
+          <img class="logo-picker-preset" src="Everdream-Logo-Circle.png" data-logo="Everdream-Logo-Circle.png" alt="Circle">
+          <img class="logo-picker-preset" src="EverdreamTrinityClear.png" data-logo="EverdreamTrinityClear.png" alt="Square">
+        </div>
+        <div class="logo-picker-actions">
+          <button type="button" class="lp-confirm" id="lp-confirm">Save Logo</button>
+          <button type="button" class="lp-cancel" id="lp-cancel">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
@@ -5608,7 +5681,11 @@
         body += '  Title Colour: ' + ti + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
-        body += '  Body Font: The Wanters DEMO (fixed)\n\n';
+        body += '  Body Font: The Wanters DEMO (fixed)\n';
+        /* Logo info */
+        var logoData = localStorage.getItem('everdream-logo-data') || '';
+        var logoPath = localStorage.getItem('everdream-logo') || '';
+        body += 'Logo: ' + (logoData ? '(uploaded image — see JSON)' : logoPath || '(default)') + '\n\n';
         body += '===JSON===\n';
         body += JSON.stringify({
           tier: tier, cost: cost,
@@ -5616,6 +5693,7 @@
           description: desc, products: products, packs: packs, wholesale: wholesale,
           palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, background: b, titleColour: ti },
           fonts: { title: tf },
+          logo: logoData || logoPath || 'Everdream-Logo-Circle.png',
           reference: refCode || null,
           payment: {
             accountName: accName || '',
@@ -5768,6 +5846,125 @@
 
       /* Load customiser state on page load if exists */
       loadCustomiserState();
+
+      /* ── Logo Picker ─────────────────────────────────────── */
+      var logoPickerOverlay = document.getElementById('logo-picker-overlay');
+      var logoBtn = document.getElementById('cc-logo-btn');
+      var lpPreview = document.getElementById('lp-current-preview');
+      var lpFileInput = document.getElementById('lp-file-input');
+      var lpConfirm = document.getElementById('lp-confirm');
+      var lpCancel = document.getElementById('lp-cancel');
+      var ccLogoPreview = document.getElementById('cc-logo-preview');
+      var selectedLogo = localStorage.getItem('everdream-logo') || 'Everdream-Logo-Circle.png';
+
+      /* Update all logo references */
+      function applyLogo(src) {
+        selectedLogo = src;
+        ccLogoPreview.src = src;
+        lpPreview.src = src;
+        localStorage.setItem('everdream-logo', src);
+        /* Update master card logo */
+        var masterLogo = document.querySelector('.intro-icon');
+        if (masterLogo) masterLogo.src = src;
+        /* Update any applyCardData reference */
+        CUSTOMISER_DEFAULTS.logoUrl = src;
+      }
+
+      /* Open picker */
+      if (logoBtn && logoPickerOverlay) logoBtn.addEventListener('click', function () {
+        hapticBuzz();
+        lpPreview.src = selectedLogo;
+        /* Highlight current preset */
+        document.querySelectorAll('.logo-picker-preset').forEach(function (p) {
+          p.classList.toggle('selected', p.getAttribute('data-logo') === selectedLogo);
+        });
+        logoPickerOverlay.classList.add('visible');
+        logoPickerOverlay.setAttribute('aria-hidden', 'false');
+      });
+
+      /* File upload handler */
+      if (lpFileInput) lpFileInput.addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          var dataUrl = ev.target.result;
+          lpPreview.src = dataUrl;
+          /* Deselect presets */
+          document.querySelectorAll('.logo-picker-preset').forEach(function (p) { p.classList.remove('selected'); });
+        };
+        reader.readAsDataURL(file);
+      });
+
+      /* Preset click */
+      document.querySelectorAll('.logo-picker-preset').forEach(function (p) {
+        p.addEventListener('click', function () {
+          lpPreview.src = this.getAttribute('data-logo');
+          document.querySelectorAll('.logo-picker-preset').forEach(function (p2) { p2.classList.remove('selected'); });
+          this.classList.add('selected');
+          /* Clear file input */
+          if (lpFileInput) lpFileInput.value = '';
+        });
+      });
+
+      /* Confirm */
+      if (lpConfirm) lpConfirm.addEventListener('click', function () {
+        hapticBuzz();
+        var src = lpPreview.src;
+        /* If it's a data URL (uploaded image), save it */
+        if (src.indexOf('data:') === 0) {
+          localStorage.setItem('everdream-logo-data', src);
+          localStorage.removeItem('everdream-logo'); /* clear preset ref */
+        } else {
+          /* It's a preset path */
+          localStorage.setItem('everdream-logo', src);
+          localStorage.removeItem('everdream-logo-data');
+        }
+        applyLogo(src);
+        logoPickerOverlay.classList.remove('visible');
+        logoPickerOverlay.setAttribute('aria-hidden', 'true');
+      });
+
+      /* Cancel */
+      if (lpCancel) lpCancel.addEventListener('click', function () {
+        hapticBuzz();
+        logoPickerOverlay.classList.remove('visible');
+        logoPickerOverlay.setAttribute('aria-hidden', 'true');
+      });
+
+      /* Close on overlay click */
+      if (logoPickerOverlay) logoPickerOverlay.addEventListener('click', function (e) {
+        if (e.target === logoPickerOverlay) {
+          logoPickerOverlay.classList.remove('visible');
+          logoPickerOverlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      /* Restore saved logo on load */
+      var savedData = localStorage.getItem('everdream-logo-data');
+      var savedPath = localStorage.getItem('everdream-logo');
+      if (savedData) {
+        applyLogo(savedData);
+      } else if (savedPath) {
+        applyLogo(savedPath);
+      }
+
+      /* Update the logo in the preview builder */
+      /* Patch previewBuildSection's intro section to use custom logo */
+      var origPreviewBuild = previewBuildSection;
+      previewBuildSection = function (sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
+        var el = origPreviewBuild(sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
+        if (sectionId === 'intro') {
+          var img = el.querySelector('.preview-intro-body img');
+          if (img) {
+            var customLogo = localStorage.getItem('everdream-logo-data') || localStorage.getItem('everdream-logo');
+            if (customLogo) img.src = customLogo;
+          }
+        }
+        return el;
+      };
+      /* ── End Logo Picker ─────────────────────────────────── */
+
     })();
   </script>
 </body>

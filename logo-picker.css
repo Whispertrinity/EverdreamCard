@@ -1,0 +1,155 @@
+/* ─── Logo Picker Modal Styles ────────────────────────── */
+#logo-picker-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+#logo-picker-overlay.visible {
+  opacity: 1; pointer-events: auto;
+}
+.logo-picker-modal {
+  background: #f5f5dc;
+  border: 3px solid #3e2723;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.logo-picker-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  text-align: center;
+}
+.logo-picker-body p {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 0.9rem;
+  color: #5d4037;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.logo-picker-current {
+  margin-bottom: 1.2rem;
+}
+.logo-picker-current img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border: 2px solid #b8a87e;
+  border-radius: 12px;
+  padding: 4px;
+  background: #fff;
+}
+.logo-picker-current-label {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 0.75rem;
+  color: #8d6e63;
+  margin-top: 0.3rem;
+}
+.logo-picker-upload-area {
+  border: 2px dashed #b8a87e;
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.logo-picker-upload-area:hover,
+.logo-picker-upload-area.drag-over {
+  border-color: #14545c;
+  background: rgba(20,84,92,0.05);
+}
+.logo-picker-upload-area input[type="file"] {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.logo-picker-upload-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.logo-picker-upload-text {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 0.85rem;
+  color: #5d4037;
+}
+.logo-picker-upload-hint {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 0.7rem;
+  color: #a1887f;
+  margin-top: 0.3rem;
+}
+.logo-picker-presets-title {
+  font-family: 'The Wanters DEMO', serif;
+  font-size: 1rem;
+  color: #3e2723;
+  margin: 1rem 0 0.5rem;
+  text-align: center;
+}
+.logo-picker-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.logo-picker-preset {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 3px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.logo-picker-preset:hover {
+  border-color: #14545c;
+  transform: scale(1.08);
+}
+.logo-picker-preset.selected {
+  border-color: #1b5e20;
+  box-shadow: 0 0 0 2px #1b5e20;
+}
+.logo-picker-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.logo-picker-actions button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-family: 'The Wanters DEMO', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f5dc;
+  border: 2px solid #0a1a1d;
+  border-radius: 9999px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.15s;
+}
+.logo-picker-actions button:hover {
+  transform: scale(1.03);
+}
+.logo-picker-actions .lp-confirm {
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+}
+.logo-picker-actions .lp-cancel {
+  background: linear-gradient(135deg, #5d4037, #795548);
+}
