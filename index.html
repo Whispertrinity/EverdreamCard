@@ -2494,6 +2494,34 @@
         </div>
         </div>
 
+        <!-- Accordion: Payments -->
+        <div class="customiser-accordion-wrapper">
+        <button type="button" class="customiser-accordion-header cc-accordion-red" aria-expanded="false">Payments</button>
+        <div class="customiser-accordion-body cc-body-centre">
+          <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#7a0000;margin-bottom:0.8rem;line-height:1.4;font-weight:bold;">Only add payment information to the card if you know who will be seeing it and you are comfortable with it being in the card. A seperate account for this purpose is recommended.</p>
+          <div class="customiser-field">
+            <label class="customiser-label">Account Name</label>
+            <input type="text" class="customiser-text" id="cc-account-name" placeholder="e.g. J Smith">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">BSB</label>
+            <input type="text" class="customiser-text" id="cc-bsb" placeholder="e.g. 105025" maxlength="6">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Account Number</label>
+            <input type="text" class="customiser-text" id="cc-account-number" placeholder="e.g. 073907940">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Reference</label>
+            <input type="text" class="customiser-text" id="cc-account-ref" placeholder="e.g. Digicard Payment">
+          </div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+            <button type="button" class="cc-ip-save-btn" id="cc-payments-save" style="flex:1;">Save</button>
+            <button type="button" class="cc-ip-remove-btn" id="cc-payments-remove" style="flex:1;">Remove</button>
+          </div>
+        </div>
+        </div>
+
         <!-- Thin divider between basic options and products/packs/wholesale -->
         <div class="customiser-section-divider" aria-hidden="true"></div>
 
@@ -2530,38 +2558,10 @@
             <!-- Inner wholesale accordions go here -->
           </div>
           <button type="button" class="cc-add-pill cc-add-pill-purple" id="cc-add-wholesale">+ Add Wholesale Pack</button>
-          </div>
-          </div>
+        </div>
+        </div>
 
-          <!-- Accordion: Payments -->
-          <div class="customiser-accordion-wrapper">
-          <button type="button" class="customiser-accordion-header cc-accordion-red" aria-expanded="false">Payments</button>
-          <div class="customiser-accordion-body cc-body-centre">
-            <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#7a0000;margin-bottom:0.8rem;line-height:1.4;font-weight:bold;">Only add payment information to the card if you know who will be seeing it and you are comfortable with it being in the card. A seperate account for this purpose is recommended.</p>
-            <div class="customiser-field">
-              <label class="customiser-label">Account Name</label>
-              <input type="text" class="customiser-text" id="cc-account-name" placeholder="e.g. J Smith">
-            </div>
-            <div class="customiser-field">
-              <label class="customiser-label">BSB</label>
-              <input type="text" class="customiser-text" id="cc-bsb" placeholder="e.g. 105025" maxlength="6">
-            </div>
-            <div class="customiser-field">
-              <label class="customiser-label">Account Number</label>
-              <input type="text" class="customiser-text" id="cc-account-number" placeholder="e.g. 073907940">
-            </div>
-            <div class="customiser-field">
-              <label class="customiser-label">Reference</label>
-              <input type="text" class="customiser-text" id="cc-account-ref" placeholder="e.g. Digicard Payment">
-            </div>
-            <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
-              <button type="button" class="cc-ip-save-btn" id="cc-payments-save" style="flex:1;">Save</button>
-              <button type="button" class="cc-ip-remove-btn" id="cc-payments-remove" style="flex:1;">Remove</button>
-            </div>
-          </div>
-          </div>
-
-          <div class="customiser-actions">
+        <div class="customiser-actions">
           <button type="button" class="customiser-btn customiser-btn-preview" id="cc-preview">Preview</button>
           <button type="button" class="customiser-btn customiser-btn-save" id="cc-save">Save</button>
           <button type="button" class="customiser-btn customiser-btn-reset" id="cc-reset">Reset</button>
