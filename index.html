@@ -5077,8 +5077,10 @@
                     (web ? '<a href="' + escapeHtml(web) + '" target="_blank" rel="noopener" class="copy-contact" data-copy="' + escapeHtml(web) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;">' + escapeHtml(web) + '</a>' : '<a href="#" class="copy-soon" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;cursor:pointer;">Coming Soon</a>') + '</p>' +
                     '<div class="preview-contact-actions">' +
                     '<div class="preview-contact-actions-bottom-row" style="display:flex;flex-direction:column;align-items:center;gap:0.85rem;max-width:28rem;width:100%;margin:0 auto;">' +
-                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);max-width:85%;">Wholesale</button>' +
-                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);max-width:85%;">Payment</button>' +
+                    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
+                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
+                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);">Payment</button>' +
+                    '</div>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
                     '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
                     '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
