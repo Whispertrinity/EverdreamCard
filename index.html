@@ -3062,7 +3062,8 @@
         document.querySelectorAll('.title-panel h1').forEach(function (h) { h.textContent = d.businessName; });
         document.querySelectorAll('.intro-header h1').forEach(function (h) { h.textContent = d.businessName; });
         var logo = document.querySelector('.intro-icon');
-        if (logo) { logo.src = d.logoUrl || logo.src; logo.alt = d.businessName; }
+        /* Master card logo is always Everdream's — never override it */
+        if (logo) { logo.src = 'Everdream-Logo-Circle.png'; logo.alt = d.businessName || 'Everdream Jerky'; }
         var flavoursUl = document.querySelector('.flavour-accordions');
         if (flavoursUl && d.products && d.products.length) {
           flavoursUl.innerHTML = '';
@@ -5995,10 +5996,7 @@
         ccLogoPreview.src = src;
         lpPreview.src = src;
         localStorage.setItem('everdream-logo', src);
-        /* Update master card logo */
-        var masterLogo = document.querySelector('.intro-icon');
-        if (masterLogo) masterLogo.src = src;
-        /* Update any applyCardData reference */
+        /* Do NOT touch the master card — keep Everdream's logo locked */
         CUSTOMISER_DEFAULTS.logoUrl = src;
       }
 
