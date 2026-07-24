@@ -814,20 +814,25 @@
       bottom: 0;
       background: rgba(0, 0, 0, 0.75);
       z-index: 400;
+      display: none;
+      overflow-y: auto;
+    }
+    /* Centering wrapper inside the overlay */
+    .preview-overlay .preview-card-wrapper {
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
+      width: 100%;
       padding: clamp(1.5rem, 5vw, 3rem);
-      overflow-y: auto;
+      box-sizing: border-box;
     }
     .preview-overlay.visible {
-      display: flex;
+      display: block;
     }
-    /* Let the card be its natural height — overlay scrolls if it overflows */
-    .preview-overlay > .card {
-      display: flex;
-      flex-direction: column;
-      align-self: center;
+    /* Let the card be its natural height */
+    .preview-overlay .card {
       max-width: 960px;
       width: 100%;
       flex-shrink: 0;
@@ -2750,6 +2755,7 @@
 
   <!-- Preview Modal — exact replica of the live card, same structure and sizes -->
   <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
+    <div class="preview-card-wrapper">
     <!-- Same .card wrapper as live card -->
     <div class="card" style="z-index:410;max-width:960px;position:relative;perspective:2200px;perspective-origin:center center;">
       <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;flex-shrink:1;min-height:0;">
@@ -2765,6 +2771,7 @@
         </div>
       </div>
       <div class="preview-sections-pool" id="preview-sections-pool" style="display:none;" aria-hidden="true"></div>
+    </div>
     </div>
   </div>
 
