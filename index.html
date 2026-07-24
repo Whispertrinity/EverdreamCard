@@ -812,7 +812,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: #5d4037;
       z-index: 400;
       display: none;
       overflow-y: auto;
@@ -824,7 +824,7 @@
     }
     /* Let the card be its natural height */
     .preview-overlay .card {
-      max-width: 960px;
+      max-width: min(calc(100% - 2rem), 960px);
       width: 100%;
       flex: 0 0 auto;
       margin: auto;
