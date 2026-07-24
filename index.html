@@ -1886,15 +1886,17 @@
     }
     .logo-picker-actions {
       display: flex;
-      gap: 0.6rem;
+      justify-content: center;
       width: 100%;
       margin-top: 0.3rem;
     }
     .logo-picker-actions button {
-      flex: 1;
       padding: 0.5rem 1rem;
+      min-height: 2.85rem;
+      min-width: 14rem;
+      max-width: 100%;
       font-family: 'The Wanters DEMO', serif;
-      font-size: 0.9rem;
+      font-size: clamp(1.12rem, 2.55vw, 1.32rem);
       font-weight: 600;
       border: 2px solid #3e2723;
       border-radius: 9999px;
@@ -1905,19 +1907,21 @@
       paint-order: stroke fill;
       -webkit-paint-order: stroke fill;
       transition: transform 0.15s;
+      box-sizing: border-box;
     }
     .logo-picker-actions button:hover { transform: translateY(-1px); }
     .lp-confirm { background: linear-gradient(135deg,#1b5e20,#2e7d32,#1b5e20); }
 
-    /* Logo picker button in customiser — match share-btn style, teal */
+    /* Logo picker button in customiser — match share-btn style, teal, narrower like Payment/Save */
     .customiser-logo-btn {
       display: block;
       width: 100%;
-      margin: 0.5rem 0;
+      max-width: 14rem;
+      margin: 0.5rem auto;
       padding: 0.78rem 1.1rem;
       min-height: 2.85rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(1.12rem, 2.55vw, 1.32rem);
+      font-size: clamp(1.2rem, 2.8vw, 1.5rem);
       font-weight: 600;
       color: #f5f5dc;
       background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
@@ -1935,15 +1939,6 @@
     .customiser-logo-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(20, 84, 92, 0.45);
-    }
-    .customiser-logo-btn img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #fff;
-      vertical-align: middle;
-      margin-right: 0.5rem;
     }
     /* Thin section divider between accordion groups */
     .customiser-section-divider {
@@ -2566,8 +2561,7 @@
           <p style="font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#5d4037;margin-bottom:0.8rem;line-height:1.5;">The same card you see for Everdream Jerky will be created but with your information. Minimal, essential-only changes can be made after creation. The card will get its own URL that you can share as much as you like for free forever, or you'll get your money back.</p>
           <!-- Logo picker button -->
           <button type="button" class="customiser-logo-btn" id="cc-logo-btn">
-            <img id="cc-logo-preview" src="Everdream-Logo-Circle.png" alt="Current logo">
-            Logo
+            + Logo
           </button>
           <div style="border-top:1px solid #b8a87e;margin:0.5rem 0;width:100%;" aria-hidden="true"></div>
           <div class="customiser-field">
@@ -2730,7 +2724,7 @@
           <img id="lp-current-preview" src="Everdream-Logo-Circle.png" alt="Current logo">
           <p class="logo-picker-current-label">Current logo</p>
         </div>
-        <button type="button" class="share-btn" id="lp-upload-btn" style="background:linear-gradient(135deg,#b8860b,#d4a017,#b8860b);border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);width:100%;">Upload</button>
+        <button type="button" class="share-btn" id="lp-upload-btn" style="background:linear-gradient(135deg,#b8860b,#d4a017,#b8860b);border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);min-width:14rem;max-width:100%;">Upload</button>
         <input type="file" id="lp-file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" style="display:none;">
         <p class="logo-picker-presets-title">Or pick a style</p>
         <div class="logo-picker-presets" id="lp-presets">
@@ -6067,13 +6061,11 @@
       var lpFileInput = document.getElementById('lp-file-input');
       var lpConfirm = document.getElementById('lp-confirm');
       var lpCancel = document.getElementById('lp-cancel');
-      var ccLogoPreview = document.getElementById('cc-logo-preview');
       var selectedLogo = localStorage.getItem('everdream-logo') || 'Everdream-Logo-Circle.png';
 
       /* Update all logo references */
       function applyLogo(src) {
         selectedLogo = src;
-        ccLogoPreview.src = src;
         lpPreview.src = src;
         localStorage.setItem('everdream-logo', src);
         /* Do NOT touch the master card — keep Everdream's logo locked */
