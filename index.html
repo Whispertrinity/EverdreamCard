@@ -817,25 +817,19 @@
       display: none;
       overflow-y: auto;
     }
-    /* Centering wrapper inside the overlay */
-    .preview-overlay .preview-card-wrapper {
+    .preview-overlay.visible {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      width: 100%;
-      padding: clamp(1.5rem, 5vw, 3rem);
-      box-sizing: border-box;
-    }
-    .preview-overlay.visible {
-      display: block;
     }
     /* Let the card be its natural height */
     .preview-overlay .card {
       max-width: 960px;
       width: 100%;
-      flex-shrink: 0;
+      flex: 0 0 auto;
+      margin: auto;
+      max-height: 100vh;
+      overflow: visible;
     }
     /* so it gets the same sizing, borders, and styling automatically */
     .preview-sections-pool {
@@ -2755,7 +2749,6 @@
 
   <!-- Preview Modal — exact replica of the live card, same structure and sizes -->
   <div id="preview-overlay" class="preview-overlay" aria-hidden="true">
-    <div class="preview-card-wrapper">
     <!-- Same .card wrapper as live card -->
     <div class="card" style="z-index:410;max-width:960px;position:relative;perspective:2200px;perspective-origin:center center;">
       <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;flex-shrink:1;min-height:0;">
@@ -2771,7 +2764,6 @@
         </div>
       </div>
       <div class="preview-sections-pool" id="preview-sections-pool" style="display:none;" aria-hidden="true"></div>
-    </div>
     </div>
   </div>
 
@@ -5674,9 +5666,9 @@
         po.classList.add('visible');
         po.setAttribute('aria-hidden', 'false');
       });
-      /* Close preview overlay on wrapper or background click */
+      /* Close preview overlay on background click */
       document.getElementById('preview-overlay').addEventListener('click', function (e) {
-        if (e.target === this || e.target.classList.contains('preview-card-wrapper')) {
+        if (e.target === this) {
           hapticBuzz();
           this.style.display = '';
           this.classList.remove('visible');
@@ -5685,7 +5677,7 @@
       });
       /* Swipe navigation on preview card — target the .card inside the preview overlay */
       (function () {
-        var previewCard = document.querySelector('#preview-overlay .card');
+        var previewCard = document.querySelector('#preview-overlay > .card');
         if (!previewCard) return;
         var previewSwipeStartX = 0;
         var previewSwipePointerId = null;
