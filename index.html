@@ -2751,7 +2751,7 @@
     <!-- Same .card wrapper as live card -->
     <div class="card" style="z-index:410;max-width:960px;position:relative;perspective:2200px;perspective-origin:center center;">
       <div class="flip-container" style="width:100%;position:relative;transform-style:preserve-3d;flex-shrink:1;min-height:0;">
-        <div class="flip-card" id="preview-flip-card" style="width:100%;position:relative;transform-style:preserve-3d;transform:rotateY(0deg);transition:transform 0.6s cubic-bezier(0.33,1,0.68,1);flex-shrink:1;min-height:0;">
+        <div class="flip-card" id="preview-flip-card" style="width:100%;position:relative;transform-style:preserve-3d;transform:rotateY(0deg);flex-shrink:1;min-height:0;">
           <!-- Front face — current section (identical to .card-face) -->
           <div id="preview-face-front" class="flip-front card-face" style="position:relative;transform:rotateY(0deg);z-index:2;width:100%;background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,0.15);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;overflow:hidden;">
             <div class="content-panel" id="preview-content-panel-front" style="background-color:rgba(245,245,220,0.95);border:0;border-radius:28px;padding:0;min-height:250px;text-align:center;position:relative;overflow:hidden;display:flex;flex-direction:column;flex:1;margin:0;"></div>
@@ -4894,6 +4894,45 @@
         previewFlipCard.style.transform = '';
       }
 
+      function previewGetContentHeight(sectionId) {
+        var section = getPreviewSection(sectionId);
+        if (!section) return 0;
+        var w = previewFlipCard.offsetWidth;
+        var clone = document.createElement('div');
+        clone.className = 'flip-front card-face';
+        clone.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;width:' + w + 'px;box-sizing:border-box;' +
+          'background-color:#5d4037;border:4px solid #3e2723;border-radius:28px;padding:0;display:flex;flex-direction:column;';
+        var contentClone = document.createElement('div');
+        contentClone.className = 'content-panel';
+        contentClone.style.cssText = 'background-color:rgba(245,245,220,0.95);border:0;border-radius:28px;padding:0;text-align:center;position:relative;overflow:hidden;display:flex;flex-direction:column;flex:1;margin:0;';
+        contentClone.appendChild(section.cloneNode(true));
+        clone.appendChild(contentClone);
+        document.body.appendChild(clone);
+        var h = clone.offsetHeight;
+        document.body.removeChild(clone);
+        return h;
+      }
+
+      function previewAnimateHeightDown(fromHeight, onDone) {
+        previewFlipCard.style.height = fromHeight + 'px';
+        previewFlipCard.style.overflow = 'hidden';
+        previewFlipCard.classList.add('animate-height');
+        previewFlipCard.offsetHeight;
+        var newH = previewFlipCard.offsetHeight; /* recalc with current content after rotation reset */
+        previewFlipCard.style.height = fromHeight + 'px';
+        previewFlipCard.offsetHeight;
+        previewFlipCard.style.height = newH + 'px';
+        var onHeightEnd = function (e) {
+          if (e.target !== previewFlipCard || e.propertyName !== 'height') return;
+          previewFlipCard.removeEventListener('transitionend', onHeightEnd);
+          previewFlipCard.style.height = '';
+          previewFlipCard.style.overflow = '';
+          previewFlipCard.classList.remove('animate-height');
+          if (onDone) onDone();
+        };
+        previewFlipCard.addEventListener('transitionend', onHeightEnd);
+      }
+
       function previewGoNext() {
         if (previewIsFlipping) return;
         var count = getPreviewVisibleCount();
@@ -4902,10 +4941,19 @@
         previewIsFlipping = true;
         var nextIdx = (previewCurrentIndex + 1) % order.length;
         var nextId = order[nextIdx];
+        /* Pre-measure destination height */
+        var currentH = previewFlipCard.offsetHeight;
+        var destH = previewGetContentHeight(nextId);
+        var goingTaller = destH > currentH;
         /* Clear back panel then put next section into it */
         while (previewBackPanel.firstChild) previewSectionsPool.appendChild(previewBackPanel.firstChild);
         var nextEl = getPreviewSection(nextId);
         if (nextEl) previewBackPanel.appendChild(nextEl);
+        /* If going taller, grow container before flip so back face isn't clipped */
+        if (goingTaller) {
+          previewFlipCard.style.minHeight = destH + 'px';
+          previewFlipCard.offsetHeight;
+        }
         previewFlipCard.classList.remove('flip-prev');
         previewFlipCard.classList.add('flip-next');
         var flipTimer = null;
@@ -4929,8 +4977,21 @@
               previewCurrentIndex = (previewCurrentIndex - 1 + order.length) % order.length;
             }
           }
-          previewResetRotation();
-          previewIsFlipping = false;
+          if (goingTaller) {
+            previewResetRotation();
+            previewIsFlipping = false;
+          } else {
+            /* Shorter: reset rotation instantly, then shrink height */
+            var oldH = previewFlipCard.offsetHeight;
+            previewFlipCard.style.transition = 'none';
+            previewFlipCard.classList.remove('flip-next', 'flip-prev');
+            previewFlipCard.style.transform = 'rotateY(0deg)';
+            previewPlaceSections();
+            previewFlipCard.offsetHeight;
+            previewFlipCard.style.transition = '';
+            previewFlipCard.style.transform = '';
+            previewAnimateHeightDown(oldH, function () { previewIsFlipping = false; });
+          }
         }
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
           if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
@@ -4948,10 +5009,19 @@
         previewIsFlipping = true;
         var prevIdx = (previewCurrentIndex - 1 + order.length) % order.length;
         var prevId = order[prevIdx];
+        /* Pre-measure destination height */
+        var currentH = previewFlipCard.offsetHeight;
+        var destH = previewGetContentHeight(prevId);
+        var goingTaller = destH > currentH;
         /* Clear back panel then put prev section into it */
         while (previewBackPanel.firstChild) previewSectionsPool.appendChild(previewBackPanel.firstChild);
         var prevEl = getPreviewSection(prevId);
         if (prevEl) previewBackPanel.appendChild(prevEl);
+        /* If going taller, grow container before flip */
+        if (goingTaller) {
+          previewFlipCard.style.minHeight = destH + 'px';
+          previewFlipCard.offsetHeight;
+        }
         previewFlipCard.classList.remove('flip-next');
         previewFlipCard.classList.add('flip-prev');
         var flipTimer = null;
@@ -4975,8 +5045,21 @@
               previewCurrentIndex = (previewCurrentIndex + 1) % order.length;
             }
           }
-          previewResetRotation();
-          previewIsFlipping = false;
+          if (goingTaller) {
+            previewResetRotation();
+            previewIsFlipping = false;
+          } else {
+            /* Shorter: reset rotation instantly, then shrink height */
+            var oldH = previewFlipCard.offsetHeight;
+            previewFlipCard.style.transition = 'none';
+            previewFlipCard.classList.remove('flip-next', 'flip-prev');
+            previewFlipCard.style.transform = 'rotateY(0deg)';
+            previewPlaceSections();
+            previewFlipCard.offsetHeight;
+            previewFlipCard.style.transition = '';
+            previewFlipCard.style.transform = '';
+            previewAnimateHeightDown(oldH, function () { previewIsFlipping = false; });
+          }
         }
         previewFlipCard.addEventListener('transitionend', function onEnd(e) {
           if (e.target !== previewFlipCard || e.propertyName !== 'transform') return;
