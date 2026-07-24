@@ -1850,30 +1850,9 @@
       color: #5d4037;
       opacity: 0.7;
     }
-    .logo-picker-upload-area {
-      width: 100%;
-      padding: 1rem;
-      border: 2px dashed #b8a87e;
-      border-radius: 12px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.15s;
-      background: rgba(184,168,126,0.08);
-    }
-    .logo-picker-upload-area:hover { background: rgba(184,168,126,0.15); }
-    .logo-picker-upload-area input[type="file"] { display: none; }
-    .logo-picker-upload-icon { font-size: 2rem; margin-bottom: 0.3rem; }
-    .logo-picker-upload-text {
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: 0.85rem;
+    .logo-picker-presets-title {
       color: #3e2723;
       font-weight: 600;
-    }
-    .logo-picker-upload-hint {
-      font-family: Verdana, Geneva, sans-serif;
-      font-size: 0.72rem;
-      color: #5d4037;
-      margin-top: 0.2rem;
     }
     .logo-picker-presets-title {
       font-family: Verdana, Geneva, sans-serif;
@@ -1928,45 +1907,42 @@
     }
     .logo-picker-actions button:hover { transform: translateY(-1px); }
     .lp-confirm { background: linear-gradient(135deg,#1b5e20,#2e7d32,#1b5e20); }
-    .lp-cancel { background: linear-gradient(135deg,#5d4037,#795548,#5d4037); }
 
-    /* Logo picker button in customiser */
+    /* Logo picker button in customiser — match share-btn style, teal */
     .customiser-logo-btn {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      display: block;
       width: 100%;
-      padding: 0.6rem 0.8rem;
-      background: linear-gradient(135deg, #5d4037, #795548);
-      border: 2px solid #3e2723;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
       margin: 0.5rem 0;
-      color: #f5f5dc;
+      padding: 0.78rem 1.1rem;
+      min-height: 2.85rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      font-size: clamp(1.12rem, 2.55vw, 1.32rem);
       font-weight: 600;
-      text-align: left;
+      color: #f5f5dc;
+      background: linear-gradient(135deg, #14545c 0%, #1a6b75 50%, #14545c 100%);
+      border: 2px solid #0a1a1d;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(20, 84, 92, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      -webkit-text-stroke: 1.5px #000;
+      text-stroke: 1.5px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
     }
     .customiser-logo-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(20, 84, 92, 0.45);
     }
     .customiser-logo-btn img {
-      width: 40px;
-      height: 40px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
-      border-radius: 6px;
+      border-radius: 50%;
       background: #fff;
-      flex-shrink: 0;
-    }
-    .customiser-logo-btn .logo-btn-label {
-      flex: 1;
-    }
-    .customiser-logo-btn .logo-btn-arrow {
-      font-size: 1.2rem;
-      opacity: 0.6;
+      vertical-align: middle;
+      margin-right: 0.5rem;
     }
     /* Thin section divider between accordion groups */
     .customiser-section-divider {
@@ -2590,8 +2566,7 @@
           <!-- Logo picker button -->
           <button type="button" class="customiser-logo-btn" id="cc-logo-btn">
             <img id="cc-logo-preview" src="Everdream-Logo-Circle.png" alt="Current logo">
-            <span class="logo-btn-label">Logo</span>
-            <span class="logo-btn-arrow">›</span>
+            Logo
           </button>
           <div style="border-top:1px solid #b8a87e;margin:0.5rem 0;width:100%;" aria-hidden="true"></div>
           <div class="customiser-field">
@@ -2748,18 +2723,14 @@
   <!-- Logo Picker Modal -->
   <div id="logo-picker-overlay" class="logo-picker-overlay" aria-hidden="true">
     <div class="logo-picker-modal">
-      <div class="modal-header" style="background:linear-gradient(135deg,#5d4037,#795548);"><h2 style="font-family:'The Wanters DEMO',serif;">Your Logo</h2></div>
+      <div class="modal-header" style="background:linear-gradient(135deg,#14545c,#1a6b75);"><h2 style="font-family:'The Wanters DEMO',serif;">Your Logo</h2></div>
       <div class="logo-picker-body">
         <div class="logo-picker-current">
           <img id="lp-current-preview" src="Everdream-Logo-Circle.png" alt="Current logo">
           <p class="logo-picker-current-label">Current logo</p>
         </div>
-        <div class="logo-picker-upload-area" id="lp-upload-area">
-          <input type="file" id="lp-file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
-          <div class="logo-picker-upload-icon">📁</div>
-          <p class="logo-picker-upload-text">Tap to upload your own image</p>
-          <p class="logo-picker-upload-hint">PNG, JPG, WebP, GIF or SVG — square/circular works best</p>
-        </div>
+        <button type="button" class="share-btn" id="lp-upload-btn" style="background:linear-gradient(135deg,#b8860b,#d4a017,#b8860b);border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);width:100%;">Upload</button>
+        <input type="file" id="lp-file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" style="display:none;">
         <p class="logo-picker-presets-title">Or pick a style</p>
         <div class="logo-picker-presets" id="lp-presets">
           <img class="logo-picker-preset" src="Everdream-Logo-Circle.png" data-logo="Everdream-Logo-Circle.png" alt="Circle">
@@ -2767,8 +2738,10 @@
         </div>
         <div class="logo-picker-actions">
           <button type="button" class="lp-confirm" id="lp-confirm">Save Logo</button>
-          <button type="button" class="lp-cancel" id="lp-cancel">Cancel</button>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="wholesale-modal-close" id="lp-cancel" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
@@ -6026,9 +5999,10 @@
         logoPickerOverlay.setAttribute('aria-hidden', 'false');
       });
 
-      /* File upload handler */
-      var lpUploadArea = document.getElementById('lp-upload-area');
-      if (lpUploadArea && lpFileInput) lpUploadArea.addEventListener('click', function () {
+      /* File upload handler — gold Upload button triggers hidden file input */
+      var lpUploadBtn = document.getElementById('lp-upload-btn');
+      var lpFileInput = document.getElementById('lp-file-input');
+      if (lpUploadBtn && lpFileInput) lpUploadBtn.addEventListener('click', function () {
         lpFileInput.click();
       });
       if (lpFileInput) lpFileInput.addEventListener('change', function (e) {
