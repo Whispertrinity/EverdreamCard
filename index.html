@@ -3450,6 +3450,14 @@
         hapticBuzz();
         if (shareModal) { shareModal.classList.remove('visible'); shareModal.setAttribute('aria-hidden', 'true'); }
       });
+      /* Master card (Everdream Jerky) payment details — always shown on the live card */
+      var MASTER_PAYMENT = {
+        name: 'Brett Hurst',
+        bsb: '105-025',
+        accountNumber: '073 907 940',
+        reference: 'your name'
+      };
+
       var paymentsModal = document.getElementById('payments-modal-overlay');
       var paymentBtn = document.getElementById('payment-btn');
       var paymentsModalClose = document.getElementById('payments-modal-close');
@@ -3472,15 +3480,21 @@
         var bsbEl = document.getElementById('payments-cust-bsb');
         var accEl = document.getElementById('payments-cust-acc');
 
-        if (hasPaymentInfo) {
+        /* Use customiser data if available, otherwise fall back to master card defaults */
+        var finalName = accName || MASTER_PAYMENT.name;
+        var finalBsb = accBsb || MASTER_PAYMENT.bsb;
+        var finalAcc = accNum || MASTER_PAYMENT.accountNumber;
+        var finalRef = accRef || MASTER_PAYMENT.reference;
+
+        if (finalName || finalBsb || finalAcc) {
           if (custDetails) custDetails.style.display = '';
           if (fallbackDiv) fallbackDiv.style.display = 'none';
-          if (nameEl) { nameEl.textContent = accName; nameEl.setAttribute('data-copy', accName); }
-          if (bsbEl) { bsbEl.textContent = accBsb; bsbEl.setAttribute('data-copy', accBsb); }
-          if (accEl) { accEl.textContent = accNum; accEl.setAttribute('data-copy', accNum); }
+          if (nameEl) { nameEl.textContent = finalName; nameEl.setAttribute('data-copy', finalName); }
+          if (bsbEl) { bsbEl.textContent = finalBsb; bsbEl.setAttribute('data-copy', finalBsb); }
+          if (accEl) { accEl.textContent = finalAcc; accEl.setAttribute('data-copy', finalAcc); }
           if (paymentsRefValue) {
-            paymentsRefValue.textContent = accRef || '—';
-            paymentsRefValue.setAttribute('data-copy', accRef || '');
+            paymentsRefValue.textContent = finalRef || '—';
+            paymentsRefValue.setAttribute('data-copy', finalRef || '');
             paymentsRefValue.style.opacity = '1';
             paymentsRefValue.style.fontStyle = 'normal';
           }
