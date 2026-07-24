@@ -5674,9 +5674,9 @@
         po.classList.add('visible');
         po.setAttribute('aria-hidden', 'false');
       });
-      /* Close preview overlay on background click */
+      /* Close preview overlay on wrapper or background click */
       document.getElementById('preview-overlay').addEventListener('click', function (e) {
-        if (e.target === this) {
+        if (e.target === this || e.target.classList.contains('preview-card-wrapper')) {
           hapticBuzz();
           this.style.display = '';
           this.classList.remove('visible');
@@ -5685,7 +5685,7 @@
       });
       /* Swipe navigation on preview card — target the .card inside the preview overlay */
       (function () {
-        var previewCard = document.querySelector('#preview-overlay > .card');
+        var previewCard = document.querySelector('#preview-overlay .card');
         if (!previewCard) return;
         var previewSwipeStartX = 0;
         var previewSwipePointerId = null;
