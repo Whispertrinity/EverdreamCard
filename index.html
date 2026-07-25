@@ -816,15 +816,16 @@
       z-index: 400;
       display: none;
       overflow-y: auto;
+      padding: 1.5rem;
     }
     .preview-overlay.visible {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    /* Let the card be its natural height */
+    /* Preview card matches master card sizing exactly */
     .preview-overlay .card {
-      max-width: min(calc(100% - 3rem), 860px);
+      max-width: 960px;
       width: 100%;
       flex: 0 0 auto;
       margin: auto;
