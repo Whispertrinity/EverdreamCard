@@ -4061,11 +4061,11 @@
             if (sName || sPrice) {
               if (costVal > 0) {
                 var profit = priceVal - costVal;
-                var label = sName ? sName + ': ' : '';
-                lines.push('<div><strong>' + label + '</strong>$' + priceVal.toFixed(2) + ' – $' + costVal.toFixed(2) + ' cost → <span style="color:' + (profit >= 0 ? '#1b5e20' : '#c62828') + ';font-weight:700">' + (profit >= 0 ? '+' : '') + '$' + profit.toFixed(2) + '</span></div>');
+                var profitPct = (profit / costVal) * 100;
+                var pctStr = (profitPct >= 0 ? '+' : '') + profitPct.toFixed(1) + '%';
+                lines.push('<div>' + (nameInput.value || 'Product') + ' - ' + sName + ' - <span style="color:' + (profit >= 0 ? '#1b5e20' : '#c62828') + ';font-weight:700">' + (profit >= 0 ? '+' : '') + '$' + profit.toFixed(2) + ' - ' + pctStr + '</span></div>');
               } else {
-                var label = sName ? sName + ': ' : '';
-                lines.push('<div><strong>' + label + '</strong>$' + priceVal.toFixed(2) + ' — <span style="color:#5d4037;">no cost entered</span></div>');
+                lines.push('<div>' + (nameInput.value || 'Product') + ' - ' + sName + ' - <span style="color:#5d4037;">no cost entered</span></div>');
               }
             }
           });
@@ -4615,7 +4615,10 @@
                   if (allHaveCost && totalCost > 0) {
                     var packProfit = packPrice - totalCost;
                     var profitColor = packProfit >= 0 ? '#1b5e20' : '#c62828';
-                    profitHtml = '<div><strong>Profit per pack</strong> — <span style="color:' + profitColor + ';font-weight:700">' + (packProfit >= 0 ? '+' : '') + '$' + packProfit.toFixed(2) + '</span></div>';
+                    var packName = (container.querySelector('.cc-pack-name') || {}).value || 'Pack';
+                    var profitPct = (packProfit / totalCost) * 100;
+                    var pctStr = (profitPct >= 0 ? '+' : '') + profitPct.toFixed(1) + '%';
+                    profitHtml = '<div>' + packName + ' - <span style="color:' + profitColor + ';font-weight:700">' + (packProfit >= 0 ? '+' : '') + '$' + packProfit.toFixed(2) + ' - ' + pctStr + '</span></div>';
                   } else {
                     profitHtml = '<div><strong>Profit per pack</strong> — N/A (enter product costs)</div>';
                   }
@@ -4687,7 +4690,10 @@
                   if (allHaveCost && totalCost > 0) {
                     var packProfit = packPrice - totalCost;
                     var profitColor = packProfit >= 0 ? '#1b5e20' : '#c62828';
-                    profitHtml = '<div><strong>Profit per pack</strong> — <span style="color:' + profitColor + ';font-weight:700">' + (packProfit >= 0 ? '+' : '') + '$' + packProfit.toFixed(2) + '</span></div>';
+                    var packName = (container.querySelector('.cc-wholesale-name') || {}).value || 'Wholesale';
+                    var profitPct = (packProfit / totalCost) * 100;
+                    var pctStr = (profitPct >= 0 ? '+' : '') + profitPct.toFixed(1) + '%';
+                    profitHtml = '<div>' + packName + ' - <span style="color:' + profitColor + ';font-weight:700">' + (packProfit >= 0 ? '+' : '') + '$' + packProfit.toFixed(2) + ' - ' + pctStr + '</span></div>';
                   } else {
                     profitHtml = '<div><strong>Profit per pack</strong> — N/A (enter product costs)</div>';
                   }
