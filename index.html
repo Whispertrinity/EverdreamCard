@@ -2269,9 +2269,12 @@
       width: 100%;
       padding: 0.6rem 2rem 0.6rem 0.75rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: clamp(0.9rem,2.2vw,1rem);
-      font-weight: 600;
+      font-size: clamp(1rem,2.4vw,1.15rem);
+      font-weight: 700;
       color: #F6F6DE;
+      -webkit-text-stroke: 0.5px #000;
+      text-stroke: 0.5px #000;
+      paint-order: stroke fill;
       background: linear-gradient(135deg, #14545c 0%, #1a6a75 50%, #14545c 100%);
       border: none;
       cursor: pointer;
@@ -3865,7 +3868,7 @@
       var ccProductCounter = 0;
 
       /* Create an inner product accordion */
-      function createProductAccordion(index, name, price, desc, sizes) {
+      function createProductAccordion(index, name, desc, sizes, cost) {
         var container = document.getElementById('cc-products-container');
         var wrapper = document.createElement('div');
         wrapper.className = 'cc-inner-product';
@@ -3995,6 +3998,61 @@
         body.appendChild(sizesLabel);
         body.appendChild(sizesContainer);
         body.appendChild(addSizeBtn);
+
+        /* Cost to produce */
+        var costLabel = document.createElement('label');
+        costLabel.className = 'customiser-label';
+        costLabel.textContent = 'Cost to produce (optional)';
+        costLabel.style.cssText = 'display:block;margin-top:0.6rem;';
+        var costInput = document.createElement('input');
+        costInput.type = 'text';
+        costInput.className = 'customiser-text cc-ip-cost';
+        costInput.placeholder = 'e.g. $2.50';
+        costInput.value = cost || '';
+        costInput.style.cssText = 'display:block;width:8rem;text-align:center;';
+
+        /* Profit breakdown */
+        var profitDiv = document.createElement('div');
+        profitDiv.className = 'cc-ip-profit';
+        profitDiv.id = 'cc-ip-profit-' + index;
+        profitDiv.style.cssText = 'margin-top:0.4rem;padding:0.3rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:left;line-height:1.6;';
+        profitDiv.textContent = 'Profit: N/A (enter cost to calculate)';
+
+        function updateProductProfit() {
+          var costVal = parsePrice(costInput.value);
+          if (costVal <= 0) {
+            profitDiv.textContent = 'Profit: N/A (enter cost to calculate)';
+            return;
+          }
+          var sizeRows = wrapper.querySelectorAll('.cc-ip-size-row');
+          var lines = [];
+          sizeRows.forEach(function (r) {
+            var sName = (r.querySelector('.cc-ip-size-name') || {}).value || '';
+            var sPrice = (r.querySelector('.cc-ip-size-price') || {}).value || '';
+            var priceVal = parsePrice(sPrice);
+            if (sName || sPrice) {
+              var profit = priceVal - costVal;
+              var label = sName ? sName + ': ' : '';
+              lines.push('<div><strong>' + label + '</strong>$' + priceVal.toFixed(2) + ' – $' + costVal.toFixed(2) + ' cost → <span style="color:' + (profit >= 0 ? '#1b5e20' : '#c62828') + ';font-weight:700">' + (profit >= 0 ? '+' : '') + '$' + profit.toFixed(2) + '</span></div>');
+            }
+          });
+          if (lines.length) {
+            profitDiv.innerHTML = '<div style="font-weight:600;margin-bottom:0.15rem;">Profit per item:</div>' + lines.join('');
+          } else {
+            profitDiv.textContent = 'Profit: N/A (add sizes first)';
+          }
+        }
+
+        costInput.addEventListener('input', function () { saveCustomiserState(); updateProductProfit(); });
+        costInput.addEventListener('change', function () { saveCustomiserState(); updateProductProfit(); });
+        /* Watch size prices too */
+        var profitObserver = new MutationObserver(function () { updateProductProfit(); });
+        profitObserver.observe(sizesContainer, { childList: true, subtree: true });
+
+        body.appendChild(costLabel);
+        body.appendChild(costInput);
+        body.appendChild(profitDiv);
+
         var btnRow = document.createElement('div');
         btnRow.style.display = 'flex';
         btnRow.style.gap = '0.5rem';
@@ -4487,6 +4545,8 @@
                 if (!totalDiv) return;
 
                 var totalContents = 0;
+                var totalCost = 0;
+                var allHaveCost = true;
                 cbs.forEach(function (cb, i) {
                   if (cb.checked) {
                     var key = cb.dataset.key;
@@ -4502,6 +4562,13 @@
                       var price = parsePrice(prod.sizes[0].price);
                       totalContents += price * qty;
                     }
+                    /* Cost calculation */
+                    var prodCost = prod ? parsePrice(prod.cost) : 0;
+                    if (prodCost > 0) {
+                      totalCost += prodCost * qty;
+                    } else {
+                      allHaveCost = false;
+                    }
                   }
                 });
 
@@ -4514,10 +4581,19 @@
                   var isExtra = diff < 0;
                   var diffColor = isExtra ? '#c62828' : '#1b5e20';
                   var diffSign = isExtra ? '+' : '';
+                  var profitHtml = '';
+                  if (allHaveCost && totalCost > 0) {
+                    var packProfit = packPrice - totalCost;
+                    var profitColor = packProfit >= 0 ? '#1b5e20' : '#c62828';
+                    profitHtml = '<div><strong>Profit per pack</strong> — <span style="color:' + profitColor + ';font-weight:700">' + (packProfit >= 0 ? '+' : '') + '$' + packProfit.toFixed(2) + '</span></div>';
+                  } else {
+                    profitHtml = '<div><strong>Profit per pack</strong> — N/A (enter product costs)</div>';
+                  }
                   totalDiv.innerHTML = '<div style="line-height:1.7">' +
                     '<div><strong>Total Value</strong> — $' + totalContents.toFixed(2) + '</div>' +
                     '<div><strong>Pack Price</strong> — ' + (packPrice > 0 ? '$' + packPrice.toFixed(2) : '—') + '</div>' +
                     '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span></div>' +
+                    profitHtml +
                     '</div>';
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
@@ -4537,6 +4613,8 @@
                 if (!totalDiv) return;
 
                 var totalContents = 0;
+                var totalCost = 0;
+                var allHaveCost = true;
                 cbs.forEach(function (cb, i) {
                   if (cb.checked) {
                     var key = cb.dataset.key;
@@ -4552,6 +4630,13 @@
                       var price = parsePrice(prod.sizes[0].price);
                       totalContents += price * qty;
                     }
+                    /* Cost calculation */
+                    var prodCost = prod ? parsePrice(prod.cost) : 0;
+                    if (prodCost > 0) {
+                      totalCost += prodCost * qty;
+                    } else {
+                      allHaveCost = false;
+                    }
                   }
                 });
 
@@ -4561,13 +4646,21 @@
                   var pct = ((diff / totalContents) * 100);
                   var pctAbs = Math.abs(pct).toFixed(1);
                   var diffAbs = Math.abs(diff).toFixed(2);
-                  var isExtra = diff < 0;
-                  var diffColor = isExtra ? '#c62828' : '#1b5e20';
-                  var diffSign = isExtra ? '+' : '';
+                  var diffColor = diff < 0 ? '#c62828' : '#1b5e20';
+                  var diffSign = diff < 0 ? '+' : '';
+                  var profitHtml = '';
+                  if (allHaveCost && totalCost > 0) {
+                    var packProfit = packPrice - totalCost;
+                    var profitColor = packProfit >= 0 ? '#1b5e20' : '#c62828';
+                    profitHtml = '<div><strong>Profit per pack</strong> — <span style="color:' + profitColor + ';font-weight:700">' + (packProfit >= 0 ? '+' : '') + '$' + packProfit.toFixed(2) + '</span></div>';
+                  } else {
+                    profitHtml = '<div><strong>Profit per pack</strong> — N/A (enter product costs)</div>';
+                  }
                   totalDiv.innerHTML = '<div style="line-height:1.7">' +
                     '<div><strong>Total Value</strong> — $' + totalContents.toFixed(2) + '</div>' +
                     '<div><strong>Pack Price</strong> — ' + (packPrice > 0 ? '$' + packPrice.toFixed(2) : '—') + '</div>' +
                     '<div><strong>Difference</strong> — <span style="color:' + diffColor + ';font-weight:700">' + diffSign + '$' + diffAbs + ' — ' + diffSign + pctAbs + '%</span></div>' +
+                    profitHtml +
                     '</div>';
                 } else {
                   totalDiv.textContent = 'Total contents value: —';
@@ -4637,6 +4730,7 @@
         wrappers.forEach(function (w) {
           var name = (w.querySelector('.cc-ip-name') || {}).value || '';
           var desc = (w.querySelector('.cc-ip-desc') || {}).value || '';
+          var cost = (w.querySelector('.cc-ip-cost') || {}).value || '';
           var sizeRows = w.querySelectorAll('.cc-ip-size-row');
           var sizes = [];
           sizeRows.forEach(function (r) {
@@ -4644,7 +4738,7 @@
             var sPrice = (r.querySelector('.cc-ip-size-price') || {}).value || '';
             if (sName || sPrice) sizes.push({ name: sName, price: sPrice });
           });
-          products.push({ name: name, desc: desc, sizes: sizes });
+          products.push({ name: name, desc: desc, cost: cost, sizes: sizes });
         });
         return products;
       }
@@ -4655,7 +4749,7 @@
         container.innerHTML = '';
         ccProductCounter = products.length;
         products.forEach(function (p, i) {
-          var w = createProductAccordion(i, p.name || '', '', p.desc || '', p.sizes || []);
+          var w = createProductAccordion(i, p.name || '', p.desc || '', p.sizes || [], p.cost || '');
           if (p.name) {
             var h = w.querySelector('.customiser-inner-prod-header');
             if (h) h.textContent = p.name;
