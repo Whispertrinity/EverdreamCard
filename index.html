@@ -2364,6 +2364,7 @@
     .cc-ip-size-header span {
       flex: 1;
       min-width: 0;
+      text-align: center;
     }
     .cc-ip-size-header .cc-ip-size-header-spacer {
       flex: 0 0 24px;
@@ -2404,8 +2405,8 @@
       border-radius: 9999px;
       padding: 0.4rem 1rem;
       cursor: pointer;
-      width: 100%;
-      margin-top: 0.2rem;
+      display: block;
+      margin: 0.2rem auto 0;
       box-sizing: border-box;
       transition: transform 0.15s, box-shadow 0.15s;
       -webkit-text-stroke: 0.8px #000;
@@ -3922,13 +3923,10 @@
         var descInput = document.createElement('textarea');
         descInput.className = 'customiser-textarea cc-ip-desc';
         descInput.placeholder = '';
-        descInput.rows = 2;
+        descInput.rows = 3;
         descInput.value = desc || '';
 
         /* Sizes section */
-        var sizesLabel = document.createElement('label');
-        sizesLabel.className = 'customiser-label';
-        sizesLabel.textContent = 'Sizes & Prices';
         var sizesContainer = document.createElement('div');
         sizesContainer.className = 'cc-ip-sizes';
         sizesContainer.id = 'cc-ip-sizes-' + index;
@@ -4041,7 +4039,6 @@
         body.appendChild(nameInput);
         body.appendChild(descLabel);
         body.appendChild(descInput);
-        body.appendChild(sizesLabel);
         body.appendChild(sizesContainer);
         body.appendChild(addSizeBtn);
 
