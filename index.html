@@ -2313,9 +2313,9 @@
     .cc-ip-save-btn {
       display: block;
       margin: 0;
-      padding: 0.4rem 1.2rem;
+      padding: 0.35rem 0.9rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: #f5f5dc;
       background: linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);
@@ -2331,9 +2331,9 @@
 
     .cc-ip-remove-btn {
       display: block;
-      padding: 0.4rem 1.2rem;
+      padding: 0.35rem 0.9rem;
       font-family: 'The Wanters DEMO', serif;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: #f5f5dc;
       background: linear-gradient(135deg,#c62828 0%,#d32f2f 50%,#c62828 100%);
@@ -2348,6 +2348,26 @@
     .cc-ip-remove-btn:hover { transform: translateY(-1px); }
 
     .cc-ip-sizes { margin: 0.3rem 0; }
+    .cc-ip-size-header {
+      display: flex;
+      gap: 0.35rem;
+      align-items: center;
+      margin-bottom: 0.2rem;
+      padding: 0 0.15rem;
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #5d4037;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .cc-ip-size-header span {
+      flex: 1;
+      min-width: 0;
+    }
+    .cc-ip-size-header .cc-ip-size-header-spacer {
+      flex: 0 0 24px;
+    }
     .cc-ip-size-row {
       display: flex;
       gap: 0.35rem;
@@ -2382,7 +2402,7 @@
       background: linear-gradient(135deg, #b8860b 0%, #d4a017 50%, #b8860b 100%);
       border: none;
       border-radius: 9999px;
-      padding: 0.4rem 1.2rem;
+      padding: 0.4rem 1rem;
       cursor: pointer;
       width: 100%;
       margin-top: 0.2rem;
@@ -3893,7 +3913,7 @@
         var nameInput = document.createElement('input');
         nameInput.type = 'text';
         nameInput.className = 'customiser-text cc-ip-name';
-        nameInput.placeholder = 'e.g. Barbecue';
+        nameInput.placeholder = '';
         nameInput.value = name || '';
 
         var descLabel = document.createElement('label');
@@ -3901,7 +3921,7 @@
         descLabel.textContent = 'Description';
         var descInput = document.createElement('textarea');
         descInput.className = 'customiser-textarea cc-ip-desc';
-        descInput.placeholder = 'Describe this product...';
+        descInput.placeholder = '';
         descInput.rows = 2;
         descInput.value = desc || '';
 
@@ -3913,23 +3933,40 @@
         sizesContainer.className = 'cc-ip-sizes';
         sizesContainer.id = 'cc-ip-sizes-' + index;
 
+        /* Column headers for size rows */
+        var sizeHeader = document.createElement('div');
+        sizeHeader.className = 'cc-ip-size-header';
+        var hSize = document.createElement('span');
+        hSize.textContent = 'Size';
+        var hPrice = document.createElement('span');
+        hPrice.textContent = 'Price';
+        var hCost = document.createElement('span');
+        hCost.textContent = 'Cost (optional)';
+        var hSpacer = document.createElement('span');
+        hSpacer.className = 'cc-ip-size-header-spacer';
+        sizeHeader.appendChild(hSize);
+        sizeHeader.appendChild(hPrice);
+        sizeHeader.appendChild(hCost);
+        sizeHeader.appendChild(hSpacer);
+        sizesContainer.appendChild(sizeHeader);
+
         function addSizeRow(sName, sPrice, sCost) {
           var row = document.createElement('div');
           row.className = 'cc-ip-size-row';
           var nInp = document.createElement('input');
           nInp.type = 'text';
           nInp.className = 'customiser-text cc-ip-size-name';
-          nInp.placeholder = 'e.g. 40g';
+          nInp.placeholder = '';
           nInp.value = sName || '';
           var pInp = document.createElement('input');
           pInp.type = 'text';
           pInp.className = 'customiser-text cc-ip-size-price';
-          pInp.placeholder = 'e.g. $5.00';
+          pInp.placeholder = '';
           pInp.value = sPrice || '';
           var cInp = document.createElement('input');
           cInp.type = 'text';
           cInp.className = 'customiser-text cc-ip-size-cost';
-          cInp.placeholder = 'cost $2.50';
+          cInp.placeholder = '';
           cInp.value = sCost || '';
           var rmBtn = document.createElement('button');
           rmBtn.type = 'button';
