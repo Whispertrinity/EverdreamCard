@@ -2607,6 +2607,10 @@
             <select class="customiser-select" id="cc-title-font">
               <option value="'The Wanters DEMO', serif">The Wanters DEMO</option>
               <option value="'Lemon Milk Light', sans-serif">Lemon Milk Light</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="Arial, sans-serif">Arial</option>
             </select>
           </div>
           <div style="border-top:2px solid #b8a87e;margin:0.75rem 0;width:100%;" aria-hidden="true"></div>
@@ -2644,8 +2648,12 @@
             <input type="color" class="customiser-color cc-live-color" id="cc-bg-section" value="#f6f6de" data-cssvar="--cc-bg-section">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Contact Text Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
+            <label class="customiser-label">Title Text Colour</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#F6F6DE" data-cssvar="--cc-title">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Border Colour</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-border" value="#3e2723" data-cssvar="--cc-border">
           </div>
         </div>
         </div>
@@ -3750,7 +3758,7 @@
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
         tier: '2', primary: '#14545c', secondary: '#5d4037', bgSection: '#f6f6de',
-        accent3: '#1b5e20', accent4: '#b8860b', accent5: '#4a2864', accent6: '#7a0000', bgOuter: '#5d4037', title: '#14545c',
+        accent3: '#1b5e20', accent4: '#b8860b', accent5: '#4a2864', accent6: '#7a0000', bgOuter: '#5d4037', title: '#F6F6DE', border: '#3e2723',
         titleFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
@@ -4672,6 +4680,7 @@
         document.getElementById('cc-accent6').value = state.accent6 || CUSTOMISER_DEFAULTS.accent6;
         document.getElementById('cc-bg-outer').value = state.bgOuter || CUSTOMISER_DEFAULTS.bgOuter;
         document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
+        document.getElementById('cc-border').value = state.border || CUSTOMISER_DEFAULTS.border;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
         document.getElementById('cc-business').value = state.business || '';
         document.getElementById('cc-name').value = state.name || '';
@@ -4711,6 +4720,7 @@
           accent6: document.getElementById('cc-accent6').value,
           bgOuter: document.getElementById('cc-bg-outer').value,
           title: document.getElementById('cc-title').value,
+          border: document.getElementById('cc-border').value,
           titleFont: document.getElementById('cc-title-font').value,
           business: document.getElementById('cc-business').value,
           name: document.getElementById('cc-name').value,
@@ -4777,6 +4787,12 @@
         /* Apply outer card background to preview overlay */
         var previewOverlay = document.getElementById('preview-overlay');
         if (previewOverlay) previewOverlay.style.background = bgOuter;
+
+        /* Apply border colour to preview card-faces */
+        var pf = document.getElementById('preview-face-front');
+        var pb = document.getElementById('preview-face-back');
+        if (pf) pf.style.border = '4px solid ' + document.getElementById('cc-border').value;
+        if (pb) pb.style.border = '4px solid ' + document.getElementById('cc-border').value;
 
         /* Update tier buttons — active gets teal, inactive gets brown (cleared to base CSS) */
         document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
@@ -5130,7 +5146,7 @@
       /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
-      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
+      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
         var existing = document.getElementById('preview-' + sectionId + '-section');
         if (existing) existing.parentNode.removeChild(existing);
 
@@ -5142,26 +5158,26 @@
           section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
           section.innerHTML =
             '<div class="preview-intro-header" style="background-color:' + p + ';padding:' +
-            'calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;">' +
-            '<h1 style="font-size:clamp(2.8rem,6.2vw,4.2rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;' +
+            'calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid ' + bc + ';">' +
+            '<h1 style="font-size:clamp(2.8rem,6.2vw,4.2rem);font-weight:900;color:' + ti + ';letter-spacing:0.02em;' +
             'line-height:1.2;-webkit-text-stroke:1.5px #000;text-stroke:1.5px #000;paint-order:stroke fill;' +
             'font-family:' + tf + ';">' + escapeHtml(biz) + '</h1></div>' +
             '<div class="preview-intro-body" style="background-color:' + b + ';display:flex;flex:1;align-items:center;justify-content:center;' +
             'padding:clamp(0.8rem,2vw,1.5rem) clamp(1.5rem,4vw,2.5rem);min-height:80px;">' +
             '<div class="preview-intro-body-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">' +
             '<img src="Everdream-Logo-Circle.png" alt="Logo" style="display:block;margin:0 auto;width:100px;height:100px;object-fit:contain;" />' +
-            '<p style="font-family:\'The Wanters DEMO\',serif;font-size:clamp(0.7rem,1.8vw,0.85rem);color:#3e2723;margin-top:0.3rem;" aria-hidden="true">Swipe</p></div></div>' +
+            '<p style="font-family:' + tf + ';font-size:clamp(0.7rem,1.8vw,0.85rem);color:#3e2723;margin-top:0.3rem;" aria-hidden="true">Swipe</p></div></div>' +
             '<div class="preview-intro-footer" style="flex-shrink:0;background-color:' + s + ';' +
-            'padding:clamp(0.6rem,1.8vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;">' +
-            '<p style="font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;color:#F6F6DE;line-height:1.5;text-align:center;' +
+            'padding:clamp(0.6rem,1.8vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid ' + bc + ';">' +
+            '<p style="font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;color:' + ti + ';line-height:1.5;text-align:center;' +
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">' +
-            escapeHtml(tag) + '</p><br><button type="button" class="preview-close-btn" style="margin-top:0.3rem;">Close Preview</button></div>';
+            escapeHtml(tag) + '</p><br><button type="button" class="preview-close-btn" style="margin-top:0.3rem;font-family:' + tf + ';">Close Preview</button></div>';
         } else if (sectionId === 'contact') {
                   section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
                   section.innerHTML =
                     '<div class="preview-contact-header" style="background-color:' + p + ';' +
-                    'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid #3e2723;">' +
-                    '<h1 style="font-size:clamp(2.8rem,6.2vw,4.2rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
+                    'padding:calc(clamp(0.75rem,2vw,1.25rem)+1px) clamp(2rem,4vw,3rem) clamp(0.75rem,2vw,1.25rem) clamp(2rem,4vw,3rem);text-align:center;border-bottom:2px solid ' + bc + ';">' +
+                    '<h1 style="font-size:clamp(2.8rem,6.2vw,4.2rem);font-weight:900;color:' + ti + ';letter-spacing:0.02em;line-height:1.2;' +
                     '-webkit-text-stroke:1.5px #000;text-stroke:1.5px #000;paint-order:stroke fill;font-family:' + tf + ';">Details</h1></div>' +
                     '<div class="preview-contact-body" style="background-color:' + b + ';display:flex;flex-direction:column;overflow-y:auto;flex:1;">' +
                     '<div class="preview-contact-block">' +
@@ -5169,26 +5185,26 @@
                     'font-size:clamp(1rem,2.2vw,1.25rem);font-weight:600;line-height:1.65;color:#3e2723;text-align:center;width:100%;max-width:100%;">' +
                     escapeHtml(desc) + '</p>' +
                     '<div class="preview-contact-divider" style="margin-top:1rem;margin-bottom:0;padding-top:0.75rem;border-top:2px solid rgba(93,64,55,0.3);" aria-hidden="true"></div>' +
-                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Name:</span><br>' +
-                    '<button type="button" class="add-contact-trigger name-value" aria-label="Add ' + escapeHtml(nam) + ' to contacts" data-name="' + escapeHtml(nam) + '" data-tel="' + escapeHtml(ph) + '" data-email="' + escapeHtml(em) + '" data-org="' + escapeHtml(biz) + '" data-website="' + escapeHtml(web) + '" style="background:none;border:none;cursor:pointer;font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;padding:0;">' + escapeHtml(nam) + '</button></p>' +
-                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Mobile:</span><br>' +
-                    '<a href="tel:' + escapeHtml(ph) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(ph) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;">' + escapeHtml(ph) + '</a></p>' +
-                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Email:</span><br>' +
-                    '<a href="mailto:' + escapeHtml(em) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(em) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;">' + escapeHtml(em) + '</a></p>' +
-                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:\'The Wanters DEMO\',serif;font-weight:600;">Website:</span><br>' +
-                    (web ? '<a href="' + escapeHtml(web) + '" target="_blank" rel="noopener" class="copy-contact" data-copy="' + escapeHtml(web) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;">' + escapeHtml(web) + '</a>' : '<a href="#" class="copy-soon" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:' + ti + ';text-decoration:none;cursor:pointer;">Coming Soon</a>') + '</p>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:' + tf + ';font-weight:600;">Name:</span><br>' +
+                    '<button type="button" class="add-contact-trigger name-value" aria-label="Add ' + escapeHtml(nam) + ' to contacts" data-name="' + escapeHtml(nam) + '" data-tel="' + escapeHtml(ph) + '" data-email="' + escapeHtml(em) + '" data-org="' + escapeHtml(biz) + '" data-website="' + escapeHtml(web) + '" style="background:none;border:none;cursor:pointer;font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;text-decoration:none;padding:0;">' + escapeHtml(nam) + '</button></p>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:' + tf + ';font-weight:600;">Mobile:</span><br>' +
+                    '<a href="tel:' + escapeHtml(ph) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(ph) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;text-decoration:none;">' + escapeHtml(ph) + '</a></p>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:' + tf + ';font-weight:600;">Email:</span><br>' +
+                    '<a href="mailto:' + escapeHtml(em) + '" class="contact-value copy-contact" data-copy="' + escapeHtml(em) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;text-decoration:none;">' + escapeHtml(em) + '</a></p>' +
+                    '<p style="margin-bottom:0.6rem;font-size:clamp(1.2rem,2.5vw,1.45rem);font-weight:600;color:#3e2723;"><span class="preview-contact-label" style="font-family:' + tf + ';font-weight:600;">Website:</span><br>' +
+                    (web ? '<a href="' + escapeHtml(web) + '" target="_blank" rel="noopener" class="copy-contact" data-copy="' + escapeHtml(web) + '" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;text-decoration:none;">' + escapeHtml(web) + '</a>' : '<a href="#" class="copy-soon" style="font-family:Verdana,Geneva,sans-serif;font-size:0.9em;font-weight:600;color:#14545c;text-decoration:none;cursor:pointer;">Coming Soon</a>') + '</p>' +
                     '<div class="preview-contact-actions">' +
                     '<div class="preview-contact-actions-bottom-row" style="display:flex;flex-direction:column;align-items:center;gap:0.85rem;max-width:28rem;width:100%;margin:0 auto;">' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
-                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);">Payment</button>' +
-                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);">Wholesale</button>' +
+                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);font-family:' + tf + ';">Payment</button>' +
+                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);font-family:' + tf + ';">Wholesale</button>' +
                     '</div>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
-                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);">Save</button>' +
-                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);">Share</button>' +
+                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);font-family:' + tf + ';">Save</button>' +
+                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);font-family:' + tf + ';">Share</button>' +
                     '</div></div></div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
-                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
+                    'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid ' + bc + ';"><button type="button" class="preview-close-btn" style="font-family:' + tf + ';">Close Preview</button></div>';
         } else if (sectionId === 'products') {
           var productsHtml = '';
           if (products.length > 0) {
@@ -5202,7 +5218,7 @@
                 if (sizesHtml) sizesHtml = '<br><span class="size-row">' + sizesHtml + '</span>';
               }
               itemsHtml += '<li class="flavour-panel">' +
-                '<button type="button" class="flavour-panel-header" aria-expanded="false">' +
+                '<button type="button" class="flavour-panel-header" aria-expanded="false" style="font-family:' + tf + ';">' +
                 escapeHtml(prod.name) + '</button>' +
                 '<div class="flavour-panel-body">' +
                 '<p class="flavour-panel-desc">' +
@@ -5212,7 +5228,7 @@
             itemsHtml += '<li class="flavour-list-divider" aria-hidden="true"></li>' +
               '<li class="flavour-panel flavour-panel-packs">' +
               '<button type="button" class="flavour-panel-header packs-trigger" id="preview-packs-btn" ' +
-              'aria-label="Open packs" style="border:2px solid #1b5e20;">Packs</button></li>';
+              'aria-label="Open packs" style="border:2px solid #1b5e20;font-family:' + tf + ';">Packs</button></li>';
             productsHtml = '<ul class="flavour-accordions">' + itemsHtml + '</ul>';
           } else {
             productsHtml = '<p style="font-family:Verdana,Geneva,sans-serif;padding:0.6rem;color:#5d4037;font-size:0.85rem;">Add your products in the customiser.</p>';
@@ -5220,13 +5236,13 @@
           section.style.cssText = 'display:flex;flex-direction:column;flex:1;width:100%;';
           section.innerHTML =
             '<div class="preview-products-header" style="background-color:' + p + ';' +
-            'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid #3e2723;">' +
-            '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#F6F6DE;letter-spacing:0.02em;line-height:1.2;' +
+            'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid ' + bc + ';">' +
+            '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:' + ti + ';letter-spacing:0.02em;line-height:1.2;' +
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Products</h1></div>' +
             '<div class="preview-products-body" style="background-color:' + b + ';flex:1;padding:clamp(0.5rem,1.5vw,0.75rem) 0.75rem;text-align:center;' +
             'overflow-y:auto;">' + productsHtml + '</div>' +
             '<div class="preview-products-footer" style="flex-shrink:0;background-color:' + s + ';' +
-            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid #3e2723;"><button type="button" class="preview-close-btn">Close Preview</button></div>';
+            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid ' + bc + ';"><button type="button" class="preview-close-btn" style="font-family:' + tf + ';">Close Preview</button></div>';
         }
 
         return section;
@@ -5244,10 +5260,22 @@
         var bgOuter = document.getElementById('cc-bg-outer').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
+        var bc = document.getElementById('cc-border').value;
 
         /* Apply outer background to preview overlay */
         var previewOverlay = document.getElementById('preview-overlay');
         if (previewOverlay) previewOverlay.style.background = bgOuter;
+
+        /* Apply border colour to preview card-faces */
+        var pf = document.getElementById('preview-face-front');
+        var pb = document.getElementById('preview-face-back');
+        if (pf) pf.style.border = '4px solid ' + bc;
+        if (pb) pb.style.border = '4px solid ' + bc;
+
+        /* Apply title text colour to static elements (modals etc.) */
+        document.querySelectorAll('#preview-overlay .modal-header h2').forEach(function (h) {
+          h.style.color = ti;
+        });
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
         var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
         var tag = document.getElementById('cc-tagline').value.trim() || 'Business Card';
@@ -5271,7 +5299,7 @@
         });
 
         sections.forEach(function (id) {
-          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
+          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
           previewSectionsPool.appendChild(el);
         });
 
@@ -5856,6 +5884,7 @@
         var bgOuter = document.getElementById('cc-bg-outer').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
+        var bc = document.getElementById('cc-border').value;
         var wholesale = getWholesaleArray().filter(function (w) { return w.name.trim(); });
 
         var body = 'Digicard Design\n\n';
@@ -5925,7 +5954,8 @@
         body += '  Accent 6 (payment btn): ' + a6 + '\n';
         body += '  Card Background (outer): ' + bgOuter + '\n';
         body += '  Section Background (middle): ' + b + '\n';
-        body += '  Contact Text Colour: ' + ti + '\n\n';
+        body += '  Title Text Colour: ' + ti + '\n';
+        body += '  Border Colour: ' + bc + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
         body += '  Body Font: The Wanters DEMO (fixed)\n';
@@ -5938,7 +5968,7 @@
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
           description: desc, products: products, packs: packs, wholesale: wholesale,
-          palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, accent5: a5, accent6: a6, bgOuter: bgOuter, bgSection: b, titleColour: ti },
+          palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, accent5: a5, accent6: a6, bgOuter: bgOuter, bgSection: b, titleText: ti, border: bc },
           fonts: { title: tf },
           logo: logoData || logoPath || 'Everdream-Logo-Circle.png',
           reference: refCode || null,
@@ -6199,8 +6229,8 @@
       /* Update the logo in the preview builder */
       /* Patch previewBuildSection's intro section to use custom logo */
       var origPreviewBuild = previewBuildSection;
-      previewBuildSection = function (sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
-        var el = origPreviewBuild(sectionId, p, s, b, a3, a4, ti, tf, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
+      previewBuildSection = function (sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
+        var el = origPreviewBuild(sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
         if (sectionId === 'intro') {
           var img = el.querySelector('.preview-intro-body img');
           if (img) {
