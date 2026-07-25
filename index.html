@@ -2619,19 +2619,32 @@
             <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Accent Colour 3 (packs, save header)</label>
+            <label class="customiser-label">Accent Colour 3 (packs, save)</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-accent3" value="#1b5e20" data-cssvar="--cc-accent3">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Accent Colour 4 (share header)</label>
+            <label class="customiser-label">Accent Colour 4 (share)</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-accent4" value="#b8860b" data-cssvar="--cc-accent4">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Background</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-background" value="#f6f6de" data-cssvar="--cc-background">
+            <label class="customiser-label">Accent Colour 5 (wholesale modal)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent5" value="#4a2864" data-cssvar="--cc-accent5">
           </div>
           <div class="customiser-field">
-            <label class="customiser-label">Title Colour 1 (title text)</label>
+            <label class="customiser-label">Accent Colour 6 (payment btn)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-accent6" value="#7a0000" data-cssvar="--cc-accent6">
+          </div>
+          <div style="border-top:2px solid #b8a87e;margin:0.75rem 0;width:100%;" aria-hidden="true"></div>
+          <div class="customiser-field">
+            <label class="customiser-label">Card Background (outer)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-bg-outer" value="#5d4037" data-cssvar="--cc-bg-outer">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Section Background (middle panel)</label>
+            <input type="color" class="customiser-color cc-live-color" id="cc-bg-section" value="#f6f6de" data-cssvar="--cc-bg-section">
+          </div>
+          <div class="customiser-field">
+            <label class="customiser-label">Contact Text Colour</label>
             <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#14545c" data-cssvar="--cc-title">
           </div>
         </div>
@@ -3736,8 +3749,8 @@
 
       /* ── Customiser ── */
       var CUSTOMISER_DEFAULTS = {
-        tier: '2', primary: '#14545c', secondary: '#5d4037', background: '#f6f6de',
-        accent3: '#1b5e20', accent4: '#b8860b', title: '#14545c',
+        tier: '2', primary: '#14545c', secondary: '#5d4037', bgSection: '#f6f6de',
+        accent3: '#1b5e20', accent4: '#b8860b', accent5: '#4a2864', accent6: '#7a0000', bgOuter: '#5d4037', title: '#14545c',
         titleFont: "'The Wanters DEMO', serif",
         business: 'Everdream Jerky', name: 'Brett', tagline: 'Business Card',
         phone: '0467 451 107', email: 'everdreamgoods@gmail.com',
@@ -4652,9 +4665,12 @@
         var state = saved || CUSTOMISER_DEFAULTS;
         document.getElementById('cc-primary').value = state.primary || CUSTOMISER_DEFAULTS.primary;
         document.getElementById('cc-secondary').value = state.secondary || CUSTOMISER_DEFAULTS.secondary;
-        document.getElementById('cc-background').value = state.background || CUSTOMISER_DEFAULTS.background;
+        document.getElementById('cc-bg-section').value = state.bgSection || CUSTOMISER_DEFAULTS.bgSection;
         document.getElementById('cc-accent3').value = state.accent3 || CUSTOMISER_DEFAULTS.accent3;
         document.getElementById('cc-accent4').value = state.accent4 || CUSTOMISER_DEFAULTS.accent4;
+        document.getElementById('cc-accent5').value = state.accent5 || CUSTOMISER_DEFAULTS.accent5;
+        document.getElementById('cc-accent6').value = state.accent6 || CUSTOMISER_DEFAULTS.accent6;
+        document.getElementById('cc-bg-outer').value = state.bgOuter || CUSTOMISER_DEFAULTS.bgOuter;
         document.getElementById('cc-title').value = state.title || CUSTOMISER_DEFAULTS.title;
         document.getElementById('cc-title-font').value = state.titleFont || CUSTOMISER_DEFAULTS.titleFont;
         document.getElementById('cc-business').value = state.business || '';
@@ -4688,9 +4704,12 @@
           tier: getSelectedTier(),
           primary: document.getElementById('cc-primary').value,
           secondary: document.getElementById('cc-secondary').value,
-          background: document.getElementById('cc-background').value,
+          bgSection: document.getElementById('cc-bg-section').value,
           accent3: document.getElementById('cc-accent3').value,
           accent4: document.getElementById('cc-accent4').value,
+          accent5: document.getElementById('cc-accent5').value,
+          accent6: document.getElementById('cc-accent6').value,
+          bgOuter: document.getElementById('cc-bg-outer').value,
           title: document.getElementById('cc-title').value,
           titleFont: document.getElementById('cc-title-font').value,
           business: document.getElementById('cc-business').value,
@@ -4742,6 +4761,9 @@
         var s = document.getElementById('cc-secondary').value;
         var a3 = document.getElementById('cc-accent3').value;
         var a4 = document.getElementById('cc-accent4').value;
+        var a5 = document.getElementById('cc-accent5').value;
+        var a6 = document.getElementById('cc-accent6').value;
+        var bgOuter = document.getElementById('cc-bg-outer').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
 
@@ -4751,6 +4773,10 @@
           title.style.color = '#f6f6de';
           title.style.fontFamily = tf;
         }
+
+        /* Apply outer card background to preview overlay */
+        var previewOverlay = document.getElementById('preview-overlay');
+        if (previewOverlay) previewOverlay.style.background = bgOuter;
 
         /* Update tier buttons — active gets teal, inactive gets brown (cleared to base CSS) */
         document.querySelectorAll('.customiser-tier-btn').forEach(function (b) {
@@ -5210,11 +5236,18 @@
       function populatePreview() {
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
-        var b = document.getElementById('cc-background').value;
+        var b = document.getElementById('cc-bg-section').value;
         var a3 = document.getElementById('cc-accent3').value;
         var a4 = document.getElementById('cc-accent4').value;
+        var a5 = document.getElementById('cc-accent5').value;
+        var a6 = document.getElementById('cc-accent6').value;
+        var bgOuter = document.getElementById('cc-bg-outer').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
+
+        /* Apply outer background to preview overlay */
+        var previewOverlay = document.getElementById('preview-overlay');
+        if (previewOverlay) previewOverlay.style.background = bgOuter;
         var biz = document.getElementById('cc-business').value.trim() || 'Everdream Jerky';
         var nam = document.getElementById('cc-name').value.trim() || 'Your Name';
         var tag = document.getElementById('cc-tagline').value.trim() || 'Business Card';
@@ -5815,9 +5848,12 @@
         var products = getProductsArray().filter(function (p) { return p.name.trim(); });
         var p = document.getElementById('cc-primary').value;
         var s = document.getElementById('cc-secondary').value;
-        var b = document.getElementById('cc-background').value;
+        var b = document.getElementById('cc-bg-section').value;
         var a3 = document.getElementById('cc-accent3').value;
         var a4 = document.getElementById('cc-accent4').value;
+        var a5 = document.getElementById('cc-accent5').value;
+        var a6 = document.getElementById('cc-accent6').value;
+        var bgOuter = document.getElementById('cc-bg-outer').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
         var wholesale = getWholesaleArray().filter(function (w) { return w.name.trim(); });
@@ -5885,8 +5921,11 @@
         body += '  Accent 2 (footers, borders): ' + s + '\n';
         body += '  Accent 3 (packs, save): ' + a3 + '\n';
         body += '  Accent 4 (share): ' + a4 + '\n';
-        body += '  Background: ' + b + '\n';
-        body += '  Title Colour: ' + ti + '\n\n';
+        body += '  Accent 5 (wholesale modal): ' + a5 + '\n';
+        body += '  Accent 6 (payment btn): ' + a6 + '\n';
+        body += '  Card Background (outer): ' + bgOuter + '\n';
+        body += '  Section Background (middle): ' + b + '\n';
+        body += '  Contact Text Colour: ' + ti + '\n\n';
         body += 'Fonts:\n';
         body += '  Title Font: ' + tf + '\n';
         body += '  Body Font: The Wanters DEMO (fixed)\n';
@@ -5899,7 +5938,7 @@
           tier: tier, cost: cost,
           business: biz, name: nam, tagline: tag, phone: ph, email: em,
           description: desc, products: products, packs: packs, wholesale: wholesale,
-          palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, background: b, titleColour: ti },
+          palette: { accent1: p, accent2: s, accent3: a3, accent4: a4, accent5: a5, accent6: a6, bgOuter: bgOuter, bgSection: b, titleColour: ti },
           fonts: { title: tf },
           logo: logoData || logoPath || 'Everdream-Logo-Circle.png',
           reference: refCode || null,
