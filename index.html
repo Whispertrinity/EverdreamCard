@@ -827,10 +827,22 @@
     .preview-overlay .card {
       max-width: 960px;
       width: 100%;
-      flex: 0 0 auto;
+      flex: 1 1 auto;
       margin: auto;
-      max-height: 100vh;
-      overflow: visible;
+      max-height: calc(100vh - 3rem);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .preview-overlay .card .flip-container {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .preview-overlay .card .flip-card {
+      flex: 1;
+      min-height: 0;
     }
     /* so it gets the same sizing, borders, and styling automatically */
     .preview-sections-pool {
