@@ -2354,10 +2354,14 @@
       align-items: center;
       margin-bottom: 0.3rem;
     }
+    .cc-ip-size-row .customiser-text {
+      flex: 1;
+      min-width: 0;
+    }
     .cc-ip-size-remove {
-      width: 32px;
-      height: 32px;
-      font-size: 0.85rem;
+      width: 24px;
+      height: 24px;
+      font-size: 0.7rem;
       background: #c62828;
       color: #fff;
       border: 2px solid #8b0000;
@@ -3917,19 +3921,16 @@
           nInp.className = 'customiser-text cc-ip-size-name';
           nInp.placeholder = 'e.g. 40g';
           nInp.value = sName || '';
-          nInp.style.width = '30%';
           var pInp = document.createElement('input');
           pInp.type = 'text';
           pInp.className = 'customiser-text cc-ip-size-price';
-          pInp.placeholder = 'e.g. $5';
+          pInp.placeholder = 'e.g. $5.00';
           pInp.value = sPrice || '';
-          pInp.style.width = '25%';
           var cInp = document.createElement('input');
           cInp.type = 'text';
           cInp.className = 'customiser-text cc-ip-size-cost';
           cInp.placeholder = 'cost $2.50';
           cInp.value = sCost || '';
-          cInp.style.width = '25%';
           var rmBtn = document.createElement('button');
           rmBtn.type = 'button';
           rmBtn.className = 'cc-ip-size-remove';
