@@ -3868,7 +3868,7 @@
       var ccProductCounter = 0;
 
       /* Create an inner product accordion */
-      function createProductAccordion(index, name, desc, sizes, cost) {
+      function createProductAccordion(index, name, desc, sizes) {
         var container = document.getElementById('cc-products-container');
         var wrapper = document.createElement('div');
         wrapper.className = 'cc-inner-product';
@@ -3909,7 +3909,7 @@
         sizesContainer.className = 'cc-ip-sizes';
         sizesContainer.id = 'cc-ip-sizes-' + index;
 
-        function addSizeRow(sName, sPrice) {
+        function addSizeRow(sName, sPrice, sCost) {
           var row = document.createElement('div');
           row.className = 'cc-ip-size-row';
           var nInp = document.createElement('input');
@@ -3917,13 +3917,19 @@
           nInp.className = 'customiser-text cc-ip-size-name';
           nInp.placeholder = 'e.g. 40g';
           nInp.value = sName || '';
-          nInp.style.width = '40%';
+          nInp.style.width = '30%';
           var pInp = document.createElement('input');
           pInp.type = 'text';
           pInp.className = 'customiser-text cc-ip-size-price';
           pInp.placeholder = 'e.g. $5';
           pInp.value = sPrice || '';
-          pInp.style.width = '35%';
+          pInp.style.width = '25%';
+          var cInp = document.createElement('input');
+          cInp.type = 'text';
+          cInp.className = 'customiser-text cc-ip-size-cost';
+          cInp.placeholder = 'cost $2.50';
+          cInp.value = sCost || '';
+          cInp.style.width = '25%';
           var rmBtn = document.createElement('button');
           rmBtn.type = 'button';
           rmBtn.className = 'cc-ip-size-remove';
@@ -3933,22 +3939,24 @@
             hapticBuzz();
             row.parentNode.removeChild(row);
             saveCustomiserState();
+            updateProductProfit();
           });
           row.appendChild(nInp);
           row.appendChild(pInp);
+          row.appendChild(cInp);
           row.appendChild(rmBtn);
-          [nInp, pInp].forEach(function (el) {
-            el.addEventListener('input', saveCustomiserState);
-            el.addEventListener('change', saveCustomiserState);
+          [nInp, pInp, cInp].forEach(function (el) {
+            el.addEventListener('input', function () { saveCustomiserState(); updateProductProfit(); });
+            el.addEventListener('change', function () { saveCustomiserState(); updateProductProfit(); });
           });
           sizesContainer.appendChild(row);
         }
 
         /* Populate initial sizes */
         if (sizes && sizes.length) {
-          sizes.forEach(function (s) { addSizeRow(s.name, s.price); });
+          sizes.forEach(function (s) { addSizeRow(s.name, s.price, s.cost); });
         } else {
-          addSizeRow('', '');
+          addSizeRow('', '', '');
         }
 
         var addSizeBtn = document.createElement('button');
@@ -3957,7 +3965,7 @@
         addSizeBtn.textContent = '+ Add size';
         addSizeBtn.addEventListener('click', function () {
           hapticBuzz();
-          addSizeRow('', '');
+          addSizeRow('', '', '');
           saveCustomiserState();
         });
 
@@ -3999,41 +4007,31 @@
         body.appendChild(sizesContainer);
         body.appendChild(addSizeBtn);
 
-        /* Cost to produce */
-        var costLabel = document.createElement('label');
-        costLabel.className = 'customiser-label';
-        costLabel.textContent = 'Cost to produce (optional)';
-        costLabel.style.cssText = 'display:block;margin-top:0.6rem;';
-        var costInput = document.createElement('input');
-        costInput.type = 'text';
-        costInput.className = 'customiser-text cc-ip-cost';
-        costInput.placeholder = 'e.g. $2.50';
-        costInput.value = cost || '';
-        costInput.style.cssText = 'display:block;width:8rem;text-align:center;';
-
-        /* Profit breakdown */
+        /* Profit breakdown — reads cost from each size row */
         var profitDiv = document.createElement('div');
         profitDiv.className = 'cc-ip-profit';
         profitDiv.id = 'cc-ip-profit-' + index;
         profitDiv.style.cssText = 'margin-top:0.4rem;padding:0.3rem 0.5rem;border-top:1px dashed #5d4037;font-family:Verdana,Geneva,sans-serif;font-size:0.8rem;color:#3e2723;text-align:left;line-height:1.6;';
-        profitDiv.textContent = 'Profit: N/A (enter cost to calculate)';
+        profitDiv.textContent = 'Profit: N/A (enter costs to calculate)';
 
         function updateProductProfit() {
-          var costVal = parsePrice(costInput.value);
-          if (costVal <= 0) {
-            profitDiv.textContent = 'Profit: N/A (enter cost to calculate)';
-            return;
-          }
           var sizeRows = wrapper.querySelectorAll('.cc-ip-size-row');
           var lines = [];
           sizeRows.forEach(function (r) {
             var sName = (r.querySelector('.cc-ip-size-name') || {}).value || '';
             var sPrice = (r.querySelector('.cc-ip-size-price') || {}).value || '';
+            var sCost = (r.querySelector('.cc-ip-size-cost') || {}).value || '';
             var priceVal = parsePrice(sPrice);
+            var costVal = parsePrice(sCost);
             if (sName || sPrice) {
-              var profit = priceVal - costVal;
-              var label = sName ? sName + ': ' : '';
-              lines.push('<div><strong>' + label + '</strong>$' + priceVal.toFixed(2) + ' – $' + costVal.toFixed(2) + ' cost → <span style="color:' + (profit >= 0 ? '#1b5e20' : '#c62828') + ';font-weight:700">' + (profit >= 0 ? '+' : '') + '$' + profit.toFixed(2) + '</span></div>');
+              if (costVal > 0) {
+                var profit = priceVal - costVal;
+                var label = sName ? sName + ': ' : '';
+                lines.push('<div><strong>' + label + '</strong>$' + priceVal.toFixed(2) + ' – $' + costVal.toFixed(2) + ' cost → <span style="color:' + (profit >= 0 ? '#1b5e20' : '#c62828') + ';font-weight:700">' + (profit >= 0 ? '+' : '') + '$' + profit.toFixed(2) + '</span></div>');
+              } else {
+                var label = sName ? sName + ': ' : '';
+                lines.push('<div><strong>' + label + '</strong>$' + priceVal.toFixed(2) + ' — <span style="color:#5d4037;">no cost entered</span></div>');
+              }
             }
           });
           if (lines.length) {
@@ -4043,14 +4041,6 @@
           }
         }
 
-        costInput.addEventListener('input', function () { saveCustomiserState(); updateProductProfit(); });
-        costInput.addEventListener('change', function () { saveCustomiserState(); updateProductProfit(); });
-        /* Watch size prices too */
-        var profitObserver = new MutationObserver(function () { updateProductProfit(); });
-        profitObserver.observe(sizesContainer, { childList: true, subtree: true });
-
-        body.appendChild(costLabel);
-        body.appendChild(costInput);
         body.appendChild(profitDiv);
 
         var btnRow = document.createElement('div');
@@ -4562,8 +4552,13 @@
                       var price = parsePrice(prod.sizes[0].price);
                       totalContents += price * qty;
                     }
-                    /* Cost calculation */
-                    var prodCost = prod ? parsePrice(prod.cost) : 0;
+                    /* Cost calculation — per size */
+                    var prodCost = 0;
+                    if (prod && prod.sizes && prod.sizes.length > si) {
+                      prodCost = parsePrice(prod.sizes[si].cost);
+                    } else if (prod && prod.sizes && prod.sizes.length) {
+                      prodCost = parsePrice(prod.sizes[0].cost);
+                    }
                     if (prodCost > 0) {
                       totalCost += prodCost * qty;
                     } else {
@@ -4630,8 +4625,13 @@
                       var price = parsePrice(prod.sizes[0].price);
                       totalContents += price * qty;
                     }
-                    /* Cost calculation */
-                    var prodCost = prod ? parsePrice(prod.cost) : 0;
+                    /* Cost calculation — per size */
+                    var prodCost = 0;
+                    if (prod && prod.sizes && prod.sizes.length > si) {
+                      prodCost = parsePrice(prod.sizes[si].cost);
+                    } else if (prod && prod.sizes && prod.sizes.length) {
+                      prodCost = parsePrice(prod.sizes[0].cost);
+                    }
                     if (prodCost > 0) {
                       totalCost += prodCost * qty;
                     } else {
@@ -4730,15 +4730,15 @@
         wrappers.forEach(function (w) {
           var name = (w.querySelector('.cc-ip-name') || {}).value || '';
           var desc = (w.querySelector('.cc-ip-desc') || {}).value || '';
-          var cost = (w.querySelector('.cc-ip-cost') || {}).value || '';
           var sizeRows = w.querySelectorAll('.cc-ip-size-row');
           var sizes = [];
           sizeRows.forEach(function (r) {
             var sName = (r.querySelector('.cc-ip-size-name') || {}).value || '';
             var sPrice = (r.querySelector('.cc-ip-size-price') || {}).value || '';
-            if (sName || sPrice) sizes.push({ name: sName, price: sPrice });
+            var sCost = (r.querySelector('.cc-ip-size-cost') || {}).value || '';
+            if (sName || sPrice) sizes.push({ name: sName, price: sPrice, cost: sCost });
           });
-          products.push({ name: name, desc: desc, cost: cost, sizes: sizes });
+          products.push({ name: name, desc: desc, sizes: sizes });
         });
         return products;
       }
@@ -4749,7 +4749,7 @@
         container.innerHTML = '';
         ccProductCounter = products.length;
         products.forEach(function (p, i) {
-          var w = createProductAccordion(i, p.name || '', p.desc || '', p.sizes || [], p.cost || '');
+          var w = createProductAccordion(i, p.name || '', p.desc || '', p.sizes || []);
           if (p.name) {
             var h = w.querySelector('.customiser-inner-prod-header');
             if (h) h.textContent = p.name;
