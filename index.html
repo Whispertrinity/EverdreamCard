@@ -4995,6 +4995,37 @@
             b.style.color = '#F6F6DE';
           }
         });
+
+        /* ── Modal headers & button colours (live preview) ── */
+        /* Accent 3 (packs, save) — packs header, save header/btn, Smaller? btn */
+        var elPacksHeader = document.querySelector('#packs-modal-content .modal-header');
+        if (elPacksHeader) elPacksHeader.style.backgroundColor = a3;
+        var elSaveHeader = document.querySelector('.save-icon-modal .modal-header');
+        if (elSaveHeader) elSaveHeader.style.backgroundColor = a3;
+        var elSaveBtn = document.getElementById('save-icon-btn');
+        if (elSaveBtn) { elSaveBtn.style.background = a3; elSaveBtn.style.borderColor = a3; }
+        var elSmallerBtn = document.getElementById('wholesale-to-packs-btn');
+        if (elSmallerBtn) { elSmallerBtn.style.background = 'linear-gradient(135deg,' + a3 + ' 0%,' + lighten(a3) + ' 50%,' + a3 + ' 100%)'; elSmallerBtn.style.borderColor = a3; }
+
+        /* Accent 4 (share) — share header, share button in modal, share btn in contact */
+        var elShareHeader = document.querySelector('.share-modal .modal-header');
+        if (elShareHeader) elShareHeader.style.backgroundColor = a4;
+        var elShareCopy = document.querySelector('.share-modal-copy');
+        if (elShareCopy) { elShareCopy.style.background = a4; elShareCopy.style.borderColor = a4; }
+        var elShareBtn = document.getElementById('share-btn');
+        if (elShareBtn) { elShareBtn.style.background = a4; elShareBtn.style.borderColor = a4; }
+
+        /* Accent 5 (wholesale) — wholesale header, Bigger? btn */
+        var elWholesaleHeader = document.querySelector('#wholesale-modal-content .modal-header');
+        if (elWholesaleHeader) elWholesaleHeader.style.backgroundColor = a5;
+        var elBiggerBtn = document.getElementById('packs-to-wholesale-btn');
+        if (elBiggerBtn) { elBiggerBtn.style.background = 'linear-gradient(135deg,' + a5 + ' 0%,' + lighten(a5) + ' 50%,' + a5 + ' 100%)'; elBiggerBtn.style.borderColor = a5; }
+
+        /* Accent 6 (payment) — payment header, payment btn */
+        var elPaymentHeader = document.querySelector('.payments-modal .modal-header');
+        if (elPaymentHeader) elPaymentHeader.style.backgroundColor = a6;
+        var elPaymentBtn = document.getElementById('payment-btn');
+        if (elPaymentBtn) { elPaymentBtn.style.background = a6 + ' !important'; elPaymentBtn.style.borderColor = a6 + ' !important'; }
       }
 
       function lighten(hex) {
@@ -5455,6 +5486,34 @@
         document.querySelectorAll('.share-modal, .payments-modal, .save-icon-modal, .wholesale-modal').forEach(function (m) {
           m.style.background = b;
         });
+
+        /* ── Modal headers & button colours ── */
+        /* Accent 3 (packs, save) */
+        var elPacksHeader = document.querySelector('#packs-modal-content .modal-header');
+        if (elPacksHeader) elPacksHeader.style.backgroundColor = a3;
+        var elSaveHeader = document.querySelector('.save-icon-modal .modal-header');
+        if (elSaveHeader) elSaveHeader.style.backgroundColor = a3;
+        var elSaveBtn = document.getElementById('save-icon-btn');
+        if (elSaveBtn) { elSaveBtn.style.background = a3; elSaveBtn.style.borderColor = a3; }
+        var elSmallerBtn = document.getElementById('wholesale-to-packs-btn');
+        if (elSmallerBtn) { elSmallerBtn.style.background = 'linear-gradient(135deg,' + a3 + ' 0%,' + lighten(a3) + ' 50%,' + a3 + ' 100%)'; elSmallerBtn.style.borderColor = a3; }
+        /* Accent 4 (share) */
+        var elShareHeader = document.querySelector('.share-modal .modal-header');
+        if (elShareHeader) elShareHeader.style.backgroundColor = a4;
+        var elShareCopy = document.querySelector('.share-modal-copy');
+        if (elShareCopy) { elShareCopy.style.background = a4; elShareCopy.style.borderColor = a4; }
+        var elShareBtn = document.getElementById('share-btn');
+        if (elShareBtn) { elShareBtn.style.background = a4; elShareBtn.style.borderColor = a4; }
+        /* Accent 5 (wholesale) */
+        var elWholesaleHeader = document.querySelector('#wholesale-modal-content .modal-header');
+        if (elWholesaleHeader) elWholesaleHeader.style.backgroundColor = a5;
+        var elBiggerBtn = document.getElementById('packs-to-wholesale-btn');
+        if (elBiggerBtn) { elBiggerBtn.style.background = 'linear-gradient(135deg,' + a5 + ' 0%,' + lighten(a5) + ' 50%,' + a5 + ' 100%)'; elBiggerBtn.style.borderColor = a5; }
+        /* Accent 6 (payment) */
+        var elPaymentHeader = document.querySelector('.payments-modal .modal-header');
+        if (elPaymentHeader) elPaymentHeader.style.backgroundColor = a6;
+        var elPaymentBtn = document.getElementById('payment-btn');
+        if (elPaymentBtn) { elPaymentBtn.style.background = a6 + ' !important'; elPaymentBtn.style.borderColor = a6 + ' !important'; }
 
         /* Apply border colour to preview card-faces */
         var pf = document.getElementById('preview-face-front');
