@@ -4939,6 +4939,7 @@
         var a5 = document.getElementById('cc-accent5').value;
         var a6 = document.getElementById('cc-accent6').value;
         var bgOuter = document.getElementById('cc-bg-outer').value;
+        var b = document.getElementById('cc-bg-section').value;
         var ti = document.getElementById('cc-title').value;
         var tf = document.getElementById('cc-title-font').value;
 
@@ -4955,6 +4956,10 @@
         /* Apply same background to customiser overlay */
         var customiserOverlay = document.getElementById('customiser-overlay');
         if (customiserOverlay) customiserOverlay.style.background = bgOuter;
+        /* Apply section background to all child modals (share, payment, save, wholesale) */
+        document.querySelectorAll('.share-modal, .payments-modal, .save-icon-modal, .wholesale-modal').forEach(function (m) {
+          m.style.background = b;
+        });
 
         /* Apply border colour to preview card-faces */
         var pf = document.getElementById('preview-face-front');
@@ -5446,6 +5451,10 @@
         /* Apply same background to customiser overlay */
         var customiserOverlay = document.getElementById('customiser-overlay');
         if (customiserOverlay) customiserOverlay.style.background = bgOuter;
+        /* Apply section background to all child modals (share, payment, save, wholesale) */
+        document.querySelectorAll('.share-modal, .payments-modal, .save-icon-modal, .wholesale-modal').forEach(function (m) {
+          m.style.background = b;
+        });
 
         /* Apply border colour to preview card-faces */
         var pf = document.getElementById('preview-face-front');
