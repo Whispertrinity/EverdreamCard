@@ -5356,7 +5356,7 @@
       /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
-      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
+      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale, logoUrl) {
         var existing = document.getElementById('preview-' + sectionId + '-section');
         if (existing) existing.parentNode.removeChild(existing);
 
@@ -5375,7 +5375,7 @@
             '<div class="preview-intro-body" style="background-color:' + b + ';display:flex;flex:1;align-items:center;justify-content:center;' +
             'padding:clamp(0.8rem,2vw,1.5rem) clamp(1.5rem,4vw,2.5rem);min-height:80px;">' +
             '<div class="preview-intro-body-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">' +
-            '<img src="Everdream-Logo-Circle.png" alt="Logo" style="display:block;margin:0 auto;width:100px;height:100px;object-fit:contain;" />' +
+            '<img src="' + logoUrl + '" alt="Logo" class="preview-intro-icon" />' +
             '<p style="font-family:' + tf + ';font-size:clamp(0.7rem,1.8vw,0.85rem);color:#3e2723;margin-top:0.3rem;" aria-hidden="true">Swipe</p></div></div>' +
             '<div class="preview-intro-footer" style="flex-shrink:0;background-color:' + s + ';' +
             'padding:clamp(0.6rem,1.8vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid ' + bc + ';">' +
@@ -5462,10 +5462,17 @@
             '<div class="preview-products-body" style="background-color:' + b + ';flex:1;padding:clamp(0.5rem,1.5vw,0.75rem) 0.75rem;text-align:center;' +
             'overflow-y:auto;">' + productsHtml + '</div>' +
             '<div class="preview-products-footer" style="flex-shrink:0;background-color:' + s + ';' +
-            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid ' + bc + ';"><button type="button" class="preview-close-btn" style="font-family:' + tf + ';">Close Preview</button></div>';
+            'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid ' + bc + ';"><button type="button" class="preview-close-btn" style="font-family:\'The Wanters DEMO\',serif;">Close Preview</button></div>';
         }
 
         return section;
+      }
+
+      /* Helper: get the current customer-chosen logo URL */
+      function getCurrentLogoUrl() {
+        var dataUrl = localStorage.getItem('everdream-logo-data');
+        if (dataUrl) return dataUrl;
+        return localStorage.getItem('everdream-logo') || 'Everdream-Logo-Circle.png';
       }
 
       /* Populate preview modal with user's current colours and content — replicates real card exactly */
@@ -5560,7 +5567,8 @@
         });
 
         sections.forEach(function (id) {
-          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
+          var logoUrl = getCurrentLogoUrl();
+          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale, logoUrl);
           previewSectionsPool.appendChild(el);
         });
 
@@ -6392,7 +6400,7 @@
       var lpFileInput = document.getElementById('lp-file-input');
       var lpConfirm = document.getElementById('lp-confirm');
       var lpCancel = document.getElementById('lp-cancel');
-      var selectedLogo = localStorage.getItem('everdream-logo') || 'Everdream-Logo-Circle.png';
+      var selectedLogo = localStorage.getItem('everdream-logo-data') || localStorage.getItem('everdream-logo') || 'Everdream-Logo-Circle.png';
 
       /* Update all logo references */
       function applyLogo(src) {
@@ -6401,6 +6409,12 @@
         localStorage.setItem('everdream-logo', src);
         /* Do NOT touch the master card — keep Everdream's logo locked */
         CUSTOMISER_DEFAULTS.logoUrl = src;
+        /* Update favicon to customer's logo */
+        var fav = document.querySelector('link[rel="icon"]');
+        if (fav) fav.href = src;
+        /* Also update the apple-touch-icon */
+        var appleFav = document.querySelector('link[rel="apple-touch-icon"]');
+        if (appleFav) appleFav.href = src;
       }
 
       /* Open picker */
@@ -6485,22 +6499,10 @@
         applyLogo(savedData);
       } else if (savedPath) {
         applyLogo(savedPath);
+      } else {
+        /* Set favicon to defaults on first load */
+        CUSTOMISER_DEFAULTS.logoUrl = 'Everdream-Logo-Circle.png';
       }
-
-      /* Update the logo in the preview builder */
-      /* Patch previewBuildSection's intro section to use custom logo */
-      var origPreviewBuild = previewBuildSection;
-      previewBuildSection = function (sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale) {
-        var el = origPreviewBuild(sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale);
-        if (sectionId === 'intro') {
-          var img = el.querySelector('.preview-intro-body img');
-          if (img) {
-            var customLogo = localStorage.getItem('everdream-logo-data') || localStorage.getItem('everdream-logo');
-            if (customLogo) img.src = customLogo;
-          }
-        }
-        return el;
-      };
       /* ── End Logo Picker ─────────────────────────────────── */
 
     })();
