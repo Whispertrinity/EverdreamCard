@@ -1926,6 +1926,84 @@
     .logo-picker-actions button:hover { transform: translateY(-1px); }
     .lp-confirm { background: linear-gradient(135deg,#1b5e20,#2e7d32,#1b5e20); }
 
+    /* ── Colour Swatch Modal ── */
+    .colour-swatch-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 450;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .colour-swatch-overlay.visible { display: flex; }
+    .colour-swatch-modal {
+      background: #f6f6de;
+      border: 4px solid #3e2723;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .colour-swatch-body {
+      padding: 1.25rem;
+      background: #f6f6de;
+    }
+    .colour-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+    }
+    .colour-swatch-grid button {
+      aspect-ratio: 1;
+      border: 3px solid #5d4037;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+      min-height: 48px;
+    }
+    .colour-swatch-grid button:active {
+      transform: scale(0.93);
+    }
+    .colour-swatch-grid button.cs-selected {
+      border-color: #14545c;
+      box-shadow: 0 0 0 3px #14545c, inset 0 0 0 1px rgba(255,255,255,0.2);
+      transform: scale(1.05);
+    }
+    .colour-swatch-footer {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: center;
+      padding: 0.75rem 1rem 1.25rem;
+      background: #4F362F;
+      border-top: 2px solid #3e2723;
+    }
+    .colour-swatch-save {
+      display: block;
+      padding: 0.6rem 2rem;
+      font-family: 'The Wanters DEMO', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #f5f5dc;
+      background: linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);
+      border: 2px solid #0d3b0f;
+      border-radius: 9999px;
+      cursor: pointer;
+      -webkit-text-stroke: 1px #000;
+      text-stroke: 1px #000;
+      paint-order: stroke fill;
+      -webkit-paint-order: stroke fill;
+      transition: transform 0.15s;
+    }
+    .colour-swatch-save:hover { transform: translateY(-1px); }
+    .colour-swatch-save:active { transform: scale(0.97); }
+
     /* Logo picker button in customiser — match share-btn style, teal, narrower like Payment/Save */
     .customiser-logo-btn {
       display: block;
@@ -2154,12 +2232,16 @@
     }
     .customiser-color {
       width: 100%;
-      height: 38px;
-      border: 2px solid #5d4037;
-      border-radius: 8px;
-      padding: 2px;
+      height: 42px;
+      border: 3px solid #5d4037;
+      border-radius: 10px;
       cursor: pointer;
-      background: #fff;
+      display: block;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+    }
+    .customiser-color:active {
+      transform: scale(0.97);
     }
     .customiser-select, .customiser-text {
       width: 100%;
@@ -2657,44 +2739,74 @@
           <div style="border-top:2px solid #b8a87e;margin:0.75rem 0;width:100%;" aria-hidden="true"></div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 1 (main headers)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-primary-btn" data-for="cc-primary" style="background:#14545c;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-primary" value="#14545c" data-cssvar="--cc-primary" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 2 (footers, borders)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-secondary-btn" data-for="cc-secondary" style="background:#5d4037;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-secondary" value="#5d4037" data-cssvar="--cc-secondary" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 3 (packs, save)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-accent3" value="#1b5e20" data-cssvar="--cc-accent3">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-accent3-btn" data-for="cc-accent3" style="background:#1b5e20;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-accent3" value="#1b5e20" data-cssvar="--cc-accent3" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 4 (share)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-accent4" value="#b8860b" data-cssvar="--cc-accent4">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-accent4-btn" data-for="cc-accent4" style="background:#b8860b;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-accent4" value="#b8860b" data-cssvar="--cc-accent4" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 5 (wholesale modal)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-accent5" value="#4a2864" data-cssvar="--cc-accent5">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-accent5-btn" data-for="cc-accent5" style="background:#4a2864;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-accent5" value="#4a2864" data-cssvar="--cc-accent5" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Accent Colour 6 (payment btn)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-accent6" value="#7a0000" data-cssvar="--cc-accent6">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-accent6-btn" data-for="cc-accent6" style="background:#7a0000;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-accent6" value="#7a0000" data-cssvar="--cc-accent6" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div style="border-top:2px solid #b8a87e;margin:0.75rem 0;width:100%;" aria-hidden="true"></div>
           <div class="customiser-field">
             <label class="customiser-label">Card Background (outer)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-bg-outer" value="#5d4037" data-cssvar="--cc-bg-outer">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-bg-outer-btn" data-for="cc-bg-outer" style="background:#5d4037;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-bg-outer" value="#5d4037" data-cssvar="--cc-bg-outer" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Section Background (middle panel)</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-bg-section" value="#f6f6de" data-cssvar="--cc-bg-section">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-bg-section-btn" data-for="cc-bg-section" style="background:#f6f6de;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-bg-section" value="#f6f6de" data-cssvar="--cc-bg-section" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Title Text Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-title" value="#F6F6DE" data-cssvar="--cc-title">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-title-btn" data-for="cc-title" style="background:#F6F6DE;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-title" value="#F6F6DE" data-cssvar="--cc-title" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
           <div class="customiser-field">
             <label class="customiser-label">Border Colour</label>
-            <input type="color" class="customiser-color cc-live-color" id="cc-border" value="#3e2723" data-cssvar="--cc-border">
+            <div style="position:relative;display:flex;align-items:center;gap:0.5rem;">
+              <button type="button" class="customiser-color cc-live-color cc-color-swatch" id="cc-border-btn" data-for="cc-border" style="background:#3e2723;flex:1;"></button>
+              <input type="color" class="cc-hidden-color" id="cc-border" value="#3e2723" data-cssvar="--cc-border" style="position:absolute;left:-9999px;opacity:0;width:1px;height:1px;pointer-events:none;">
+            </div>
           </div>
         </div>
         </div>
@@ -2800,6 +2912,22 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="wholesale-modal-close" id="lp-cancel" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Colour Swatch Modal — replaces native <input type=color> picker -->
+  <div id="colour-swatch-overlay" class="colour-swatch-overlay" aria-hidden="true">
+    <div class="colour-swatch-modal">
+      <div class="modal-header" style="background:#14545c;"><h2>Select Colour</h2></div>
+      <div class="colour-swatch-body">
+        <div class="colour-swatch-grid" id="cs-grid">
+          <!-- 12 swatches rendered by JS -->
+        </div>
+      </div>
+      <div class="colour-swatch-footer">
+        <button type="button" class="colour-swatch-save" id="cs-save">Save</button>
+        <button type="button" class="wholesale-modal-close" id="cs-close" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
@@ -4871,6 +4999,8 @@
         /* Restore wholesale */
         if (state.wholesale) setWholesaleArray(state.wholesale);
         updatePreviewDots();
+        /* Sync swatch buttons with loaded colour values */
+        if (typeof syncSwatchButtons === 'function') syncSwatchButtons();
       }
 
       function saveCustomiserState() {
@@ -6483,6 +6613,111 @@
         logoPickerOverlay.classList.remove('visible');
         logoPickerOverlay.setAttribute('aria-hidden', 'true');
       });
+
+      /* ── Colour Swatch Modal ──────────────────────────────── */
+      var CS_COLOURS = [
+        '#14545c', '#5d4037', '#1b5e20', '#b8860b',
+        '#4a2864', '#7a0000', '#f6f6de', '#3e2723',
+        '#c62828', '#2e7d32', '#1565c0', '#6a1b9a'
+      ];
+      var csOverlay = document.getElementById('colour-swatch-overlay');
+      var csGrid = document.getElementById('cs-grid');
+      var csSave = document.getElementById('cs-save');
+      var csClose = document.getElementById('cs-close');
+      var csTargetId = null;
+      var csSelectedColour = null;
+
+      /* Build swatch grid once */
+      CS_COLOURS.forEach(function (c) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.style.background = c;
+        btn.dataset.colour = c;
+        btn.addEventListener('click', function () {
+          /* Deselect all */
+          csGrid.querySelectorAll('button').forEach(function (b) { b.classList.remove('cs-selected'); });
+          /* Select this one */
+          this.classList.add('cs-selected');
+          csSelectedColour = this.dataset.colour;
+        });
+        csGrid.appendChild(btn);
+      });
+
+      /* Sync all swatch buttons with hidden input values (after load) */
+      function syncSwatchButtons() {
+        document.querySelectorAll('.cc-color-swatch').forEach(function (btn) {
+          var targetId = btn.getAttribute('data-for');
+          if (targetId) {
+            var input = document.getElementById(targetId);
+            if (input) {
+              var col = input.value;
+              btn.style.background = col;
+            }
+          }
+        });
+      }
+
+      /* Open swatch modal on button click */
+      document.querySelectorAll('.cc-color-swatch').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          hapticBuzz();
+          csTargetId = this.getAttribute('data-for');
+          /* Pre-select the current colour in the grid */
+          var currentColour = document.getElementById(csTargetId).value.toLowerCase();
+          csSelectedColour = currentColour;
+          csGrid.querySelectorAll('button').forEach(function (b) {
+            b.classList.toggle('cs-selected', b.dataset.colour.toLowerCase() === currentColour);
+          });
+          csOverlay.classList.add('visible');
+          csOverlay.setAttribute('aria-hidden', 'false');
+        });
+      });
+
+      /* Save — apply selected colour */
+      if (csSave) csSave.addEventListener('click', function () {
+        hapticBuzz();
+        if (csTargetId && csSelectedColour) {
+          var input = document.getElementById(csTargetId);
+          if (input) {
+            input.value = csSelectedColour;
+            /* Update the button's background */
+            var btn = document.querySelector('.cc-color-swatch[data-for="' + csTargetId + '"]');
+            if (btn) btn.style.background = csSelectedColour;
+            /* Trigger save + live preview */
+            saveCustomiserState();
+            applyLiveModalColours();
+          }
+        }
+        csOverlay.classList.remove('visible');
+        csOverlay.setAttribute('aria-hidden', 'true');
+        csTargetId = null;
+      });
+
+      /* Close — discard changes */
+      if (csClose) csClose.addEventListener('click', function () {
+        hapticBuzz();
+        csOverlay.classList.remove('visible');
+        csOverlay.setAttribute('aria-hidden', 'true');
+        csTargetId = null;
+      });
+
+      /* Close on overlay click */
+      if (csOverlay) csOverlay.addEventListener('click', function (e) {
+        if (e.target === csOverlay) {
+          csOverlay.classList.remove('visible');
+          csOverlay.setAttribute('aria-hidden', 'true');
+          csTargetId = null;
+        }
+      });
+
+      /* Sync swatch buttons after loading customiser state */
+      syncSwatchButtons();
+      /* Also sync whenever live modal colours are applied */
+      var origApplyLive = applyLiveModalColours;
+      applyLiveModalColours = function () {
+        origApplyLive();
+        syncSwatchButtons();
+      };
 
       /* Close on overlay click */
       if (logoPickerOverlay) logoPickerOverlay.addEventListener('click', function (e) {
