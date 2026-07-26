@@ -1761,7 +1761,7 @@
       gap: 1.5rem;
     }
     .wip-body p {
-      font-family: Verdana, Geneva, sans-serif;
+      font-family: 'The Wanters DEMO', serif;
       font-size: 1rem;
       color: #3e2723;
       line-height: 1.5;
@@ -5431,7 +5431,7 @@
                 sizesHtml = prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
                   return '<span>' + escapeHtml(s.name || '') + (s.price ? ' — $' + escapeHtml(s.price) : '') + '</span>';
                 }).join('');
-                if (sizesHtml) sizesHtml = '<br><span class="size-row">' + sizesHtml + '</span>';
+                if (sizesHtml) sizesHtml = '<br><span class="size-row" style="font-family:' + tf + ';">' + sizesHtml + '</span>';
               }
               itemsHtml += '<li class="flavour-panel' + (isFav ? ' flavour-panel-pet-treats' : '') + '">' +
                 '<button type="button" class="flavour-panel-header" aria-expanded="false" style="font-family:' + tf + ';">' +
