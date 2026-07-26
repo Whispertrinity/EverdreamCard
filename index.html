@@ -3939,6 +3939,21 @@
         descInput.rows = 3;
         descInput.value = desc || '';
 
+        /* Favourite checkbox (teal-highlighted product) */
+        var favLabel = document.createElement('label');
+        favLabel.className = 'customiser-label cc-fav-label';
+        favLabel.style.cssText = 'display:flex;align-items:center;gap:0.5rem;margin-top:0.35rem;cursor:pointer;font-size:clamp(0.75rem,1.6vw,0.85rem);';
+        var favCheck = document.createElement('input');
+        favCheck.type = 'checkbox';
+        favCheck.className = 'cc-ip-fav';
+        favCheck.style.cssText = 'width:1.1rem;height:1.1rem;accent-color:#14545c;cursor:pointer;';
+        var favSpan = document.createElement('span');
+        favSpan.textContent = 'Favourite — appears in teal at the top of the products list';
+        favSpan.style.cssText = 'color:#3e2723;font-family:Verdana,Geneva,sans-serif;';
+        favLabel.appendChild(favCheck);
+        favLabel.appendChild(favSpan);
+        body.appendChild(favLabel);
+
         /* Sizes section */
         var sizesContainer = document.createElement('div');
         sizesContainer.className = 'cc-ip-sizes';
@@ -4792,7 +4807,7 @@
             var sCost = (r.querySelector('.cc-ip-size-cost') || {}).value || '';
             if (sName || sPrice) sizes.push({ name: sName, price: sPrice, cost: sCost });
           });
-          products.push({ name: name, desc: desc, sizes: sizes });
+          products.push({ name: name, desc: desc, sizes: sizes, favourite: !!(w.querySelector('.cc-ip-fav') || {}).checked });
         });
         return products;
       }
@@ -4808,6 +4823,8 @@
             var h = w.querySelector('.customiser-inner-prod-header');
             if (h) h.textContent = p.name;
           }
+          var favCb = w.querySelector('.cc-ip-fav');
+          if (favCb && p.favourite) favCb.checked = true;
         });
       }
 
@@ -5357,7 +5374,13 @@
           var productsHtml = '';
           if (products.length > 0) {
             var itemsHtml = '';
-            products.forEach(function (prod) {
+            /* Sort: favourites first, then non-favourites */
+            var allProds = products.slice();
+            var favProds = allProds.filter(function (p) { return p.favourite === true; });
+            var normProds = allProds.filter(function (p) { return p.favourite !== true; });
+            var sortedProds = favProds.concat(normProds);
+            sortedProds.forEach(function (prod, idx) {
+              var isFav = prod.favourite === true;
               var sizesHtml = '';
               if (prod.sizes && prod.sizes.length) {
                 sizesHtml = prod.sizes.filter(function (s) { return s.name || s.price; }).map(function (s) {
@@ -5365,12 +5388,16 @@
                 }).join('');
                 if (sizesHtml) sizesHtml = '<br><span class="size-row">' + sizesHtml + '</span>';
               }
-              itemsHtml += '<li class="flavour-panel">' +
+              itemsHtml += '<li class="flavour-panel' + (isFav ? ' flavour-panel-pet-treats' : '') + '">' +
                 '<button type="button" class="flavour-panel-header" aria-expanded="false" style="font-family:' + tf + ';">' +
                 escapeHtml(prod.name) + '</button>' +
                 '<div class="flavour-panel-body">' +
                 '<p class="flavour-panel-desc">' +
                 escapeHtml(prod.desc || '') + sizesHtml + '</p></div></li>';
+              /* Add divider after favourites if there are normal products after */
+              if (isFav && idx === favProds.length - 1 && normProds.length) {
+                itemsHtml += '<li class="flavour-list-divider" aria-hidden="true"></li>';
+              }
             });
             /* Separator line then packs button (opens the wholesale/packs modal to packs side) */
             itemsHtml += '<li class="flavour-list-divider" aria-hidden="true"></li>' +
