@@ -829,7 +829,6 @@
       width: 100%;
       flex: 1 1 auto;
       margin: auto;
-      max-height: calc(100vh - 3rem);
       overflow: visible;
       display: flex;
       flex-direction: column;
@@ -1761,8 +1760,9 @@
       gap: 1.5rem;
     }
     .wip-body p {
-      font-family: 'The Wanters DEMO', serif;
+      font-family: Verdana, Geneva, sans-serif;
       font-size: 1rem;
+      font-weight: bold;
       color: #3e2723;
       line-height: 1.5;
       margin: 0;
@@ -5459,7 +5459,7 @@
             'padding:clamp(0.6rem,2vw,1rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-bottom:2px solid ' + bc + ';">' +
             '<h1 style="font-size:clamp(2rem,5vw,3rem);font-weight:900;color:' + ti + ';letter-spacing:0.02em;line-height:1.2;' +
             '-webkit-text-stroke:1.2px #000;text-stroke:1.2px #000;paint-order:stroke fill;font-family:' + tf + ';">Products</h1></div>' +
-            '<div class="preview-products-body" style="background-color:' + b + ';flex:1;padding:clamp(0.5rem,1.5vw,0.75rem) 0.75rem;text-align:center;' +
+            '<div class="preview-products-body" style="background-color:' + b + ';flex:1;min-height:0;padding:clamp(0.5rem,1.5vw,0.75rem) 0.75rem;text-align:center;' +
             'overflow-y:auto;">' + productsHtml + '</div>' +
             '<div class="preview-products-footer" style="flex-shrink:0;background-color:' + s + ';' +
             'padding:clamp(0.8rem,2.5vw,1.5rem) clamp(1.5rem,4vw,2.5rem);text-align:center;border-top:2px solid ' + bc + ';"><button type="button" class="preview-close-btn" style="font-family:\'The Wanters DEMO\',serif;">Close Preview</button></div>';
