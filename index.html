@@ -1722,7 +1722,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: #5d4037;
       z-index: 300;
       align-items: center;
       justify-content: center;
@@ -4952,6 +4952,9 @@
         /* Apply outer card background to preview overlay */
         var previewOverlay = document.getElementById('preview-overlay');
         if (previewOverlay) previewOverlay.style.background = bgOuter;
+        /* Apply same background to customiser overlay */
+        var customiserOverlay = document.getElementById('customiser-overlay');
+        if (customiserOverlay) customiserOverlay.style.background = bgOuter;
 
         /* Apply border colour to preview card-faces */
         var pf = document.getElementById('preview-face-front');
@@ -5440,6 +5443,9 @@
         /* Apply outer background to preview overlay */
         var previewOverlay = document.getElementById('preview-overlay');
         if (previewOverlay) previewOverlay.style.background = bgOuter;
+        /* Apply same background to customiser overlay */
+        var customiserOverlay = document.getElementById('customiser-overlay');
+        if (customiserOverlay) customiserOverlay.style.background = bgOuter;
 
         /* Apply border colour to preview card-faces */
         var pf = document.getElementById('preview-face-front');
