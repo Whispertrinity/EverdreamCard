@@ -2662,6 +2662,7 @@
         <p>Reset all your changes?</p>
         <div style="display:flex;gap:0.75rem;justify-content:center;">
           <button type="button" class="wip-ok-btn" id="reset-confirm-yes" style="background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 50%,#1b5e20 100%);border-color:#0d3b0f;">Yes</button>
+          <button type="button" class="wip-ok-btn" id="reset-confirm-products" style="background:linear-gradient(135deg,#e65100 0%,#ef6c00 50%,#e65100 100%);border-color:#bf360c;">Clear Products Too</button>
           <button type="button" class="wip-ok-btn" id="reset-confirm-no" style="background:linear-gradient(135deg,#c62828 0%,#b71c1c 50%,#c62828 100%);border-color:#8b0000;">No</button>
         </div>
       </div>
@@ -5486,7 +5487,7 @@
       /* function previewUpdateDots removed — no dots in preview anymore */
 
       /* Build a section element (mirrors the card's page structure) */
-      function previewBuildSection(sectionId, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale, logoUrl) {
+      function previewBuildSection(sectionId, p, s, b, a3, a4, a5, a6, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale, logoUrl) {
         var existing = document.getElementById('preview-' + sectionId + '-section');
         if (existing) existing.parentNode.removeChild(existing);
 
@@ -5536,12 +5537,12 @@
                     '<div class="preview-contact-actions">' +
                     '<div class="preview-contact-actions-bottom-row" style="display:flex;flex-direction:column;align-items:center;gap:0.85rem;max-width:28rem;width:100%;margin:0 auto;">' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
-                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:#7a0000;border-color:#4a0000;box-shadow:0 4px 12px rgba(122,0,0,0.35);font-family:' + tf + ';">Payment</button>' +
-                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:#4a2864;border-color:#2e1540;box-shadow:0 4px 12px rgba(74,40,100,0.35);font-family:' + tf + ';">Wholesale</button>' +
+                    '<button type="button" class="share-btn preview-payment-btn" id="preview-payment-btn" style="background:linear-gradient(135deg,' + a6 + ' 0%,' + lighten(a6) + ' 50%,' + a6 + ' 100%);border-color:' + a6 + ';box-shadow:0 4px 12px rgba(0,0,0,0.35);font-family:' + tf + ';">Payment</button>' +
+                    '<button type="button" class="share-btn preview-wholesale-btn" id="preview-wholesale-btn" style="background:linear-gradient(135deg,' + a5 + ' 0%,' + lighten(a5) + ' 50%,' + a5 + ' 100%);border-color:' + a5 + ';box-shadow:0 4px 12px rgba(0,0,0,0.35);font-family:' + tf + ';">Wholesale</button>' +
                     '</div>' +
                     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 0.85rem;width:100%;">' +
-                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:#1b5e20;border-color:#0d3b0f;box-shadow:0 4px 12px rgba(27,94,32,0.35);font-family:' + tf + ';">Save</button>' +
-                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:#b8860b;border-color:#8b6508;box-shadow:0 4px 12px rgba(184,134,11,0.35);font-family:' + tf + ';">Share</button>' +
+                    '<button type="button" class="share-btn preview-save-btn" id="preview-save-btn" style="background:linear-gradient(135deg,' + a3 + ' 0%,' + lighten(a3) + ' 50%,' + a3 + ' 100%);border-color:' + a3 + ';box-shadow:0 4px 12px rgba(0,0,0,0.35);font-family:' + tf + ';">Save</button>' +
+                    '<button type="button" class="share-btn preview-share-btn" id="preview-share-btn" style="background:linear-gradient(135deg,' + a4 + ' 0%,' + lighten(a4) + ' 50%,' + a4 + ' 100%);border-color:' + a4 + ';box-shadow:0 4px 12px rgba(0,0,0,0.35);font-family:' + tf + ';">Share</button>' +
                     '</div></div></div></div></div>' +
                     '<div class="preview-contact-footer" style="flex-shrink:0;background-color:' + s + ';' +
                     'padding:clamp(1.5rem,4vw,2.75rem) clamp(2rem,4vw,3rem);text-align:center;border-top:2px solid ' + bc + ';"><button type="button" class="preview-close-btn" style="font-family:\'The Wanters DEMO\',serif;">Close Preview</button></div>';
@@ -5698,7 +5699,7 @@
 
         sections.forEach(function (id) {
           var logoUrl = getCurrentLogoUrl();
-          var el = previewBuildSection(id, p, s, b, a3, a4, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale, logoUrl);
+          var el = previewBuildSection(id, p, s, b, a3, a4, a5, a6, ti, tf, bc, biz, nam, tag, ph, em, web, desc, products, packs, wholesale, logoUrl);
           previewSectionsPool.appendChild(el);
         });
 
@@ -6203,6 +6204,27 @@
           resetOverlay.setAttribute('aria-hidden', 'true');
         }
         try { localStorage.removeItem('everdream-customiser'); } catch(e) {}
+        loadCustomiserState();
+        /* Remove override style */
+        var existing = document.getElementById('cc-style-override');
+        if (existing) existing.parentNode.removeChild(existing);
+      });
+
+      /* Reset with Products — clears products, packs, and wholesale too */
+      document.getElementById('reset-confirm-products').addEventListener('click', function () {
+        hapticBuzz();
+        var resetOverlay = document.getElementById('reset-confirm-overlay');
+        if (resetOverlay) {
+          resetOverlay.classList.remove('visible');
+          resetOverlay.setAttribute('aria-hidden', 'true');
+        }
+        try { localStorage.removeItem('everdream-customiser'); } catch(e) {}
+        /* Clear products, packs, and wholesale */
+        setProductsArray([]);
+        setPacksArray([]);
+        setWholesaleArray([]);
+        /* Save the cleared state so it persists */
+        saveCustomiserState();
         loadCustomiserState();
         /* Remove override style */
         var existing = document.getElementById('cc-style-override');
